@@ -1343,7 +1343,11 @@
     box-shadow: 0 0 5px var(--green);
   }
 
-  .oc-status-dot.idle { background: var(--text3); }
+  .oc-status-dot.ready {
+    background: var(--teal);
+    opacity: 0.6;
+  }
+  .oc-status-dot.idle { background: var(--text3); opacity: 0.4; }
 
   .oc-link {
     fill: none;
@@ -1443,8 +1447,10 @@
     background: var(--text3);
   }
 
-  .at-status.working i { background: var(--amber); box-shadow: 0 0 5px var(--amber); }
+  .at-status.working i { background: var(--amber); box-shadow: 0 0 5px var(--amber); animation: pulse 1s infinite; }
   .at-status.recent i { background: var(--green); box-shadow: 0 0 5px var(--green); }
+  .at-status.ready i { background: var(--teal); opacity: 0.7; }
+  .at-status.idle i { background: var(--text3); opacity: 0.4; }
 
   .at-dept-tag {
     font-family: 'JetBrains Mono', monospace;
@@ -3983,8 +3989,13 @@
 
   function agentStatusFor(name) {
     const s = agentActivityStats[name];
-    if (!s) return 'idle';
-    return s.status || 'idle';
+    if (!s) {
+      // If agent is in the registry as Active → Ready (configured, not yet assigned)
+      // Grey (idle) is only for agents completely unknown to the system
+      const inReg = agentRegistry.find(a => a.name === name);
+      return (inReg && inReg.status !== 'Inactive') ? 'ready' : 'idle';
+    }
+    return s.status || 'ready';
   }
 
   // ── Org chart layout (FEATURE 3) ───────────────────────────────────────────
@@ -4151,7 +4162,7 @@
       return;
     }
 
-    const statusLabel = { working: 'Working', recent: 'Active', idle: 'Idle' };
+    const statusLabel = { working: 'Working', recent: 'Active', ready: 'Ready', idle: 'Unknown' };
 
     body.innerHTML = agentRegistry.map(a => {
       const st = agentStatusFor(a.name);
@@ -4173,13 +4184,16 @@
     const total = agentRegistry.length;
     const activeCount = agentRegistry.filter(a => (agentActivityStats[a.name]?.count48h || 0) > 0).length;
     const idleAgents = agentRegistry.filter(a => !(agentActivityStats[a.name]?.everLogged));
+    const readyCount = idleAgents.length;
+    const workedCount = agentRegistry.length - readyCount;
     if (summary) {
       summary.innerHTML =
         `<div class="as-line"><span class="as-num">${activeCount}</span> / ${total} agents active in last 48h</div>` +
-        `<div class="as-line"><span class="as-num">${idleAgents.length}</span> agents idle (never logged activity)</div>` +
-        (idleAgents.length
-          ? `<div class="as-idle-list">Idle: ${idleAgents.map(a => escHtml(a.name)).join(' · ')}</div>`
-          : `<div class="as-idle-list" style="color:var(--green)">All agents have logged activity</div>`);
+        `<div class="as-line"><span class="as-num" style="color:var(--teal)">${readyCount}</span> agents ready · not yet assigned a task</div>` +
+        `<div class="as-line"><span class="as-num" style="color:var(--green)">${workedCount}</span> agents have logged activity</div>` +
+        (readyCount
+          ? `<div class="as-idle-list">Ready: ${idleAgents.map(a => escHtml(a.name)).join(' · ')}</div>`
+          : `<div class="as-idle-list" style="color:var(--green)">All agents have been assigned work</div>`);
     }
   }
 
@@ -4211,7 +4225,7 @@
     document.getElementById('viewer-drawer').classList.add('open');
     document.getElementById('viewer-filepath').textContent = agent.name;
     const st = agentStatusFor(name);
-    const stLabel = { working: 'Working', recent: 'Active', idle: 'Idle' }[st];
+    const stLabel = { working: 'Working', recent: 'Active', ready: 'Ready', idle: 'Unknown' }[st] || 'Ready';
     const stColor = { working: 'var(--amber)', recent: 'var(--green)', idle: 'var(--text3)' }[st];
     document.getElementById('viewer-size').innerHTML =
       `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${stColor};margin-right:5px;"></span>${stLabel}`;
