@@ -2262,6 +2262,467 @@
 
       </div><!-- /tab-history -->
 
+      <!-- TAB 5: Workflows -->
+      <div class="tab-panel" id="tab-workflows">
+
+        <!-- Section A: Task Lifecycle Flow -->
+        <div class="wf-section">
+          <div class="section-label">Task lifecycle · end-to-end flow</div>
+          <div class="wf-flowchart-wrap">
+            <svg viewBox="0 0 920 1560" width="920" height="1560" xmlns="http://www.w3.org/2000/svg" style="font-family:'Space Grotesk',sans-serif;">
+              <defs>
+                <!-- Arrow marker -->
+                <marker id="wf-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#5a5a72"/>
+                </marker>
+                <marker id="wf-arrow-accent" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#7c6cff"/>
+                </marker>
+                <marker id="wf-arrow-amber" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#f59e0b"/>
+                </marker>
+                <marker id="wf-arrow-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#22c55e"/>
+                </marker>
+                <marker id="wf-arrow-teal" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#14b8a6"/>
+                </marker>
+              </defs>
+
+              <!-- ── Row 0: Atharva ── -->
+              <!-- Atharva node -->
+              <rect x="360" y="20" width="200" height="56" rx="10" fill="#1a1a24" stroke="#7c6cff" stroke-width="2"/>
+              <rect x="360" y="20" width="200" height="4" rx="2" fill="#7c6cff"/>
+              <text x="460" y="46" text-anchor="middle" fill="#e8e8f0" font-size="13" font-weight="700">Atharva</text>
+              <text x="460" y="63" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace" letter-spacing="0.08em">OWNER</text>
+
+              <!-- Arrow down: Atharva → Chief of Staff -->
+              <line x1="460" y1="76" x2="460" y2="108" stroke="#5a5a72" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <!-- Arrow label -->
+              <text x="465" y="96" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace">plain English goal</text>
+
+              <!-- ── Row 1: Chief of Staff ── -->
+              <rect x="340" y="110" width="240" height="56" rx="10" fill="#1a1a24" stroke="#f59e0b" stroke-width="2"/>
+              <rect x="340" y="110" width="240" height="4" rx="2" fill="#f59e0b"/>
+              <text x="460" y="136" text-anchor="middle" fill="#e8e8f0" font-size="13" font-weight="700">Chief of Staff</text>
+              <text x="460" y="153" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace" letter-spacing="0.08em">EXECUTIVE · COORD</text>
+
+              <!-- Arrow: CoS → Guide (left branch) -->
+              <path d="M 340,138 C 240,138 200,200 200,220" stroke="#f59e0b" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#wf-arrow-amber)"/>
+              <text x="216" y="186" fill="#f59e0b" font-size="9" font-family="'JetBrains Mono',monospace">monitors</text>
+              <text x="216" y="197" fill="#f59e0b" font-size="9" font-family="'JetBrains Mono',monospace">throughout</text>
+
+              <!-- Guide & Explainer (left side) -->
+              <rect x="100" y="220" width="200" height="56" rx="10" fill="#1a1a24" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="6,3"/>
+              <rect x="100" y="220" width="200" height="4" rx="2" fill="#f59e0b"/>
+              <text x="200" y="246" text-anchor="middle" fill="#e8e8f0" font-size="12" font-weight="600">Guide &amp; Explainer</text>
+              <text x="200" y="263" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace" letter-spacing="0.08em">MONITOR · SYNTHESISE</text>
+
+              <!-- Arrow: CoS → Senior PM (main trunk) -->
+              <line x1="460" y1="166" x2="460" y2="198" stroke="#14b8a6" stroke-width="1.5" marker-end="url(#wf-arrow-teal)"/>
+              <text x="465" y="185" fill="#14b8a6" font-size="9" font-family="'JetBrains Mono',monospace">creates MEP</text>
+
+              <!-- ── Row 2: Senior PM ── -->
+              <rect x="340" y="200" width="240" height="56" rx="10" fill="#1a1a24" stroke="#14b8a6" stroke-width="2"/>
+              <rect x="340" y="200" width="240" height="4" rx="2" fill="#14b8a6"/>
+              <text x="460" y="226" text-anchor="middle" fill="#e8e8f0" font-size="13" font-weight="700">Senior Project Manager</text>
+              <text x="460" y="243" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace" letter-spacing="0.08em">PROJECT MGMT</text>
+
+              <!-- Arrow: Senior PM down to dept row -->
+              <line x1="460" y1="256" x2="460" y2="290" stroke="#5a5a72" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <text x="465" y="276" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace">breaks into dept tasks</text>
+
+              <!-- Fanout line horizontal -->
+              <line x1="80" y1="310" x2="840" y2="310" stroke="#2a2a3a" stroke-width="1.5"/>
+              <!-- Vertical drops to each dept box -->
+              <!-- Dept positions: VP Eng=80, Dir Sec=200, Dir QA=330, Dir DevOps=460, Prod Mgr=590, CSO=720, Other=840 -->
+              <!-- VP Engineering -->
+              <line x1="110" y1="310" x2="110" y2="330" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <!-- Dir Security -->
+              <line x1="237" y1="310" x2="237" y2="330" stroke="#ef4444" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <!-- Dir QA -->
+              <line x1="364" y1="310" x2="364" y2="330" stroke="#22c55e" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <!-- Dir DevOps -->
+              <line x1="491" y1="310" x2="491" y2="330" stroke="#7c6cff" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <!-- Product Mgr -->
+              <line x1="618" y1="310" x2="618" y2="330" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <!-- COO / Ops -->
+              <line x1="745" y1="310" x2="745" y2="330" stroke="#a855f7" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <!-- Other Depts -->
+              <line x1="872" y1="310" x2="872" y2="330" stroke="#5a5a72" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+
+              <!-- Vertical centre trunk -->
+              <line x1="460" y1="290" x2="460" y2="310" stroke="#5a5a72" stroke-width="1.5"/>
+
+              <!-- ── Row 3: Department Directors (7 boxes) ── -->
+              <!-- VP Engineering -->
+              <rect x="47" y="330" width="126" height="52" rx="8" fill="#1a1a24" stroke="#3b82f6" stroke-width="1.5"/>
+              <rect x="47" y="330" width="126" height="3" rx="1.5" fill="#3b82f6"/>
+              <text x="110" y="352" text-anchor="middle" fill="#e8e8f0" font-size="10" font-weight="600">VP Engineering</text>
+              <text x="110" y="367" text-anchor="middle" fill="#9090a8" font-size="8" font-family="'JetBrains Mono',monospace">ENGINEERING</text>
+              <text x="110" y="377" text-anchor="middle" fill="#3b82f6" font-size="8" font-family="'JetBrains Mono',monospace">Dir + Teams</text>
+
+              <!-- Dir Security -->
+              <rect x="174" y="330" width="126" height="52" rx="8" fill="#1a1a24" stroke="#ef4444" stroke-width="1.5"/>
+              <rect x="174" y="330" width="126" height="3" rx="1.5" fill="#ef4444"/>
+              <text x="237" y="352" text-anchor="middle" fill="#e8e8f0" font-size="10" font-weight="600">Dir. Security</text>
+              <text x="237" y="367" text-anchor="middle" fill="#9090a8" font-size="8" font-family="'JetBrains Mono',monospace">SECURITY</text>
+              <text x="237" y="377" text-anchor="middle" fill="#ef4444" font-size="8" font-family="'JetBrains Mono',monospace">Dir + Teams</text>
+
+              <!-- Dir QA -->
+              <rect x="301" y="330" width="126" height="52" rx="8" fill="#1a1a24" stroke="#22c55e" stroke-width="1.5"/>
+              <rect x="301" y="330" width="126" height="3" rx="1.5" fill="#22c55e"/>
+              <text x="364" y="352" text-anchor="middle" fill="#e8e8f0" font-size="10" font-weight="600">Dir. QA</text>
+              <text x="364" y="367" text-anchor="middle" fill="#9090a8" font-size="8" font-family="'JetBrains Mono',monospace">QUALITY</text>
+              <text x="364" y="377" text-anchor="middle" fill="#22c55e" font-size="8" font-family="'JetBrains Mono',monospace">Dir + Teams</text>
+
+              <!-- Dir DevOps -->
+              <rect x="428" y="330" width="126" height="52" rx="8" fill="#1a1a24" stroke="#7c6cff" stroke-width="1.5"/>
+              <rect x="428" y="330" width="126" height="3" rx="1.5" fill="#7c6cff"/>
+              <text x="491" y="352" text-anchor="middle" fill="#e8e8f0" font-size="10" font-weight="600">Dir. DevOps</text>
+              <text x="491" y="367" text-anchor="middle" fill="#9090a8" font-size="8" font-family="'JetBrains Mono',monospace">DEVOPS</text>
+              <text x="491" y="377" text-anchor="middle" fill="#7c6cff" font-size="8" font-family="'JetBrains Mono',monospace">Dir + Teams</text>
+
+              <!-- Product Manager -->
+              <rect x="555" y="330" width="126" height="52" rx="8" fill="#1a1a24" stroke="#06b6d4" stroke-width="1.5"/>
+              <rect x="555" y="330" width="126" height="3" rx="1.5" fill="#06b6d4"/>
+              <text x="618" y="352" text-anchor="middle" fill="#e8e8f0" font-size="10" font-weight="600">Product Mgr</text>
+              <text x="618" y="367" text-anchor="middle" fill="#9090a8" font-size="8" font-family="'JetBrains Mono',monospace">PRODUCT</text>
+              <text x="618" y="377" text-anchor="middle" fill="#06b6d4" font-size="8" font-family="'JetBrains Mono',monospace">PM + Teams</text>
+
+              <!-- COO / Ops -->
+              <rect x="682" y="330" width="126" height="52" rx="8" fill="#1a1a24" stroke="#a855f7" stroke-width="1.5"/>
+              <rect x="682" y="330" width="126" height="3" rx="1.5" fill="#a855f7"/>
+              <text x="745" y="352" text-anchor="middle" fill="#e8e8f0" font-size="10" font-weight="600">COO / Strategy</text>
+              <text x="745" y="367" text-anchor="middle" fill="#9090a8" font-size="8" font-family="'JetBrains Mono',monospace">OPERATIONS</text>
+              <text x="745" y="377" text-anchor="middle" fill="#a855f7" font-size="8" font-family="'JetBrains Mono',monospace">COO + Teams</text>
+
+              <!-- Other Depts -->
+              <rect x="809" y="330" width="94" height="52" rx="8" fill="#1a1a24" stroke="#5a5a72" stroke-width="1.5" stroke-dasharray="5,3"/>
+              <text x="856" y="352" text-anchor="middle" fill="#5a5a72" font-size="9" font-weight="600">Other Depts</text>
+              <text x="856" y="367" text-anchor="middle" fill="#5a5a72" font-size="8" font-family="'JetBrains Mono',monospace">Finance · Legal</text>
+              <text x="856" y="377" text-anchor="middle" fill="#5a5a72" font-size="8" font-family="'JetBrains Mono',monospace">Sales · PR · HR</text>
+
+              <!-- ── Funnel lines from depts to consultation box ── -->
+              <line x1="110" y1="382" x2="110" y2="470" stroke="#3b82f6" stroke-width="1.2" stroke-dasharray="4,2"/>
+              <line x1="237" y1="382" x2="237" y2="470" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="4,2"/>
+              <line x1="364" y1="382" x2="364" y2="470" stroke="#22c55e" stroke-width="1.2" stroke-dasharray="4,2"/>
+              <line x1="491" y1="382" x2="491" y2="470" stroke="#7c6cff" stroke-width="1.2" stroke-dasharray="4,2"/>
+              <line x1="618" y1="382" x2="618" y2="470" stroke="#06b6d4" stroke-width="1.2" stroke-dasharray="4,2"/>
+              <line x1="745" y1="382" x2="745" y2="470" stroke="#a855f7" stroke-width="1.2" stroke-dasharray="4,2"/>
+              <line x1="856" y1="382" x2="856" y2="470" stroke="#5a5a72" stroke-width="1.2" stroke-dasharray="4,2"/>
+
+              <!-- Horizontal merge line -->
+              <line x1="110" y1="470" x2="856" y2="470" stroke="#2a2a3a" stroke-width="1.5"/>
+              <line x1="460" y1="470" x2="460" y2="490" stroke="#5a5a72" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+
+              <!-- ── Row 4: Multi-Perspective Consultation ── -->
+              <rect x="230" y="490" width="460" height="90" rx="10" fill="#111118" stroke="#f59e0b" stroke-width="1.5"/>
+              <rect x="230" y="490" width="460" height="4" rx="2" fill="#f59e0b"/>
+              <text x="460" y="516" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="700" font-family="'JetBrains Mono',monospace" letter-spacing="0.04em">MULTI-PERSPECTIVE CONSULTATION</text>
+              <text x="460" y="534" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Each dept: 2+ agents propose independent approaches</text>
+              <text x="460" y="549" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Manager reviews all proposals → decides</text>
+              <text x="460" y="564" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Documents rationale in DECISIONS.md</text>
+              <text x="460" y="572" text-anchor="middle" fill="#f59e0b" font-size="9" font-family="'JetBrains Mono',monospace">──────────────────────────────</text>
+
+              <!-- Arrow: Consultation → Review Gates -->
+              <line x1="460" y1="580" x2="460" y2="614" stroke="#5a5a72" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+
+              <!-- ── Row 5: Review Gates ── -->
+              <rect x="230" y="616" width="460" height="80" rx="10" fill="#111118" stroke="#22c55e" stroke-width="1.5"/>
+              <rect x="230" y="616" width="460" height="4" rx="2" fill="#22c55e"/>
+              <text x="460" y="641" text-anchor="middle" fill="#22c55e" font-size="11" font-weight="700" font-family="'JetBrains Mono',monospace" letter-spacing="0.04em">REVIEW GATES</text>
+              <text x="460" y="659" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Sub-agent output → Manager review</text>
+              <text x="460" y="674" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">→ Director / VP sign-off</text>
+              <text x="460" y="689" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">→ Chief of Staff approval</text>
+
+              <!-- Arrow: Review Gates → Chief of Staff (final) -->
+              <line x1="460" y1="696" x2="460" y2="730" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#wf-arrow-amber)"/>
+              <text x="465" y="716" fill="#f59e0b" font-size="9" font-family="'JetBrains Mono',monospace">all outputs submitted</text>
+
+              <!-- ── Row 6: Chief of Staff Final Review ── -->
+              <rect x="310" y="732" width="300" height="56" rx="10" fill="#1a1a24" stroke="#f59e0b" stroke-width="2"/>
+              <rect x="310" y="732" width="300" height="4" rx="2" fill="#f59e0b"/>
+              <text x="460" y="757" text-anchor="middle" fill="#e8e8f0" font-size="12" font-weight="700">Chief of Staff</text>
+              <text x="460" y="773" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">REVIEWS ALL DEPT OUTPUTS · QUALITY GATE</text>
+
+              <!-- Arrow: CoS → Guide final -->
+              <line x1="460" y1="788" x2="460" y2="822" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#wf-arrow-amber)"/>
+              <text x="465" y="808" fill="#f59e0b" font-size="9" font-family="'JetBrains Mono',monospace">approved, pass to guide</text>
+
+              <!-- ── Row 7: Guide & Explainer final synthesis ── -->
+              <rect x="310" y="824" width="300" height="56" rx="10" fill="#1a1a24" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3"/>
+              <rect x="310" y="824" width="300" height="4" rx="2" fill="#f59e0b"/>
+              <text x="460" y="849" text-anchor="middle" fill="#e8e8f0" font-size="12" font-weight="600">Guide &amp; Explainer</text>
+              <text x="460" y="866" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">SYNTHESISES INTO PLAIN ENGLISH</text>
+
+              <!-- Arrow: Guide → Atharva delivery -->
+              <line x1="460" y1="880" x2="460" y2="914" stroke="#7c6cff" stroke-width="2" marker-end="url(#wf-arrow-accent)"/>
+              <text x="465" y="900" fill="#7c6cff" font-size="9" font-family="'JetBrains Mono',monospace">plain English delivery</text>
+
+              <!-- ── Row 8: Atharva (delivery) ── -->
+              <rect x="360" y="916" width="200" height="56" rx="10" fill="#1a1a24" stroke="#7c6cff" stroke-width="2"/>
+              <rect x="360" y="916" width="200" height="4" rx="2" fill="#7c6cff"/>
+              <text x="460" y="942" text-anchor="middle" fill="#e8e8f0" font-size="13" font-weight="700">Atharva</text>
+              <text x="460" y="959" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">OWNER · RECEIVES DELIVERY</text>
+
+              <!-- ── Sign-off checks row (quality gate details) ── -->
+              <text x="460" y="1006" text-anchor="middle" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace" letter-spacing="0.04em">BEFORE DELIVERY — REQUIRED SIGN-OFFS</text>
+
+              <!-- 5 sign-off badges -->
+              <!-- Security -->
+              <rect x="60" y="1016" width="155" height="36" rx="7" fill="#111118" stroke="#ef4444" stroke-width="1"/>
+              <text x="137" y="1030" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="700" font-family="'JetBrains Mono',monospace">Dir. Security</text>
+              <text x="137" y="1044" text-anchor="middle" fill="#5a5a72" font-size="8" font-family="'JetBrains Mono',monospace">security sign-off</text>
+
+              <!-- QA -->
+              <rect x="230" y="1016" width="155" height="36" rx="7" fill="#111118" stroke="#22c55e" stroke-width="1"/>
+              <text x="307" y="1030" text-anchor="middle" fill="#22c55e" font-size="9" font-weight="700" font-family="'JetBrains Mono',monospace">Dir. QA</text>
+              <text x="307" y="1044" text-anchor="middle" fill="#5a5a72" font-size="8" font-family="'JetBrains Mono',monospace">QA sign-off</text>
+
+              <!-- DevOps -->
+              <rect x="400" y="1016" width="155" height="36" rx="7" fill="#111118" stroke="#7c6cff" stroke-width="1"/>
+              <text x="477" y="1030" text-anchor="middle" fill="#7c6cff" font-size="9" font-weight="700" font-family="'JetBrains Mono',monospace">Dir. DevOps</text>
+              <text x="477" y="1044" text-anchor="middle" fill="#5a5a72" font-size="8" font-family="'JetBrains Mono',monospace">deployment stable</text>
+
+              <!-- Tech Writer -->
+              <rect x="570" y="1016" width="155" height="36" rx="7" fill="#111118" stroke="#3b82f6" stroke-width="1"/>
+              <text x="647" y="1030" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="700" font-family="'JetBrains Mono',monospace">Technical Writer</text>
+              <text x="647" y="1044" text-anchor="middle" fill="#5a5a72" font-size="8" font-family="'JetBrains Mono',monospace">docs complete</text>
+
+              <!-- Guide -->
+              <rect x="740" y="1016" width="130" height="36" rx="7" fill="#111118" stroke="#f59e0b" stroke-width="1"/>
+              <text x="805" y="1030" text-anchor="middle" fill="#f59e0b" font-size="9" font-weight="700" font-family="'JetBrains Mono',monospace">Guide</text>
+              <text x="805" y="1044" text-anchor="middle" fill="#5a5a72" font-size="8" font-family="'JetBrains Mono',monospace">summary ready</text>
+
+              <!-- Arrows from sign-off row up to CoS final review -->
+              <line x1="137" y1="1016" x2="137" y2="992" stroke="#ef4444" stroke-width="1" stroke-dasharray="4,2"/>
+              <line x1="307" y1="1016" x2="307" y2="992" stroke="#22c55e" stroke-width="1" stroke-dasharray="4,2"/>
+              <line x1="477" y1="1016" x2="477" y2="992" stroke="#7c6cff" stroke-width="1" stroke-dasharray="4,2"/>
+              <line x1="647" y1="1016" x2="647" y2="992" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,2"/>
+              <line x1="805" y1="1016" x2="805" y2="992" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,2"/>
+              <line x1="60" y1="992" x2="870" y2="992" stroke="#2a2a3a" stroke-width="1"/>
+              <line x1="460" y1="992" x2="460" y2="972" stroke="#5a5a72" stroke-width="1"/>
+
+              <!-- ── Legend ── -->
+              <rect x="20" y="1090" width="880" height="1" fill="#2a2a3a"/>
+              <text x="460" y="1108" text-anchor="middle" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace" letter-spacing="0.06em">LEGEND</text>
+
+              <!-- Legend items -->
+              <line x1="60" y1="1122" x2="100" y2="1122" stroke="#5a5a72" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <text x="108" y="1126" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Direct handoff</text>
+
+              <line x1="220" y1="1122" x2="260" y2="1122" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#wf-arrow-amber)"/>
+              <text x="268" y="1126" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Parallel monitor</text>
+
+              <line x1="400" y1="1122" x2="440" y2="1122" stroke="#5a5a72" stroke-width="1.2" stroke-dasharray="4,2"/>
+              <text x="448" y="1126" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Required input</text>
+
+              <rect x="580" y="1116" width="10" height="10" rx="2" fill="none" stroke="#7c6cff" stroke-width="1.5"/>
+              <text x="598" y="1126" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Dept / role node</text>
+
+              <rect x="730" y="1116" width="10" height="10" rx="2" fill="none" stroke="#5a5a72" stroke-width="1.5" stroke-dasharray="5,3"/>
+              <text x="748" y="1126" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Optional / parallel</text>
+
+              <!-- Caption -->
+              <text x="460" y="1160" text-anchor="middle" fill="#3a3a4e" font-size="9" font-family="'JetBrains Mono',monospace">Task lifecycle · Atharva's AI Organisation · Static reference diagram</text>
+
+            </svg>
+          </div>
+        </div>
+
+        <!-- Section B: Communication Channels Matrix -->
+        <div class="wf-section">
+          <div class="section-label">Communication channels · who talks to whom</div>
+          <div class="wf-matrix-wrap">
+            <div class="wf-matrix-header">
+              <div class="wf-matrix-title">Inter-agent communication matrix</div>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);">21 channels mapped</span>
+            </div>
+            <div class="wf-matrix-scroll">
+              <table class="wf-matrix-table">
+                <thead>
+                  <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th style="width:28px;">Dir</th>
+                    <th>What they exchange</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(245,158,11,0.12);color:#f59e0b;">Chief of Staff</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(90,90,114,0.15);color:var(--text2);">All Department Directors</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Task briefs, MEP excerpts</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(20,184,166,0.12);color:#14b8a6;">Senior PM</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(90,90,114,0.15);color:var(--text2);">Department Directors</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Task assignments, timelines</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(90,90,114,0.15);color:var(--text2);">Department Directors</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(245,158,11,0.12);color:#f59e0b;">Chief of Staff</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Status updates, deliverables</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(59,130,246,0.12);color:#3b82f6;">VP Engineering</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(239,68,68,0.12);color:#ef4444;">Director Security</span></td>
+                    <td><span class="wf-dir-badge" style="color:var(--cyan);">↔</span></td>
+                    <td><span class="wf-exchange">Architecture for security review</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(59,130,246,0.12);color:#3b82f6;">VP Engineering</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(34,197,94,0.12);color:#22c55e;">Director QA</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Features for QA review</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(59,130,246,0.12);color:#3b82f6;">VP Engineering</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(124,108,255,0.12);color:#7c6cff;">Director DevOps</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Build for deployment</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(239,68,68,0.12);color:#ef4444;">Director Security</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(90,90,114,0.15);color:var(--text2);">All departments</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Security requirements, findings</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(34,197,94,0.12);color:#22c55e;">Director QA</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(59,130,246,0.12);color:#3b82f6;">VP Engineering</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Bug reports, test failures</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(124,108,255,0.12);color:#7c6cff;">Director DevOps</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(59,130,246,0.12);color:#3b82f6;">VP Engineering</span></td>
+                    <td><span class="wf-dir-badge" style="color:var(--cyan);">↔</span></td>
+                    <td><span class="wf-exchange">Infrastructure constraints</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(6,182,212,0.12);color:#06b6d4;">Product Manager</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(59,130,246,0.12);color:#3b82f6;">VP Engineering</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Product requirements</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(6,182,212,0.12);color:#06b6d4;">Product Manager</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(20,184,166,0.12);color:#14b8a6;">Research Director</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Research requests</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(6,182,212,0.12);color:#06b6d4;">Product Manager</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(236,72,153,0.12);color:#ec4899;">Creative Director</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Design briefs</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(20,184,166,0.12);color:#14b8a6;">Research Director</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(168,85,247,0.12);color:#a855f7;">Chief Strategy Officer</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Market intelligence</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(168,85,247,0.12);color:#a855f7;">Chief Strategy Officer</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(245,158,11,0.12);color:#f59e0b;">Chief of Staff</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Strategic recommendations</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(20,184,166,0.12);color:#14b8a6;">Sales Director</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(6,182,212,0.12);color:#06b6d4;">Product Manager</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Customer feedback, feature requests</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(34,197,94,0.12);color:#22c55e;">Finance Director</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(90,90,114,0.15);color:var(--text2);">All Directors</span></td>
+                    <td><span class="wf-dir-badge" style="color:var(--cyan);">↔</span></td>
+                    <td><span class="wf-exchange">Budget constraints, approvals</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(239,68,68,0.12);color:#ef4444;">General Counsel</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(90,90,114,0.15);color:var(--text2);">All departments</span></td>
+                    <td><span class="wf-dir-badge" style="color:var(--cyan);">↔</span></td>
+                    <td><span class="wf-exchange">Legal review, approvals</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(236,72,153,0.12);color:#ec4899;">PR Director</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(6,182,212,0.12);color:#06b6d4;">Director of Marketing</span></td>
+                    <td><span class="wf-dir-badge" style="color:var(--cyan);">↔</span></td>
+                    <td><span class="wf-exchange">Messaging alignment</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(124,108,255,0.12);color:#7c6cff;">Head of Data</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(90,90,114,0.15);color:var(--text2);">All departments</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Analytics and insights</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(168,85,247,0.12);color:#a855f7;">COO</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(90,90,114,0.15);color:var(--text2);">All departments</span></td>
+                    <td><span class="wf-dir-badge" style="color:var(--cyan);">↔</span></td>
+                    <td><span class="wf-exchange">Operational coordination</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="wf-agent-pill" style="background:rgba(245,158,11,0.12);color:#f59e0b;">Guide &amp; Explainer</span></td>
+                    <td><span class="wf-agent-pill" style="background:rgba(124,108,255,0.12);color:#7c6cff;">Atharva</span></td>
+                    <td><span class="wf-dir-badge">→</span></td>
+                    <td><span class="wf-exchange">Plain English summaries</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section C: Decision Protocol -->
+        <div class="wf-section">
+          <div class="section-label">Decision protocol · mandatory multi-perspective consultation</div>
+          <div class="wf-protocol-card">
+            <div class="wf-protocol-title">
+              ⬡ Multi-Perspective Consultation — Mandatory Steps
+            </div>
+            <ol class="wf-protocol-steps">
+              <li>
+                <span class="wf-step-num">01.</span>
+                <span>Task received by department director — scope confirmed, ownership assigned.</span>
+              </li>
+              <li>
+                <span class="wf-step-num">02.</span>
+                <span>Director assigns the task to <strong>2 or more agents</strong> with different focus areas (e.g. one for security implications, one for performance, one for implementation). Each agent works <strong>independently</strong> — no coordination between them at this stage.</span>
+              </li>
+              <li>
+                <span class="wf-step-num">03.</span>
+                <span>Each agent produces an <strong>independent proposal</strong>: approach, rationale, trade-offs, risks. Proposals are written to a shared consultation record file.</span>
+              </li>
+              <li>
+                <span class="wf-step-num">04.</span>
+                <span>Director reads all proposals in the consultation record. Compares approaches. May ask agents to respond to each other's proposals (one round of cross-review). No groupthink — dissent is recorded.</span>
+              </li>
+              <li>
+                <span class="wf-step-num">05.</span>
+                <span>Director makes the <strong>final decision</strong>. Writes the decision, chosen approach, and full rationale to <code style="color:var(--amber);background:rgba(245,158,11,0.1);padding:1px 5px;border-radius:3px;font-size:10px;">DECISIONS.md</code> before any implementation begins.</span>
+              </li>
+              <li>
+                <span class="wf-step-num">06.</span>
+                <span>Output passes up the review chain: sub-agent output → manager review → director / VP sign-off → Chief of Staff approval → Atharva delivery.</span>
+              </li>
+            </ol>
+            <div class="wf-protocol-note">
+              Non-negotiable: no single-agent decisions on consequential matters. Skipping consultation without documented justification is a protocol violation logged to BLOCKERS.md. The Chief of Staff may override any department decision if cross-dept impact is undisclosed.
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /tab-workflows -->
+
     </div>
 
     <!-- Right sidebar -->
@@ -3284,13 +3745,14 @@
   // ── Tabs ─────────────────────────────────────────────────────────────────
   function switchTab(tab) {
     activeTab = tab;
-    ['feed', 'orgchart', 'agents', 'history'].forEach(t => {
+    ['feed', 'orgchart', 'agents', 'history', 'workflows'].forEach(t => {
       const panel = document.getElementById('tab-' + t);
       const btn = document.getElementById('tabbtn-' + t);
       if (panel) panel.classList.toggle('active', t === tab);
       if (btn) btn.classList.toggle('active', t === tab);
     });
     // Render the newly-active tab immediately (don't wait for next 5s refresh)
+    // 'workflows' is fully static — no data fetching needed
     if (orgHandle) {
       if (tab === 'orgchart') renderOrgChart();
       else if (tab === 'agents') updateAgentTable();
