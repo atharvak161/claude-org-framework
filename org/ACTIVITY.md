@@ -6,6 +6,12 @@
 
 ## Activity entries
 
+2026-06-01 FRONTEND_DEVELOPER — MODIFIED — src/projects/financial-dashboard/js/page-init.js — Fixed dynamic setup highlighting: clears on save, re-applies correctly
+2026-06-01 FRONTEND_DEVELOPER — VERIFIED — src/projects/financial-dashboard — data-section attributes verified on all pages, dashboard banner added
+2026-06-01 LINKEDIN_SPECIALIST — CREATED — docs/career/linkedin/LINKEDIN_STRATEGY.md — LinkedIn profile optimisation and 30-day content strategy
+2026-06-01 RECRUITER — CREATED — docs/career/job-search/UK_MARKET_ANALYSIS.md — UK cybersecurity job market analysis and target company list
+2026-06-01 INTEGRATION_ENGINEER — CREATED — docs/projects/financial-dashboard/INTEGRATION_ROADMAP.md — Integration opportunities assessment: Open Banking, HMRC, CSV import, live FX
+2026-06-01 CA_ARJUN_MEHTA — CREATED — docs/finance/CA_DASHBOARD_REVIEW.md — Professional CA review of financial dashboard structure and completeness
 2026-06-01 DEV_TEAM_LEAD — CREATED — docs/projects/financial-dashboard/STATUS_REPORT.md — Post-refactor status check of financial dashboard
 2026-06-01 FRONTEND_DEVELOPER — MODIFIED — monitor.html — Added Workflows tab: task lifecycle SVG flowchart, communication channels matrix, decision protocol card
 
@@ -57,3 +63,39 @@
 2026-06-01 DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard/js/pages/expenses.js — Fixed await save_ -> await save_() so active-toggle persists
 2026-06-01 DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard/js/pages/analytics.js — Removed stray </div> in metrics table markup
 2026-06-01 DEV_TEAM_LEAD — CREATED — docs/projects/financial-dashboard/FAULT_REPORT.md — Full fault report
+2026-06-01 DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard/js/calc.js — Fixed critical math: full UK PAYE bands, salary sacrifice pension, NI 2% above UEL
+2026-06-01 DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard/js/store.js — Fixed camelCase key mapping for taxTracker/monthlyLog/indiaLog
+2026-06-01 DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard — Removed all hardcoded Rs36L values, added inrGbpRate zero guards; changes staged, commit/push pending (sandbox blocked git commit/push)
+2026-06-01 CHIEF_OF_STAFF — MEP — 7 parallel workstreams launched — Org chart redesign, finance dashboard review, dead code, setup highlighting, CA Arjun Mehta analysis, career team portfolio review, Guide recap
+2026-06-01 CHIEF_OF_STAFF — SPAWNED — Design team — Org chart redesign: Creative Director + Brand Designer → Frontend Developer → VP Engineering review
+2026-06-01 CHIEF_OF_STAFF — SPAWNED — Finance team — CA Arjun Mehta + Tax Accountant + Head of Investment Strategy reviewing financial dashboard
+2026-06-01 CHIEF_OF_STAFF — SPAWNED — Dev Team — Dead code deletion (charts.js, export.js) from financial dashboard
+2026-06-01 CHIEF_OF_STAFF — SPAWNED — Dev Team — Setup highlighting dynamic fix
+2026-06-01 CHIEF_OF_STAFF — SPAWNED — Career team — Career Coach + CV Specialist + Portfolio Specialist + LinkedIn Specialist reviewing Atharva's portfolio and CV
+2026-06-01 CHIEF_OF_STAFF — SPAWNED — Career team — Recruiter providing job market and application strategy
+2026-06-01 CHIEF_OF_STAFF — SPAWNED — Guide and Explainer — Assigned to produce final recap once all workstreams complete
+2026-06-01 CODE_REVIEWER — CREATED — docs/projects/financial-dashboard/CODE_REVIEW_PASS2.md — Post-fix code review of mathematical changes to financial dashboard
+2026-06-01 TAX_ACCOUNTANT — CREATED — docs/finance/TAX_SECTION_REVIEW.md — Tax and income section review of financial dashboard
+2026-06-01 HEAD_INVESTMENT_STRATEGY — CREATED — docs/finance/INVESTMENT_SECTION_REVIEW.md — Investment section review of financial dashboard
+2026-06-01 CREATIVE_DIRECTOR — CREATED — docs/design/ORG_CHART_DESIGN.md — Org chart redesign specification: department cluster layout
+2026-06-01 FRONTEND_DEVELOPER — MODIFIED — monitor.html — Implemented new HTML/CSS org chart replacing SVG tree
+2026-06-01 VP_ENGINEERING — CREATED — docs/architecture/ORG_CHART_REVIEW.md — Reviewed and approved org chart implementation
+2026-06-01 MOBILE_DEVELOPER — CREATED — docs/projects/financial-dashboard/MOBILE_AUDIT.md — Mobile responsiveness audit with specific CSS fixes
+2026-06-01 PORTFOLIO_SPECIALIST — CREATED — docs/career/portfolio/PORTFOLIO_REVIEW.md — Portfolio website content review and improvement recommendations
+2026-06-01 CV_SPECIALIST — CREATED — docs/career/cv/CV_REVIEW.md — CV/resume review and rewrite suggestions
+2026-06-01 CAREER_COACH — CREATED — docs/career/CAREER_STRATEGY.md — 12-month career strategy for UK cybersecurity professional
+2026-06-01 BACKEND_DEVELOPER — CREATED — docs/projects/financial-dashboard/BACKEND_SPEC.md — Backend architecture spec for potential multi-user or cloud-sync scenario
+2026-06-01 TECHNICAL_WRITER — MODIFIED — src/projects/financial-dashboard/README.md — Updated to reflect current architecture: no auth, plain localStorage, setup highlighting
+2026-06-01 CREATIVE_DIRECTOR — CREATED — docs/design/ORG_CHART_DESIGN.md — Org chart redesign: department cluster layout specification
+2026-06-01 FRONTEND_DEVELOPER — MODIFIED — monitor.html — Implemented HTML/CSS cluster org chart replacing SVG tree — 90 agents, full names, dept grouping
+2026-06-01 VP_ENGINEERING — CREATED — docs/architecture/ORG_CHART_REVIEW.md — Reviewed and approved org chart implementation
+2026-06-01 CA_ARJUN_MEHTA — CREATED — docs/finance/CA_DASHBOARD_REVIEW.md — Professional CA review: 7/10, 5 material gaps identified
+2026-06-01 TAX_ACCOUNTANT — CREATED — docs/finance/TAX_SECTION_REVIEW.md — Tax section review: 5/10, missing India NRI module, student loan, Self Assessment
+2026-06-01 HEAD_INVESTMENT_STRATEGY — CREATED — docs/finance/INVESTMENT_SECTION_REVIEW.md — Investment review: 5/10, ISA/SIPP/NPS/ELSS/SGBs all absent
+2026-06-01 PORTFOLIO_SPECIALIST — CREATED — docs/career/portfolio/PORTFOLIO_REVIEW.md — Portfolio website review and improved content
+2026-06-01 CV_SPECIALIST — CREATED — docs/career/cv/CV_REVIEW.md — CV review with rewritten summary, skills, and bullet points
+2026-06-01 CAREER_COACH — CREATED — docs/career/CAREER_STRATEGY.md — 12-month career strategy: eJPT now, OSCP in 12 months, £30k-55k salary targets
+2026-06-01 MOBILE_DEVELOPER — CREATED — docs/projects/financial-dashboard/MOBILE_AUDIT.md — Mobile audit: 3 P0 issues including navigation vanishes on phones
+2026-06-01 INTEGRATION_ENGINEER — CREATED — docs/projects/financial-dashboard/INTEGRATION_ROADMAP.md — Live FX rate + CSV import feasible now, Open Banking needs backend
+2026-06-01 BACKEND_DEVELOPER — CREATED — docs/projects/financial-dashboard/BACKEND_SPEC.md — Hono + Supabase + Cloudflare spec, E2EE, $0/month under 100 users
+2026-06-01 TECHNICAL_WRITER — MODIFIED — src/projects/financial-dashboard/README.md — Accurate architecture docs: no auth, plain localStorage, setup highlighting
