@@ -1697,11 +1697,11 @@
 
   /* Flowchart container */
   .wf-flowchart-wrap {
-    background: var(--surface);
+    background: #0d0d14;
     border: 1px solid var(--border);
     border-radius: 10px;
     overflow: auto;
-    max-height: 700px;
+    max-height: 680px;
     position: relative;
     scrollbar-width: thin;
     scrollbar-color: var(--border2) transparent;
@@ -2270,263 +2270,230 @@
         <div class="wf-section">
           <div class="section-label">Task lifecycle · end-to-end flow</div>
           <div class="wf-flowchart-wrap">
-            <svg viewBox="0 0 920 1560" width="920" height="1560" xmlns="http://www.w3.org/2000/svg" style="font-family:'Space Grotesk',sans-serif;">
+            <svg viewBox="0 0 1200 1160" width="1200" height="1160" xmlns="http://www.w3.org/2000/svg" style="font-family:'Space Grotesk',sans-serif;">
               <defs>
-                <!-- Arrow marker -->
-                <marker id="wf-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-                  <path d="M0,0 L0,6 L8,3 z" fill="#5a5a72"/>
+                <marker id="wf-arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" fill="#5a5a72"/>
                 </marker>
-                <marker id="wf-arrow-accent" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-                  <path d="M0,0 L0,6 L8,3 z" fill="#7c6cff"/>
+                <marker id="wf-arrow-accent" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" fill="#7c6cff"/>
                 </marker>
-                <marker id="wf-arrow-amber" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-                  <path d="M0,0 L0,6 L8,3 z" fill="#f59e0b"/>
+                <marker id="wf-arrow-amber" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" fill="#f59e0b"/>
                 </marker>
-                <marker id="wf-arrow-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-                  <path d="M0,0 L0,6 L8,3 z" fill="#22c55e"/>
+                <marker id="wf-arrow-teal" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" fill="#14b8a6"/>
                 </marker>
-                <marker id="wf-arrow-teal" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-                  <path d="M0,0 L0,6 L8,3 z" fill="#14b8a6"/>
-                </marker>
+                <linearGradient id="grad-amber" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:0.15"/>
+                  <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:0.05"/>
+                </linearGradient>
+                <linearGradient id="grad-accent" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style="stop-color:#7c6cff;stop-opacity:0.15"/>
+                  <stop offset="100%" style="stop-color:#7c6cff;stop-opacity:0.05"/>
+                </linearGradient>
+                <linearGradient id="grad-green" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style="stop-color:#22c55e;stop-opacity:0.12"/>
+                  <stop offset="100%" style="stop-color:#22c55e;stop-opacity:0.04"/>
+                </linearGradient>
               </defs>
 
-              <!-- ── Row 0: Atharva ── -->
-              <!-- Atharva node -->
-              <rect x="360" y="20" width="200" height="56" rx="10" fill="#1a1a24" stroke="#7c6cff" stroke-width="2"/>
-              <rect x="360" y="20" width="200" height="4" rx="2" fill="#7c6cff"/>
-              <text x="460" y="46" text-anchor="middle" fill="#e8e8f0" font-size="13" font-weight="700">Atharva</text>
-              <text x="460" y="63" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace" letter-spacing="0.08em">OWNER</text>
+              <!-- ══ BACKGROUND GRID ══ -->
+              <pattern id="wf-grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1a1a24" stroke-width="1"/>
+              </pattern>
+              <rect width="1200" height="1160" fill="url(#wf-grid)" opacity="0.6"/>
 
-              <!-- Arrow down: Atharva → Chief of Staff -->
-              <line x1="460" y1="76" x2="460" y2="108" stroke="#5a5a72" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
-              <!-- Arrow label -->
-              <text x="465" y="96" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace">plain English goal</text>
+              <!-- ══ ROW 0 — ATHARVA ══ -->
+              <rect x="450" y="24" width="300" height="68" rx="12" fill="#1a1a24" stroke="#7c6cff" stroke-width="2.5"/>
+              <rect x="450" y="24" width="300" height="5" rx="2.5" fill="#7c6cff"/>
+              <rect x="450" y="24" width="300" height="68" rx="12" fill="url(#grad-accent)" opacity="0.5"/>
+              <text x="600" y="54" text-anchor="middle" fill="#e8e8f0" font-size="17" font-weight="700" letter-spacing="0.02em">Atharva</text>
+              <text x="600" y="74" text-anchor="middle" fill="#7c6cff" font-size="10" font-family="'JetBrains Mono',monospace" letter-spacing="0.12em">OWNER</text>
 
-              <!-- ── Row 1: Chief of Staff ── -->
-              <rect x="340" y="110" width="240" height="56" rx="10" fill="#1a1a24" stroke="#f59e0b" stroke-width="2"/>
-              <rect x="340" y="110" width="240" height="4" rx="2" fill="#f59e0b"/>
-              <text x="460" y="136" text-anchor="middle" fill="#e8e8f0" font-size="13" font-weight="700">Chief of Staff</text>
-              <text x="460" y="153" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace" letter-spacing="0.08em">EXECUTIVE · COORD</text>
+              <!-- ↓ arrow -->
+              <line x1="600" y1="92" x2="600" y2="126" stroke="#5a5a72" stroke-width="2" marker-end="url(#wf-arrow)"/>
+              <text x="606" y="113" fill="#5a5a72" font-size="10" font-family="'JetBrains Mono',monospace">plain English goal</text>
 
-              <!-- Arrow: CoS → Guide (left branch) -->
-              <path d="M 340,138 C 240,138 200,200 200,220" stroke="#f59e0b" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#wf-arrow-amber)"/>
-              <text x="216" y="186" fill="#f59e0b" font-size="9" font-family="'JetBrains Mono',monospace">monitors</text>
-              <text x="216" y="197" fill="#f59e0b" font-size="9" font-family="'JetBrains Mono',monospace">throughout</text>
+              <!-- ══ ROW 1 — CHIEF OF STAFF ══ -->
+              <rect x="430" y="128" width="340" height="68" rx="12" fill="#1a1a24" stroke="#f59e0b" stroke-width="2.5"/>
+              <rect x="430" y="128" width="340" height="5" rx="2.5" fill="#f59e0b"/>
+              <rect x="430" y="128" width="340" height="68" rx="12" fill="url(#grad-amber)" opacity="0.5"/>
+              <text x="600" y="158" text-anchor="middle" fill="#e8e8f0" font-size="15" font-weight="700">Chief of Staff</text>
+              <text x="600" y="178" text-anchor="middle" fill="#f59e0b" font-size="10" font-family="'JetBrains Mono',monospace" letter-spacing="0.1em">EXECUTIVE · CREATES MEP</text>
 
-              <!-- Guide & Explainer (left side) -->
-              <rect x="100" y="220" width="200" height="56" rx="10" fill="#1a1a24" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="6,3"/>
-              <rect x="100" y="220" width="200" height="4" rx="2" fill="#f59e0b"/>
-              <text x="200" y="246" text-anchor="middle" fill="#e8e8f0" font-size="12" font-weight="600">Guide &amp; Explainer</text>
-              <text x="200" y="263" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace" letter-spacing="0.08em">MONITOR · SYNTHESISE</text>
+              <!-- Branch to Guide (dashed left) -->
+              <path d="M 430,162 C 340,162 280,218 280,238" stroke="#f59e0b" stroke-width="1.5" fill="none" stroke-dasharray="6,4" marker-end="url(#wf-arrow-amber)"/>
+              <text x="295" y="200" fill="#f59e0b" font-size="10" font-family="'JetBrains Mono',monospace">monitors</text>
+              <text x="295" y="214" fill="#f59e0b" font-size="10" font-family="'JetBrains Mono',monospace">throughout</text>
 
-              <!-- Arrow: CoS → Senior PM (main trunk) -->
-              <line x1="460" y1="166" x2="460" y2="198" stroke="#14b8a6" stroke-width="1.5" marker-end="url(#wf-arrow-teal)"/>
-              <text x="465" y="185" fill="#14b8a6" font-size="9" font-family="'JetBrains Mono',monospace">creates MEP</text>
+              <!-- Guide & Explainer (left sidebar) -->
+              <rect x="140" y="238" width="230" height="64" rx="10" fill="#1a1a24" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="7,4"/>
+              <rect x="140" y="238" width="230" height="4" rx="2" fill="#f59e0b" opacity="0.6"/>
+              <text x="255" y="265" text-anchor="middle" fill="#e8e8f0" font-size="13" font-weight="600">Guide &amp; Explainer</text>
+              <text x="255" y="285" text-anchor="middle" fill="#9090a8" font-size="10" font-family="'JetBrains Mono',monospace">MONITOR · SYNTHESISE</text>
 
-              <!-- ── Row 2: Senior PM ── -->
-              <rect x="340" y="200" width="240" height="56" rx="10" fill="#1a1a24" stroke="#14b8a6" stroke-width="2"/>
-              <rect x="340" y="200" width="240" height="4" rx="2" fill="#14b8a6"/>
-              <text x="460" y="226" text-anchor="middle" fill="#e8e8f0" font-size="13" font-weight="700">Senior Project Manager</text>
-              <text x="460" y="243" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace" letter-spacing="0.08em">PROJECT MGMT</text>
+              <!-- ↓ main trunk -->
+              <line x1="600" y1="196" x2="600" y2="232" stroke="#14b8a6" stroke-width="2" marker-end="url(#wf-arrow-teal)"/>
+              <text x="606" y="218" fill="#14b8a6" font-size="10" font-family="'JetBrains Mono',monospace">assigns MEP</text>
 
-              <!-- Arrow: Senior PM down to dept row -->
-              <line x1="460" y1="256" x2="460" y2="290" stroke="#5a5a72" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
-              <text x="465" y="276" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace">breaks into dept tasks</text>
+              <!-- ══ ROW 2 — SENIOR PM ══ -->
+              <rect x="440" y="234" width="320" height="64" rx="12" fill="#1a1a24" stroke="#14b8a6" stroke-width="2"/>
+              <rect x="440" y="234" width="320" height="5" rx="2.5" fill="#14b8a6"/>
+              <text x="600" y="262" text-anchor="middle" fill="#e8e8f0" font-size="14" font-weight="700">Senior Project Manager</text>
+              <text x="600" y="281" text-anchor="middle" fill="#14b8a6" font-size="10" font-family="'JetBrains Mono',monospace" letter-spacing="0.08em">BREAKS INTO DEPT TASKS</text>
 
-              <!-- Fanout line horizontal -->
-              <line x1="80" y1="310" x2="840" y2="310" stroke="#2a2a3a" stroke-width="1.5"/>
-              <!-- Vertical drops to each dept box -->
-              <!-- Dept positions: VP Eng=80, Dir Sec=200, Dir QA=330, Dir DevOps=460, Prod Mgr=590, CSO=720, Other=840 -->
+              <!-- ↓ fan-out trunk -->
+              <line x1="600" y1="298" x2="600" y2="322" stroke="#5a5a72" stroke-width="2"/>
+
+              <!-- Fan-out horizontal bar -->
+              <line x1="95" y1="322" x2="1105" y2="322" stroke="#2a2a3a" stroke-width="2"/>
+
+              <!-- ══ ROW 3 — 6 DEPT DIRECTORS ══ -->
+              <!-- Dept box width=155, gap=24, total=6*155+5*24=1050, left=(1200-1050)/2=75 -->
+              <!-- Centers: 75+77=152, 306+77=383, 460+77=537+69=... let me recalc -->
+              <!-- x: 75, 254, 433, 612, 791, 970  centers: 152, 331, 510, 689, 868, 1047 -->
+
+              <!-- Drop lines from fan bar to dept boxes -->
+              <line x1="152" y1="322" x2="152" y2="342" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <line x1="331" y1="322" x2="331" y2="342" stroke="#ef4444" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <line x1="510" y1="322" x2="510" y2="342" stroke="#22c55e" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <line x1="689" y1="322" x2="689" y2="342" stroke="#7c6cff" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <line x1="868" y1="322" x2="868" y2="342" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <line x1="1047" y1="322" x2="1047" y2="342" stroke="#a855f7" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+
               <!-- VP Engineering -->
-              <line x1="110" y1="310" x2="110" y2="330" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
-              <!-- Dir Security -->
-              <line x1="237" y1="310" x2="237" y2="330" stroke="#ef4444" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
-              <!-- Dir QA -->
-              <line x1="364" y1="310" x2="364" y2="330" stroke="#22c55e" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
-              <!-- Dir DevOps -->
-              <line x1="491" y1="310" x2="491" y2="330" stroke="#7c6cff" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
-              <!-- Product Mgr -->
-              <line x1="618" y1="310" x2="618" y2="330" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
-              <!-- COO / Ops -->
-              <line x1="745" y1="310" x2="745" y2="330" stroke="#a855f7" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
-              <!-- Other Depts -->
-              <line x1="872" y1="310" x2="872" y2="330" stroke="#5a5a72" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
-
-              <!-- Vertical centre trunk -->
-              <line x1="460" y1="290" x2="460" y2="310" stroke="#5a5a72" stroke-width="1.5"/>
-
-              <!-- ── Row 3: Department Directors (7 boxes) ── -->
-              <!-- VP Engineering -->
-              <rect x="47" y="330" width="126" height="52" rx="8" fill="#1a1a24" stroke="#3b82f6" stroke-width="1.5"/>
-              <rect x="47" y="330" width="126" height="3" rx="1.5" fill="#3b82f6"/>
-              <text x="110" y="352" text-anchor="middle" fill="#e8e8f0" font-size="10" font-weight="600">VP Engineering</text>
-              <text x="110" y="367" text-anchor="middle" fill="#9090a8" font-size="8" font-family="'JetBrains Mono',monospace">ENGINEERING</text>
-              <text x="110" y="377" text-anchor="middle" fill="#3b82f6" font-size="8" font-family="'JetBrains Mono',monospace">Dir + Teams</text>
+              <rect x="75" y="342" width="155" height="64" rx="10" fill="#1a1a24" stroke="#3b82f6" stroke-width="2"/>
+              <rect x="75" y="342" width="155" height="4" rx="2" fill="#3b82f6"/>
+              <text x="152" y="366" text-anchor="middle" fill="#e8e8f0" font-size="12" font-weight="700">VP Engineering</text>
+              <text x="152" y="382" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">ENGINEERING</text>
+              <text x="152" y="398" text-anchor="middle" fill="#3b82f6" font-size="9" font-family="'JetBrains Mono',monospace">10 agents</text>
 
               <!-- Dir Security -->
-              <rect x="174" y="330" width="126" height="52" rx="8" fill="#1a1a24" stroke="#ef4444" stroke-width="1.5"/>
-              <rect x="174" y="330" width="126" height="3" rx="1.5" fill="#ef4444"/>
-              <text x="237" y="352" text-anchor="middle" fill="#e8e8f0" font-size="10" font-weight="600">Dir. Security</text>
-              <text x="237" y="367" text-anchor="middle" fill="#9090a8" font-size="8" font-family="'JetBrains Mono',monospace">SECURITY</text>
-              <text x="237" y="377" text-anchor="middle" fill="#ef4444" font-size="8" font-family="'JetBrains Mono',monospace">Dir + Teams</text>
+              <rect x="254" y="342" width="155" height="64" rx="10" fill="#1a1a24" stroke="#ef4444" stroke-width="2"/>
+              <rect x="254" y="342" width="155" height="4" rx="2" fill="#ef4444"/>
+              <text x="331" y="366" text-anchor="middle" fill="#e8e8f0" font-size="12" font-weight="700">Dir. Security</text>
+              <text x="331" y="382" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">SECURITY</text>
+              <text x="331" y="398" text-anchor="middle" fill="#ef4444" font-size="9" font-family="'JetBrains Mono',monospace">5 agents</text>
 
               <!-- Dir QA -->
-              <rect x="301" y="330" width="126" height="52" rx="8" fill="#1a1a24" stroke="#22c55e" stroke-width="1.5"/>
-              <rect x="301" y="330" width="126" height="3" rx="1.5" fill="#22c55e"/>
-              <text x="364" y="352" text-anchor="middle" fill="#e8e8f0" font-size="10" font-weight="600">Dir. QA</text>
-              <text x="364" y="367" text-anchor="middle" fill="#9090a8" font-size="8" font-family="'JetBrains Mono',monospace">QUALITY</text>
-              <text x="364" y="377" text-anchor="middle" fill="#22c55e" font-size="8" font-family="'JetBrains Mono',monospace">Dir + Teams</text>
+              <rect x="433" y="342" width="155" height="64" rx="10" fill="#1a1a24" stroke="#22c55e" stroke-width="2"/>
+              <rect x="433" y="342" width="155" height="4" rx="2" fill="#22c55e"/>
+              <text x="510" y="366" text-anchor="middle" fill="#e8e8f0" font-size="12" font-weight="700">Dir. QA</text>
+              <text x="510" y="382" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">QUALITY</text>
+              <text x="510" y="398" text-anchor="middle" fill="#22c55e" font-size="9" font-family="'JetBrains Mono',monospace">4 agents</text>
 
               <!-- Dir DevOps -->
-              <rect x="428" y="330" width="126" height="52" rx="8" fill="#1a1a24" stroke="#7c6cff" stroke-width="1.5"/>
-              <rect x="428" y="330" width="126" height="3" rx="1.5" fill="#7c6cff"/>
-              <text x="491" y="352" text-anchor="middle" fill="#e8e8f0" font-size="10" font-weight="600">Dir. DevOps</text>
-              <text x="491" y="367" text-anchor="middle" fill="#9090a8" font-size="8" font-family="'JetBrains Mono',monospace">DEVOPS</text>
-              <text x="491" y="377" text-anchor="middle" fill="#7c6cff" font-size="8" font-family="'JetBrains Mono',monospace">Dir + Teams</text>
+              <rect x="612" y="342" width="155" height="64" rx="10" fill="#1a1a24" stroke="#7c6cff" stroke-width="2"/>
+              <rect x="612" y="342" width="155" height="4" rx="2" fill="#7c6cff"/>
+              <text x="689" y="366" text-anchor="middle" fill="#e8e8f0" font-size="12" font-weight="700">Dir. DevOps</text>
+              <text x="689" y="382" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">DEVOPS</text>
+              <text x="689" y="398" text-anchor="middle" fill="#7c6cff" font-size="9" font-family="'JetBrains Mono',monospace">6 agents</text>
 
-              <!-- Product Manager -->
-              <rect x="555" y="330" width="126" height="52" rx="8" fill="#1a1a24" stroke="#06b6d4" stroke-width="1.5"/>
-              <rect x="555" y="330" width="126" height="3" rx="1.5" fill="#06b6d4"/>
-              <text x="618" y="352" text-anchor="middle" fill="#e8e8f0" font-size="10" font-weight="600">Product Mgr</text>
-              <text x="618" y="367" text-anchor="middle" fill="#9090a8" font-size="8" font-family="'JetBrains Mono',monospace">PRODUCT</text>
-              <text x="618" y="377" text-anchor="middle" fill="#06b6d4" font-size="8" font-family="'JetBrains Mono',monospace">PM + Teams</text>
-
-              <!-- COO / Ops -->
-              <rect x="682" y="330" width="126" height="52" rx="8" fill="#1a1a24" stroke="#a855f7" stroke-width="1.5"/>
-              <rect x="682" y="330" width="126" height="3" rx="1.5" fill="#a855f7"/>
-              <text x="745" y="352" text-anchor="middle" fill="#e8e8f0" font-size="10" font-weight="600">COO / Strategy</text>
-              <text x="745" y="367" text-anchor="middle" fill="#9090a8" font-size="8" font-family="'JetBrains Mono',monospace">OPERATIONS</text>
-              <text x="745" y="377" text-anchor="middle" fill="#a855f7" font-size="8" font-family="'JetBrains Mono',monospace">COO + Teams</text>
+              <!-- Product / Other -->
+              <rect x="791" y="342" width="155" height="64" rx="10" fill="#1a1a24" stroke="#06b6d4" stroke-width="2"/>
+              <rect x="791" y="342" width="155" height="4" rx="2" fill="#06b6d4"/>
+              <text x="868" y="366" text-anchor="middle" fill="#e8e8f0" font-size="12" font-weight="700">Product Mgr</text>
+              <text x="868" y="382" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">PRODUCT</text>
+              <text x="868" y="398" text-anchor="middle" fill="#06b6d4" font-size="9" font-family="'JetBrains Mono',monospace">4 agents</text>
 
               <!-- Other Depts -->
-              <rect x="809" y="330" width="94" height="52" rx="8" fill="#1a1a24" stroke="#5a5a72" stroke-width="1.5" stroke-dasharray="5,3"/>
-              <text x="856" y="352" text-anchor="middle" fill="#5a5a72" font-size="9" font-weight="600">Other Depts</text>
-              <text x="856" y="367" text-anchor="middle" fill="#5a5a72" font-size="8" font-family="'JetBrains Mono',monospace">Finance · Legal</text>
-              <text x="856" y="377" text-anchor="middle" fill="#5a5a72" font-size="8" font-family="'JetBrains Mono',monospace">Sales · PR · HR</text>
+              <rect x="970" y="342" width="155" height="64" rx="10" fill="#111118" stroke="#5a5a72" stroke-width="1.5" stroke-dasharray="6,4"/>
+              <text x="1047" y="366" text-anchor="middle" fill="#9090a8" font-size="11" font-weight="700">+ 15 Depts</text>
+              <text x="1047" y="382" text-anchor="middle" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace">Finance · Legal</text>
+              <text x="1047" y="398" text-anchor="middle" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace">Sales · HR · PR…</text>
 
-              <!-- ── Funnel lines from depts to consultation box ── -->
-              <line x1="110" y1="382" x2="110" y2="470" stroke="#3b82f6" stroke-width="1.2" stroke-dasharray="4,2"/>
-              <line x1="237" y1="382" x2="237" y2="470" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="4,2"/>
-              <line x1="364" y1="382" x2="364" y2="470" stroke="#22c55e" stroke-width="1.2" stroke-dasharray="4,2"/>
-              <line x1="491" y1="382" x2="491" y2="470" stroke="#7c6cff" stroke-width="1.2" stroke-dasharray="4,2"/>
-              <line x1="618" y1="382" x2="618" y2="470" stroke="#06b6d4" stroke-width="1.2" stroke-dasharray="4,2"/>
-              <line x1="745" y1="382" x2="745" y2="470" stroke="#a855f7" stroke-width="1.2" stroke-dasharray="4,2"/>
-              <line x1="856" y1="382" x2="856" y2="470" stroke="#5a5a72" stroke-width="1.2" stroke-dasharray="4,2"/>
+              <!-- ══ FUNNEL LINES: depts → consultation ══ -->
+              <line x1="152" y1="406" x2="152" y2="496" stroke="#3b82f6" stroke-width="1.2" stroke-dasharray="5,3"/>
+              <line x1="331" y1="406" x2="331" y2="496" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="5,3"/>
+              <line x1="510" y1="406" x2="510" y2="496" stroke="#22c55e" stroke-width="1.2" stroke-dasharray="5,3"/>
+              <line x1="689" y1="406" x2="689" y2="496" stroke="#7c6cff" stroke-width="1.2" stroke-dasharray="5,3"/>
+              <line x1="868" y1="406" x2="868" y2="496" stroke="#06b6d4" stroke-width="1.2" stroke-dasharray="5,3"/>
+              <line x1="1047" y1="406" x2="1047" y2="496" stroke="#5a5a72" stroke-width="1.2" stroke-dasharray="5,3"/>
+              <!-- Horizontal collect bar -->
+              <line x1="152" y1="496" x2="1047" y2="496" stroke="#2a2a3a" stroke-width="2"/>
+              <line x1="600" y1="496" x2="600" y2="516" stroke="#f59e0b" stroke-width="2" marker-end="url(#wf-arrow-amber)"/>
 
-              <!-- Horizontal merge line -->
-              <line x1="110" y1="470" x2="856" y2="470" stroke="#2a2a3a" stroke-width="1.5"/>
-              <line x1="460" y1="470" x2="460" y2="490" stroke="#5a5a72" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <!-- ══ ROW 4 — CONSULTATION BOX ══ -->
+              <rect x="200" y="518" width="800" height="100" rx="12" fill="#111118" stroke="#f59e0b" stroke-width="2"/>
+              <rect x="200" y="518" width="800" height="5" rx="2.5" fill="#f59e0b"/>
+              <rect x="200" y="518" width="800" height="100" rx="12" fill="url(#grad-amber)" opacity="0.4"/>
+              <text x="600" y="548" text-anchor="middle" fill="#f59e0b" font-size="13" font-weight="700" font-family="'JetBrains Mono',monospace" letter-spacing="0.08em">MULTI-PERSPECTIVE CONSULTATION</text>
+              <text x="600" y="568" text-anchor="middle" fill="#e8e8f0" font-size="11">Each dept assigns the problem to 2+ agents independently</text>
+              <text x="600" y="586" text-anchor="middle" fill="#9090a8" font-size="11">Director reviews all proposals · makes decision · logs rationale in DECISIONS.md</text>
+              <text x="600" y="606" text-anchor="middle" fill="#f59e0b" font-size="10" font-family="'JetBrains Mono',monospace">→ No decision made by one agent alone</text>
 
-              <!-- ── Row 4: Multi-Perspective Consultation ── -->
-              <rect x="230" y="490" width="460" height="90" rx="10" fill="#111118" stroke="#f59e0b" stroke-width="1.5"/>
-              <rect x="230" y="490" width="460" height="4" rx="2" fill="#f59e0b"/>
-              <text x="460" y="516" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="700" font-family="'JetBrains Mono',monospace" letter-spacing="0.04em">MULTI-PERSPECTIVE CONSULTATION</text>
-              <text x="460" y="534" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Each dept: 2+ agents propose independent approaches</text>
-              <text x="460" y="549" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Manager reviews all proposals → decides</text>
-              <text x="460" y="564" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Documents rationale in DECISIONS.md</text>
-              <text x="460" y="572" text-anchor="middle" fill="#f59e0b" font-size="9" font-family="'JetBrains Mono',monospace">──────────────────────────────</text>
+              <!-- ↓ -->
+              <line x1="600" y1="618" x2="600" y2="654" stroke="#22c55e" stroke-width="2" marker-end="url(#wf-arrow-green)"/>
+              <text x="606" y="640" fill="#22c55e" font-size="10" font-family="'JetBrains Mono',monospace">output passes up chain</text>
 
-              <!-- Arrow: Consultation → Review Gates -->
-              <line x1="460" y1="580" x2="460" y2="614" stroke="#5a5a72" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
+              <!-- ══ ROW 5 — REVIEW GATES ══ -->
+              <rect x="250" y="656" width="700" height="90" rx="12" fill="#111118" stroke="#22c55e" stroke-width="2"/>
+              <rect x="250" y="656" width="700" height="5" rx="2.5" fill="#22c55e"/>
+              <rect x="250" y="656" width="700" height="90" rx="12" fill="url(#grad-green)" opacity="0.5"/>
+              <text x="600" y="684" text-anchor="middle" fill="#22c55e" font-size="13" font-weight="700" font-family="'JetBrains Mono',monospace" letter-spacing="0.08em">REVIEW GATES</text>
+              <!-- 3-step chain inline -->
+              <text x="600" y="706" text-anchor="middle" fill="#e8e8f0" font-size="11">Sub-agent  →  Manager  →  Director / VP  →  Chief of Staff</text>
+              <text x="600" y="726" text-anchor="middle" fill="#9090a8" font-size="10">Each gate: quality check · if fail → return with specific feedback</text>
+              <text x="600" y="740" text-anchor="middle" fill="#22c55e" font-size="10" font-family="'JetBrains Mono',monospace">All sign-offs collected in review/SIGN_OFFS.md</text>
 
-              <!-- ── Row 5: Review Gates ── -->
-              <rect x="230" y="616" width="460" height="80" rx="10" fill="#111118" stroke="#22c55e" stroke-width="1.5"/>
-              <rect x="230" y="616" width="460" height="4" rx="2" fill="#22c55e"/>
-              <text x="460" y="641" text-anchor="middle" fill="#22c55e" font-size="11" font-weight="700" font-family="'JetBrains Mono',monospace" letter-spacing="0.04em">REVIEW GATES</text>
-              <text x="460" y="659" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Sub-agent output → Manager review</text>
-              <text x="460" y="674" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">→ Director / VP sign-off</text>
-              <text x="460" y="689" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">→ Chief of Staff approval</text>
+              <!-- ↓ -->
+              <line x1="600" y1="746" x2="600" y2="784" stroke="#f59e0b" stroke-width="2" marker-end="url(#wf-arrow-amber)"/>
+              <text x="606" y="769" fill="#f59e0b" font-size="10" font-family="'JetBrains Mono',monospace">all outputs approved</text>
 
-              <!-- Arrow: Review Gates → Chief of Staff (final) -->
-              <line x1="460" y1="696" x2="460" y2="730" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#wf-arrow-amber)"/>
-              <text x="465" y="716" fill="#f59e0b" font-size="9" font-family="'JetBrains Mono',monospace">all outputs submitted</text>
+              <!-- ══ ROW 6 — CHIEF OF STAFF FINAL ══ -->
+              <rect x="400" y="786" width="400" height="66" rx="12" fill="#1a1a24" stroke="#f59e0b" stroke-width="2.5"/>
+              <rect x="400" y="786" width="400" height="5" rx="2.5" fill="#f59e0b"/>
+              <rect x="400" y="786" width="400" height="66" rx="12" fill="url(#grad-amber)" opacity="0.4"/>
+              <text x="600" y="816" text-anchor="middle" fill="#e8e8f0" font-size="14" font-weight="700">Chief of Staff</text>
+              <text x="600" y="836" text-anchor="middle" fill="#f59e0b" font-size="10" font-family="'JetBrains Mono',monospace" letter-spacing="0.08em">FINAL QUALITY GATE</text>
+              <text x="600" y="848" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">reviews all dept outputs · confirms criteria met</text>
 
-              <!-- ── Row 6: Chief of Staff Final Review ── -->
-              <rect x="310" y="732" width="300" height="56" rx="10" fill="#1a1a24" stroke="#f59e0b" stroke-width="2"/>
-              <rect x="310" y="732" width="300" height="4" rx="2" fill="#f59e0b"/>
-              <text x="460" y="757" text-anchor="middle" fill="#e8e8f0" font-size="12" font-weight="700">Chief of Staff</text>
-              <text x="460" y="773" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">REVIEWS ALL DEPT OUTPUTS · QUALITY GATE</text>
+              <!-- ↓ -->
+              <line x1="600" y1="852" x2="600" y2="888" stroke="#f59e0b" stroke-width="2" marker-end="url(#wf-arrow-amber)"/>
+              <text x="606" y="874" fill="#f59e0b" font-size="10" font-family="'JetBrains Mono',monospace">pass to guide</text>
 
-              <!-- Arrow: CoS → Guide final -->
-              <line x1="460" y1="788" x2="460" y2="822" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#wf-arrow-amber)"/>
-              <text x="465" y="808" fill="#f59e0b" font-size="9" font-family="'JetBrains Mono',monospace">approved, pass to guide</text>
+              <!-- ══ ROW 7 — GUIDE & EXPLAINER SYNTHESIS ══ -->
+              <rect x="400" y="890" width="400" height="66" rx="12" fill="#1a1a24" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8,4"/>
+              <rect x="400" y="890" width="400" height="5" rx="2.5" fill="#f59e0b" opacity="0.7"/>
+              <text x="600" y="920" text-anchor="middle" fill="#e8e8f0" font-size="14" font-weight="600">Guide &amp; Explainer</text>
+              <text x="600" y="940" text-anchor="middle" fill="#9090a8" font-size="10" font-family="'JetBrains Mono',monospace">SYNTHESISES ALL OUTPUTS · PLAIN ENGLISH</text>
+              <text x="600" y="952" text-anchor="middle" fill="#f59e0b" font-size="9" font-family="'JetBrains Mono',monospace">writes review/DELIVERY_SUMMARY.md</text>
 
-              <!-- ── Row 7: Guide & Explainer final synthesis ── -->
-              <rect x="310" y="824" width="300" height="56" rx="10" fill="#1a1a24" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3"/>
-              <rect x="310" y="824" width="300" height="4" rx="2" fill="#f59e0b"/>
-              <text x="460" y="849" text-anchor="middle" fill="#e8e8f0" font-size="12" font-weight="600">Guide &amp; Explainer</text>
-              <text x="460" y="866" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">SYNTHESISES INTO PLAIN ENGLISH</text>
+              <!-- ↓ -->
+              <line x1="600" y1="956" x2="600" y2="992" stroke="#7c6cff" stroke-width="2.5" marker-end="url(#wf-arrow-accent)"/>
+              <text x="606" y="978" fill="#7c6cff" font-size="10" font-family="'JetBrains Mono',monospace">plain English delivery</text>
 
-              <!-- Arrow: Guide → Atharva delivery -->
-              <line x1="460" y1="880" x2="460" y2="914" stroke="#7c6cff" stroke-width="2" marker-end="url(#wf-arrow-accent)"/>
-              <text x="465" y="900" fill="#7c6cff" font-size="9" font-family="'JetBrains Mono',monospace">plain English delivery</text>
+              <!-- ══ ROW 8 — ATHARVA DELIVERY ══ -->
+              <rect x="450" y="994" width="300" height="66" rx="12" fill="#1a1a24" stroke="#7c6cff" stroke-width="2.5"/>
+              <rect x="450" y="994" width="300" height="5" rx="2.5" fill="#7c6cff"/>
+              <rect x="450" y="994" width="300" height="66" rx="12" fill="url(#grad-accent)" opacity="0.5"/>
+              <text x="600" y="1024" text-anchor="middle" fill="#e8e8f0" font-size="17" font-weight="700" letter-spacing="0.02em">Atharva</text>
+              <text x="600" y="1046" text-anchor="middle" fill="#7c6cff" font-size="10" font-family="'JetBrains Mono',monospace" letter-spacing="0.12em">REVIEWS · APPROVES · PUSHES</text>
 
-              <!-- ── Row 8: Atharva (delivery) ── -->
-              <rect x="360" y="916" width="200" height="56" rx="10" fill="#1a1a24" stroke="#7c6cff" stroke-width="2"/>
-              <rect x="360" y="916" width="200" height="4" rx="2" fill="#7c6cff"/>
-              <text x="460" y="942" text-anchor="middle" fill="#e8e8f0" font-size="13" font-weight="700">Atharva</text>
-              <text x="460" y="959" text-anchor="middle" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">OWNER · RECEIVES DELIVERY</text>
+              <!-- ══ SIGN-OFF BADGES ══ -->
+              <text x="600" y="1090" text-anchor="middle" fill="#3a3a4e" font-size="10" font-family="'JetBrains Mono',monospace" letter-spacing="0.08em">REQUIRED BEFORE DELIVERY</text>
+              <!-- 5 badges: Security, QA, DevOps, Tech Writer, Guide — spread across 1200px -->
+              <!-- centers: 130, 330, 600, 870, 1070 -->
+              <rect x="40" y="1102" width="180" height="40" rx="8" fill="#111118" stroke="#ef4444" stroke-width="1.5"/>
+              <text x="130" y="1119" text-anchor="middle" fill="#ef4444" font-size="11" font-weight="700" font-family="'JetBrains Mono',monospace">Dir. Security</text>
+              <text x="130" y="1135" text-anchor="middle" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace">security sign-off</text>
 
-              <!-- ── Sign-off checks row (quality gate details) ── -->
-              <text x="460" y="1006" text-anchor="middle" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace" letter-spacing="0.04em">BEFORE DELIVERY — REQUIRED SIGN-OFFS</text>
+              <rect x="240" y="1102" width="180" height="40" rx="8" fill="#111118" stroke="#22c55e" stroke-width="1.5"/>
+              <text x="330" y="1119" text-anchor="middle" fill="#22c55e" font-size="11" font-weight="700" font-family="'JetBrains Mono',monospace">Dir. QA</text>
+              <text x="330" y="1135" text-anchor="middle" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace">QA sign-off</text>
 
-              <!-- 5 sign-off badges -->
-              <!-- Security -->
-              <rect x="60" y="1016" width="155" height="36" rx="7" fill="#111118" stroke="#ef4444" stroke-width="1"/>
-              <text x="137" y="1030" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="700" font-family="'JetBrains Mono',monospace">Dir. Security</text>
-              <text x="137" y="1044" text-anchor="middle" fill="#5a5a72" font-size="8" font-family="'JetBrains Mono',monospace">security sign-off</text>
+              <rect x="510" y="1102" width="180" height="40" rx="8" fill="#111118" stroke="#7c6cff" stroke-width="1.5"/>
+              <text x="600" y="1119" text-anchor="middle" fill="#7c6cff" font-size="11" font-weight="700" font-family="'JetBrains Mono',monospace">Dir. DevOps</text>
+              <text x="600" y="1135" text-anchor="middle" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace">deployment stable</text>
 
-              <!-- QA -->
-              <rect x="230" y="1016" width="155" height="36" rx="7" fill="#111118" stroke="#22c55e" stroke-width="1"/>
-              <text x="307" y="1030" text-anchor="middle" fill="#22c55e" font-size="9" font-weight="700" font-family="'JetBrains Mono',monospace">Dir. QA</text>
-              <text x="307" y="1044" text-anchor="middle" fill="#5a5a72" font-size="8" font-family="'JetBrains Mono',monospace">QA sign-off</text>
+              <rect x="780" y="1102" width="180" height="40" rx="8" fill="#111118" stroke="#3b82f6" stroke-width="1.5"/>
+              <text x="870" y="1119" text-anchor="middle" fill="#3b82f6" font-size="11" font-weight="700" font-family="'JetBrains Mono',monospace">Tech. Writer</text>
+              <text x="870" y="1135" text-anchor="middle" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace">docs complete</text>
 
-              <!-- DevOps -->
-              <rect x="400" y="1016" width="155" height="36" rx="7" fill="#111118" stroke="#7c6cff" stroke-width="1"/>
-              <text x="477" y="1030" text-anchor="middle" fill="#7c6cff" font-size="9" font-weight="700" font-family="'JetBrains Mono',monospace">Dir. DevOps</text>
-              <text x="477" y="1044" text-anchor="middle" fill="#5a5a72" font-size="8" font-family="'JetBrains Mono',monospace">deployment stable</text>
-
-              <!-- Tech Writer -->
-              <rect x="570" y="1016" width="155" height="36" rx="7" fill="#111118" stroke="#3b82f6" stroke-width="1"/>
-              <text x="647" y="1030" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="700" font-family="'JetBrains Mono',monospace">Technical Writer</text>
-              <text x="647" y="1044" text-anchor="middle" fill="#5a5a72" font-size="8" font-family="'JetBrains Mono',monospace">docs complete</text>
-
-              <!-- Guide -->
-              <rect x="740" y="1016" width="130" height="36" rx="7" fill="#111118" stroke="#f59e0b" stroke-width="1"/>
-              <text x="805" y="1030" text-anchor="middle" fill="#f59e0b" font-size="9" font-weight="700" font-family="'JetBrains Mono',monospace">Guide</text>
-              <text x="805" y="1044" text-anchor="middle" fill="#5a5a72" font-size="8" font-family="'JetBrains Mono',monospace">summary ready</text>
-
-              <!-- Arrows from sign-off row up to CoS final review -->
-              <line x1="137" y1="1016" x2="137" y2="992" stroke="#ef4444" stroke-width="1" stroke-dasharray="4,2"/>
-              <line x1="307" y1="1016" x2="307" y2="992" stroke="#22c55e" stroke-width="1" stroke-dasharray="4,2"/>
-              <line x1="477" y1="1016" x2="477" y2="992" stroke="#7c6cff" stroke-width="1" stroke-dasharray="4,2"/>
-              <line x1="647" y1="1016" x2="647" y2="992" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,2"/>
-              <line x1="805" y1="1016" x2="805" y2="992" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,2"/>
-              <line x1="60" y1="992" x2="870" y2="992" stroke="#2a2a3a" stroke-width="1"/>
-              <line x1="460" y1="992" x2="460" y2="972" stroke="#5a5a72" stroke-width="1"/>
-
-              <!-- ── Legend ── -->
-              <rect x="20" y="1090" width="880" height="1" fill="#2a2a3a"/>
-              <text x="460" y="1108" text-anchor="middle" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace" letter-spacing="0.06em">LEGEND</text>
-
-              <!-- Legend items -->
-              <line x1="60" y1="1122" x2="100" y2="1122" stroke="#5a5a72" stroke-width="1.5" marker-end="url(#wf-arrow)"/>
-              <text x="108" y="1126" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Direct handoff</text>
-
-              <line x1="220" y1="1122" x2="260" y2="1122" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#wf-arrow-amber)"/>
-              <text x="268" y="1126" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Parallel monitor</text>
-
-              <line x1="400" y1="1122" x2="440" y2="1122" stroke="#5a5a72" stroke-width="1.2" stroke-dasharray="4,2"/>
-              <text x="448" y="1126" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Required input</text>
-
-              <rect x="580" y="1116" width="10" height="10" rx="2" fill="none" stroke="#7c6cff" stroke-width="1.5"/>
-              <text x="598" y="1126" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Dept / role node</text>
-
-              <rect x="730" y="1116" width="10" height="10" rx="2" fill="none" stroke="#5a5a72" stroke-width="1.5" stroke-dasharray="5,3"/>
-              <text x="748" y="1126" fill="#9090a8" font-size="9" font-family="'JetBrains Mono',monospace">Optional / parallel</text>
-
-              <!-- Caption -->
-              <text x="460" y="1160" text-anchor="middle" fill="#3a3a4e" font-size="9" font-family="'JetBrains Mono',monospace">Task lifecycle · Atharva's AI Organisation · Static reference diagram</text>
+              <rect x="980" y="1102" width="180" height="40" rx="8" fill="#111118" stroke="#f59e0b" stroke-width="1.5"/>
+              <text x="1070" y="1119" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="700" font-family="'JetBrains Mono',monospace">Guide</text>
+              <text x="1070" y="1135" text-anchor="middle" fill="#5a5a72" font-size="9" font-family="'JetBrains Mono',monospace">summary ready</text>
 
             </svg>
           </div>
