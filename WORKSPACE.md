@@ -79,6 +79,29 @@ review/APPROVAL.md            — ATHARVA writes APPROVED or REJECTED here
 ### Knowledge base
 knowledge/                — Knowledge Manager owns entire directory
 
+## Workflow protocol (mandatory)
+Read this before every task:
+knowledge/protocols/WORKFLOW_PROTOCOL.md
+
+Key rules:
+- Every significant decision requires 2+ independent agent proposals before the manager decides
+- Every decision is documented in org/DECISIONS.md before implementation begins
+- All inter-agent communication is written to shared files — never assumed
+- Every output passes through the full review chain before reaching Atharva
+
+## New departments — directories
+docs/marketing/             — Director of Marketing
+docs/sales/                 — Sales Director
+docs/finance/               — Finance Director
+docs/legal/                 — General Counsel
+docs/data/                  — Head of Data
+docs/design/                — Creative Director
+docs/support/               — Head of Support
+docs/research/              — Research Director
+docs/operations/            — COO
+docs/pr/                    — PR Director
+docs/strategy/              — Chief Strategy Officer
+
 ## Rules every agent must follow — no exceptions
 
 ### Rule 1 — directory creation
