@@ -3802,33 +3802,147 @@
     return out;
   }
 
-  // Map an ACTIVITY.md ALL_CAPS role to an AGENT_REGISTRY Title-Case name.
+  // Map an ACTIVITY.md ALL_CAPS role to an AGENT_REGISTRY exact name.
+  // Covers all 90 agents. Falls back to registry fuzzy-match so future
+  // agents work automatically without needing a special case added here.
   function roleToName(role) {
     if (!role) return null;
     const special = {
-      FULL_STACK_TESTER: 'Full Stack Tester',
-      SAST_DAST_ENGINEER: 'SAST/DAST Engineer',
+      // Executive
+      CHIEF_OF_STAFF: 'Chief of Staff',
       GUIDE_EXPLAINER: 'Guide and Explainer',
       GUIDE: 'Guide and Explainer',
-      CICD_ENGINEER: 'CI/CD Engineer',
-      INFRA_ENGINEER: 'Infrastructure Engineer',
-      INFRASTRUCTURE_ENGINEER: 'Infrastructure Engineer',
-      DEV_TEAM_LEAD: 'Dev Team Lead',
-      SENIOR_PM: 'Senior Project Manager',
+      // HR
+      HR_MANAGER: 'HR Manager',
       AGENT_PERFORMANCE: 'Agent Performance Manager',
-      SRE: 'SRE',
+      AGENT_PERFORMANCE_MANAGER: 'Agent Performance Manager',
+      ORG_DESIGNER: 'Org Designer',
+      KNOWLEDGE_MANAGER: 'Knowledge Manager',
+      // PM
+      SENIOR_PM: 'Senior Project Manager',
+      SENIOR_PROJECT_MANAGER: 'Senior Project Manager',
+      RISK_MANAGER: 'Risk Manager',
+      REQUIREMENTS_ANALYST: 'Requirements Analyst',
+      DELIVERY_MANAGER: 'Delivery Manager',
+      // Engineering
+      VP_ENGINEERING: 'VP Engineering',
+      SOLUTION_ARCHITECT: 'Solution Architect',
+      DEV_TEAM_LEAD: 'Dev Team Lead',
+      BACKEND_DEVELOPER: 'Backend Developer',
+      FRONTEND_DEVELOPER: 'Frontend Developer',
       DB_ENGINEER: 'DB Engineer',
+      MOBILE_DEVELOPER: 'Mobile Developer',
+      INTEGRATION_ENGINEER: 'Integration Engineer',
+      CODE_REVIEWER: 'Code Reviewer',
+      TECHNICAL_WRITER: 'Technical Writer',
+      // Security
+      DIRECTOR_SECURITY: 'Director Security',
+      SECURITY_ARCHITECT: 'Security Architect',
+      PENETRATION_TESTER: 'Penetration Tester',
+      SAST_DAST_ENGINEER: 'SAST/DAST Engineer',
+      COMPLIANCE_AUDITOR: 'Compliance Auditor',
+      // QA
+      DIRECTOR_QA: 'Director QA',
+      FULL_STACK_TESTER: 'Full Stack Tester',
+      PERFORMANCE_TESTER: 'Performance Tester',
+      TEST_AUTOMATION_ENGINEER: 'Test Automation Engineer',
+      // DevOps
+      DIRECTOR_DEVOPS: 'Director DevOps',
+      INFRASTRUCTURE_ENGINEER: 'Infrastructure Engineer',
+      INFRA_ENGINEER: 'Infrastructure Engineer',
+      CICD_ENGINEER: 'CI/CD Engineer',
+      MONITORING_ENGINEER: 'Monitoring Engineer',
+      CONTAINER_ENGINEER: 'Container Engineer',
+      SRE: 'SRE',
+      // Product
+      PRODUCT_MANAGER: 'Product Manager',
       UX_DESIGNER: 'UX Designer',
       UI_DESIGNER: 'UI Designer',
+      BUSINESS_ANALYST: 'Business Analyst',
+      // Marketing
+      DIRECTOR_MARKETING: 'Director of Marketing',
+      DIRECTOR_OF_MARKETING: 'Director of Marketing',
+      CONTENT_STRATEGIST: 'Content Strategist',
+      SEO_SPECIALIST: 'SEO Specialist',
+      SOCIAL_MEDIA_MANAGER: 'Social Media Manager',
+      COPYWRITER: 'Copywriter',
+      GROWTH_HACKER: 'Growth Hacker',
+      // Sales
+      SALES_DIRECTOR: 'Sales Director',
+      ACCOUNT_EXECUTIVE: 'Account Executive',
+      SALES_DEVELOPMENT_REP: 'Sales Development Representative',
+      SDR: 'Sales Development Representative',
+      CUSTOMER_SUCCESS_MANAGER: 'Customer Success Manager',
+      // Finance
+      FINANCE_DIRECTOR: 'Finance Director',
+      FINANCIAL_ANALYST: 'Financial Analyst',
+      ACCOUNTANT: 'Accountant',
+      CA_ARJUN_MEHTA: 'CA Arjun Mehta',
+      TAX_ACCOUNTANT: 'Tax Accountant',
+      MANAGEMENT_ACCOUNTANT: 'Management Accountant',
+      TREASURY_ANALYST: 'Treasury Analyst',
+      HEAD_INVESTMENT_STRATEGY: 'Head of Investment Strategy',
+      HEAD_OF_INVESTMENT_STRATEGY: 'Head of Investment Strategy',
+      EQUITY_ANALYST: 'Equity Analyst',
+      FIXED_INCOME_ANALYST: 'Fixed Income Analyst',
+      ALTERNATIVES_ANALYST: 'Alternatives Analyst',
+      // Legal
+      GENERAL_COUNSEL: 'General Counsel',
+      CONTRACT_REVIEWER: 'Contract Reviewer',
+      IP_SPECIALIST: 'IP Specialist',
+      // Data
+      HEAD_OF_DATA: 'Head of Data',
+      DATA_ENGINEER: 'Data Engineer',
+      DATA_ANALYST: 'Data Analyst',
+      ML_ENGINEER: 'ML Engineer',
+      // Design
+      CREATIVE_DIRECTOR: 'Creative Director',
+      BRAND_DESIGNER: 'Brand Designer',
+      MOTION_DESIGNER: 'Motion Designer',
+      // Support
+      HEAD_OF_SUPPORT: 'Head of Support',
+      SUPPORT_AGENT: 'Support Agent',
+      SUPPORT_TECHNICAL_WRITER: 'Support Technical Writer',
+      // Research
+      RESEARCH_DIRECTOR: 'Research Director',
+      MARKET_RESEARCHER: 'Market Researcher',
+      COMPETITIVE_ANALYST: 'Competitive Analyst',
+      // Operations
+      COO: 'COO',
+      OPERATIONS_MANAGER: 'Operations Manager',
+      PROCESS_ANALYST: 'Process Analyst',
+      // PR
+      PR_DIRECTOR: 'PR Director',
+      PR_MANAGER: 'PR Manager',
+      COMMUNICATIONS_SPECIALIST: 'Communications Specialist',
+      // Strategy
+      CHIEF_STRATEGY_OFFICER: 'Chief Strategy Officer',
+      CSO: 'Chief Strategy Officer',
+      STRATEGY_ANALYST: 'Strategy Analyst',
+      // Career
+      CAREER_COACH: 'Career Coach',
+      CV_SPECIALIST: 'CV Specialist',
+      PORTFOLIO_SPECIALIST: 'Portfolio Specialist',
+      RECRUITER: 'Recruiter',
+      LINKEDIN_SPECIALIST: 'LinkedIn Specialist',
     };
     if (special[role]) return special[role];
+
+    // Fuzzy fallback: normalise and match against the live registry so future
+    // agents work without needing a new special case.
+    const norm = s => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const roleNorm = norm(role.replace(/_/g, ''));
+    const registryMatch = agentRegistry.find(a => norm(a.name) === roleNorm);
+    if (registryMatch) return registryMatch.name;
+
+    // Last resort: naive title-case
     return role.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
   }
 
-  // Department -> CSS colour var (FEATURE 3).
+  // Department -> CSS colour var — covers all 21 departments.
   function deptColor(dept) {
     const d = (dept || '').toLowerCase();
-    if (d === 'executive') return 'var(--amber)';
+    if (d === 'executive' || d === 'owner') return 'var(--amber)';
     if (d === 'hr') return 'var(--pink)';
     if (d === 'pm' || d.includes('project')) return 'var(--teal)';
     if (d === 'engineering') return 'var(--blue)';
@@ -3836,6 +3950,18 @@
     if (d === 'qa') return 'var(--green)';
     if (d === 'devops') return 'var(--accent)';
     if (d === 'product') return 'var(--cyan)';
+    if (d === 'marketing') return '#f97316';   // orange
+    if (d === 'sales') return '#84cc16';       // lime
+    if (d === 'finance') return '#10b981';     // emerald
+    if (d === 'legal') return '#8b5cf6';       // violet
+    if (d === 'data') return '#06b6d4';        // cyan (same as product — intentional split)
+    if (d === 'design') return '#ec4899';      // pink (distinct from HR pink)
+    if (d === 'support') return '#f59e0b';     // amber-ish
+    if (d === 'research') return '#3b82f6';    // blue
+    if (d === 'operations') return '#6366f1';  // indigo
+    if (d === 'pr') return '#e11d48';          // rose
+    if (d === 'strategy') return '#0ea5e9';    // sky
+    if (d === 'career') return '#d97706';      // warm amber
     return 'var(--text2)';
   }
 
