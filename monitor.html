@@ -2313,6 +2313,9 @@
                 <marker id="wf-arrow-teal" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
                   <polygon points="0 0, 10 3.5, 0 7" fill="#14b8a6"/>
                 </marker>
+                <marker id="wf-arrow-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" fill="#22c55e"/>
+                </marker>
                 <linearGradient id="grad-amber" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:0.15"/>
                   <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:0.05"/>
@@ -3049,7 +3052,7 @@
   function parseActivityLive(content) {
     const lines = activityLines(content);
     const cutoff = Date.now() - 60 * 60 * 1000;
-    const todayStr = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+    const todayStr = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD local time
     const live = lines.filter(line => {
       const hasTime = /^\s*\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(line);
       if (hasTime) {
@@ -3429,7 +3432,9 @@
   // doesn't exist in allFiles yet is "pending."
   function buildPendingDocs(allFiles, allActivityEntries) {
     const mentioned = extractActivityFilePaths(allActivityEntries);
-    return mentioned.filter(p => !allFiles.some(f => f === p || f.endsWith('/' + p.split('/').pop())));
+    // Use full path comparison — filename-only match causes false negatives when
+    // two different projects have files with the same name
+    return mentioned.filter(p => !allFiles.some(f => f === p || f === p.replace(/^\//, '')));
   }
 
   async function renderDeliverables(files, activityEntries) {
@@ -4202,7 +4207,7 @@
     document.getElementById('viewer-filepath').textContent = agent.name;
     const st = agentStatusFor(name);
     const stLabel = { working: 'Working', recent: 'Active', ready: 'Ready', idle: 'Unknown' }[st] || 'Ready';
-    const stColor = { working: 'var(--amber)', recent: 'var(--green)', idle: 'var(--text3)' }[st];
+    const stColor = { working: 'var(--amber)', recent: 'var(--green)', ready: 'var(--teal)', idle: 'var(--text3)' }[st] || 'var(--teal)';
     document.getElementById('viewer-size').innerHTML =
       `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${stColor};margin-right:5px;"></span>${stLabel}`;
     document.getElementById('viewer-modified').textContent = agent.dept + ' · ' + agent.status;
@@ -4340,7 +4345,7 @@
       // Per-agent activity stats drive org chart dots, agent table, and 48h views.
       computeAgentActivity(activityEntries, lastActivityRaw);
 
-      renderActivity(activityEntries);
+      // renderActivity() removed — target element (activity-feed) no longer exists post-redesign
       const decisionEntries = parseDecisionEntries(decContent);
       renderDecisions(decisionEntries);
       const blockerEntries = parseBlockerEntries(blkContent || '');
@@ -4359,10 +4364,14 @@
       if (statActions) statActions.textContent = liveEntries.length;
 
       // List all files across the three scanned dirs
+      // Run all 3 directory scans in parallel — was sequential (blocked render pipeline)
       const allFiles = [];
-      for (const dir of ['docs', 'org', 'review']) {
-        await listFilesRecursive(orgHandle, dir, allFiles);
-      }
+      const [d, o, r] = await Promise.all([
+        listFilesRecursive(orgHandle, 'docs', []),
+        listFilesRecursive(orgHandle, 'org', []),
+        listFilesRecursive(orgHandle, 'review', []),
+      ]);
+      allFiles.push(...d, ...o, ...r);
 
       // ── Feed tab: live-only sections (CHANGE 2 + 3) — always update ──
       renderLiveNow(liveEntries, allFiles);
@@ -4385,7 +4394,7 @@
       else if (activeTab === 'agents') updateAgentTable();
 
       renderNewFiles(allFiles);
-      await renderDeliverables(allFiles, activityEntries);
+      // renderDeliverables() removed — target element no longer exists in the Feed tab redesign
       renderReviewFiles(allFiles);
 
       // Reset live badge to green in case it was in error state

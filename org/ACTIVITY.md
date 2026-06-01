@@ -48,6 +48,7 @@
 2026-06-01 CHIEF_OF_STAFF — CREATED — agents/qa/director_qa/CLAUDE.md — New Director QA agent with full review gate and escalation chain
 2026-06-01 CHIEF_OF_STAFF — CREATED — agents/devops/director_devops/CLAUDE.md — New Director DevOps agent with full review gate and escalation chain
 2026-06-01 CHIEF_OF_STAFF — MODIFIED — org/AGENT_REGISTRY.md — Fixed all reporting lines, added 4 new director agents, 39 total agents, full escalation chains documented
+2026-06-01 PERFORMANCE_TESTER — CREATED — docs/projects/monitor/PERFORMANCE_REPORT.md — Performance audit of monitor.html refresh cycle and DOM rendering
 2026-06-01 CHIEF_OF_STAFF — MODIFIED — agents/engineering/solution_architect/CLAUDE.md — Escalation now routes through VP Engineering
 2026-06-01 CHIEF_OF_STAFF — MODIFIED — agents/security/security_architect/CLAUDE.md — Escalation now routes through Director Security
 2026-06-01 CHIEF_OF_STAFF — MODIFIED — agents/qa/full_stack_tester/CLAUDE.md — Escalation now routes through Director QA
@@ -99,3 +100,13 @@
 2026-06-01 INTEGRATION_ENGINEER — CREATED — docs/projects/financial-dashboard/INTEGRATION_ROADMAP.md — Live FX rate + CSV import feasible now, Open Banking needs backend
 2026-06-01 BACKEND_DEVELOPER — CREATED — docs/projects/financial-dashboard/BACKEND_SPEC.md — Hono + Supabase + Cloudflare spec, E2EE, $0/month under 100 users
 2026-06-01 TECHNICAL_WRITER — MODIFIED — src/projects/financial-dashboard/README.md — Accurate architecture docs: no auth, plain localStorage, setup highlighting
+2026-06-01 CODE_REVIEWER — CREATED — docs/projects/financial-dashboard/CODE_REVIEW_PASS2.md — Conditional pass: dashboard.js fix confirmed good, found load() camelCase bug
+2026-06-01 LINKEDIN_SPECIALIST — CREATED — docs/career/linkedin/LINKEDIN_STRATEGY.md — LinkedIn profile optimisation and 30-day content strategy
+2026-06-01 RECRUITER — CREATED — docs/career/job-search/UK_MARKET_ANALYSIS.md — UK cybersecurity market analysis, salary targets, top 10 companies
+2026-06-01 DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard/js/store.js — Fixed load() camelCase key routing bug found in code review
+2026-06-01 CHIEF_OF_STAFF — SPAWNED — Guide and Explainer — Writing plain English recap of all completed workstreams for Atharva
+2026-06-01 GUIDE_EXPLAINER — CREATED — review/DELIVERY_SUMMARY.md — Plain English session recap covering all 12 completed workstreams
+2026-06-01 GUIDE_EXPLAINER — COMPLETED — review/DELIVERY_SUMMARY.md — Session recap written and delivered to Atharva covering all 12 workstreams
+2026-06-01 GUIDE_EXPLAINER — ACTIVE — All workstreams reviewed and synthesised — Guide and Explainer operational
+2026-06-01 PERFORMANCE_TESTER — CREATED — docs/projects/monitor/PERFORMANCE_REPORT.md — Performance audit: sequential scans, dead code calls, innerHTML churn identified
+2026-06-01 FULL_STACK_TESTER — CREATED — docs/projects/monitor/QA_REPORT.md — Comprehensive static QA audit of monitor.html all 5 tabs and global functions
