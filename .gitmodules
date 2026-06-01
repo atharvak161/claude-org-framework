@@ -1,0 +1,6 @@
+[submodule "src/projects/atharvak161-github-io"]
+	path = src/projects/atharvak161-github-io
+	url = https://github.com/atharvak161/atharvak161.github.io.git
+[submodule "src/projects/atharvak161-profile"]
+	path = src/projects/atharvak161-profile
+	url = https://github.com/atharvak161/atharvak161.git
