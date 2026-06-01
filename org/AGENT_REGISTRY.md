@@ -98,6 +98,23 @@
 | Finance Director | Finance | agents/finance/finance_director/ | Chief of Staff | Active |
 | Financial Analyst | Finance | agents/finance/financial_analyst/ | Finance Director | Active |
 | Accountant | Finance | agents/finance/accountant/ | Finance Director | Active |
+| CA Arjun Mehta | Finance | agents/finance/ca_arjun_mehta/ | Finance Director | Active |
+| Tax Accountant | Finance | agents/finance/tax_accountant/ | CA Arjun Mehta | Active |
+| Management Accountant | Finance | agents/finance/management_accountant/ | CA Arjun Mehta | Active |
+| Treasury Analyst | Finance | agents/finance/treasury_analyst/ | CA Arjun Mehta | Active |
+| Head of Investment Strategy | Finance | agents/finance/head_investment_strategy/ | CA Arjun Mehta | Active |
+| Equity Analyst | Finance | agents/finance/equity_analyst/ | Head of Investment Strategy | Active |
+| Fixed Income Analyst | Finance | agents/finance/fixed_income_analyst/ | Head of Investment Strategy | Active |
+| Alternatives Analyst | Finance | agents/finance/alternatives_analyst/ | Head of Investment Strategy | Active |
+
+## Career Advisory
+| Agent | Department | Directory | Reports to | Status |
+|-------|-----------|-----------|------------|--------|
+| Career Coach | Career | agents/career/career_coach/ | HR Manager | Active |
+| CV Specialist | Career | agents/career/cv_specialist/ | HR Manager | Active |
+| Portfolio Specialist | Career | agents/career/portfolio_specialist/ | HR Manager | Active |
+| Recruiter | Career | agents/career/recruiter/ | HR Manager | Active |
+| LinkedIn Specialist | Career | agents/career/linkedin_specialist/ | HR Manager | Active |
 
 ## Legal
 | Agent | Department | Directory | Reports to | Status |
@@ -156,10 +173,10 @@
 | Strategy Analyst | Strategy | agents/strategy/strategy_analyst/ | Chief Strategy Officer | Active |
 
 ## Registry statistics
-Total agents: 76
-Active: 76
+Total agents: 90
+Active: 90
 Inactive: 0
-Departments: 19
+Departments: 21
 
 ## Full escalation chain
 Individual contributor → Manager → Senior/Director/VP → Chief of Staff → [discusses with Guide and Explainer] → Atharva

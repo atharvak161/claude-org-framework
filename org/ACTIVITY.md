@@ -47,3 +47,13 @@
 2026-06-01 CHIEF_OF_STAFF — MODIFIED — agents/qa/full_stack_tester/CLAUDE.md — Escalation now routes through Director QA
 2026-06-01 CHIEF_OF_STAFF — MODIFIED — agents/devops/infra_engineer/CLAUDE.md — Escalation now routes through Director DevOps
 2026-06-01 CHIEF_OF_STAFF — CREATED — agents/sales/ — Full Sales department: Sales Director, Account Executive, SDR, Customer Success Manager
+2026-06-01 DEV_TEAM_LEAD — CREATED — docs/projects/financial-dashboard/MATH_AUDIT.md — Deep mathematical audit of all calculation functions in calc.js and page files
+2026-06-01 DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard — Fixed 5 known issues + deep fault review, committed and pushed
+2026-06-01 DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard/js/page-init.js — Fixed empty-array guard in highlightEmptyData() expenses check
+2026-06-01 DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard/*.html — Added data-section attributes to all pages for setup highlighting
+2026-06-01 DEV_TEAM_LEAD — DELETED — src/projects/financial-dashboard/js/ui.js, js/settings.js — Removed dead legacy files (no HTML/module imports them)
+2026-06-01 DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard/js/pages/dashboard.js — Added null-safe setText() guard for gauge DOM refs
+2026-06-01 DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard/js/pages/networth.js — Fixed missing ulipValueGBP/ulipPremiumGBP imports (HIGH: was breaking NW timeline chart)
+2026-06-01 DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard/js/pages/expenses.js — Fixed await save_ -> await save_() so active-toggle persists
+2026-06-01 DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard/js/pages/analytics.js — Removed stray </div> in metrics table markup
+2026-06-01 DEV_TEAM_LEAD — CREATED — docs/projects/financial-dashboard/FAULT_REPORT.md — Full fault report

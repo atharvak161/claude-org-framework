@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Organisation Monitor</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
@@ -3045,16 +3046,24 @@
     });
   }
 
-  // LIVE: entries from the last 1 hour only, newest-first.
-  // Entries with a parseable date+time older than 1h are dropped.
-  // Entries with only a date (no time) resolve to 00:00 of that day, so only "today"
-  // (when within the hour) survives — older days drop out.
+  // LIVE: entries from today only, newest-first.
+  // If an entry has a full date+time, it must be within the last 1 hour.
+  // If an entry has only a date (no time — our standard log format), it is
+  // included if it matches today's date. This prevents all today's work from
+  // disappearing because the time resolves to 00:00.
   function parseActivityLive(content) {
     const lines = activityLines(content);
     const cutoff = Date.now() - 60 * 60 * 1000;
+    const todayStr = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
     const live = lines.filter(line => {
-      const ts = entryTimestampFull(line);
-      return ts === null ? false : ts >= cutoff;
+      const hasTime = /^\s*\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(line);
+      if (hasTime) {
+        const ts = entryTimestampFull(line);
+        return ts !== null && ts >= cutoff;
+      }
+      // Date-only entry — include if it's today
+      const dateMatch = (line || '').match(/^\s*(\d{4}-\d{2}-\d{2})/);
+      return !!(dateMatch && dateMatch[1] === todayStr);
     });
     return live.reverse();
   }
@@ -3064,14 +3073,21 @@
     return activityLines(content).reverse();
   }
 
-  // HISTORY: entries OLDER than 1 hour, newest-first. Entries with no parseable
-  // timestamp are treated as undated history (kept, since age can't be judged).
+  // HISTORY: entries from previous days only. Today's entries are "live".
   function parseActivityHistory(content) {
     const lines = activityLines(content);
     const cutoff = Date.now() - 60 * 60 * 1000;
+    const todayStr = new Date().toISOString().slice(0, 10);
     const older = lines.filter(line => {
-      const ts = entryTimestampFull(line);
-      return ts === null ? true : ts < cutoff;
+      const hasTime = /^\s*\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(line);
+      if (hasTime) {
+        const ts = entryTimestampFull(line);
+        return ts === null ? true : ts < cutoff;
+      }
+      // Date-only: history if NOT today
+      const dateMatch = (line || '').match(/^\s*(\d{4}-\d{2}-\d{2})/);
+      if (!dateMatch) return true;
+      return dateMatch[1] !== todayStr;
     });
     return older.reverse();
   }
