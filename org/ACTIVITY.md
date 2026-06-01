@@ -43,3 +43,4 @@
 2026-06-01 CHIEF_OF_STAFF — MODIFIED — agents/security/security_architect/CLAUDE.md — Escalation now routes through Director Security
 2026-06-01 CHIEF_OF_STAFF — MODIFIED — agents/qa/full_stack_tester/CLAUDE.md — Escalation now routes through Director QA
 2026-06-01 CHIEF_OF_STAFF — MODIFIED — agents/devops/infra_engineer/CLAUDE.md — Escalation now routes through Director DevOps
+2026-06-01 CHIEF_OF_STAFF — CREATED — agents/sales/ — Full Sales department: Sales Director, Account Executive, SDR, Customer Success Manager
