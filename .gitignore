@@ -1,0 +1,27 @@
+# Financial dashboard is its own separate git repo
+src/projects/financial-dashboard/
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# Secrets
+.env
+*.env
+secrets/
+*.key
+*.pem
+
+# Claude memory (local only)
+.claude/
+
+# Node / Python artefacts
+node_modules/
+__pycache__/
+*.pyc
+dist/
+build/
+
+# Editor
+.vscode/settings.json
+.idea/
