@@ -74,40 +74,92 @@
 | UI Designer | Product | agents/product/ui_designer/ | Product Manager | Active |
 | Business Analyst | Product | agents/product/business_analyst/ | Product Manager | Active |
 
+## Marketing
+| Agent | Department | Directory | Reports to | Status |
+|-------|-----------|-----------|------------|--------|
+| Director of Marketing | Marketing | agents/marketing/director_marketing/ | Chief of Staff | Active |
+| Content Strategist | Marketing | agents/marketing/content_strategist/ | Director of Marketing | Active |
+| SEO Specialist | Marketing | agents/marketing/seo_specialist/ | Director of Marketing | Active |
+| Social Media Manager | Marketing | agents/marketing/social_media_manager/ | Director of Marketing | Active |
+| Copywriter | Marketing | agents/marketing/copywriter/ | Director of Marketing | Active |
+| Growth Hacker | Marketing | agents/marketing/growth_hacker/ | Director of Marketing | Active |
+
+## Sales
+| Agent | Department | Directory | Reports to | Status |
+|-------|-----------|-----------|------------|--------|
+| Sales Director | Sales | agents/sales/sales_director/ | Chief of Staff | Active |
+| Account Executive | Sales | agents/sales/account_executive/ | Sales Director | Active |
+| Sales Development Representative | Sales | agents/sales/sales_development_rep/ | Sales Director | Active |
+| Customer Success Manager | Sales | agents/sales/customer_success_manager/ | Sales Director | Active |
+
+## Finance
+| Agent | Department | Directory | Reports to | Status |
+|-------|-----------|-----------|------------|--------|
+| Finance Director | Finance | agents/finance/finance_director/ | Chief of Staff | Active |
+| Financial Analyst | Finance | agents/finance/financial_analyst/ | Finance Director | Active |
+| Accountant | Finance | agents/finance/accountant/ | Finance Director | Active |
+
+## Legal
+| Agent | Department | Directory | Reports to | Status |
+|-------|-----------|-----------|------------|--------|
+| General Counsel | Legal | agents/legal/general_counsel/ | Chief of Staff | Active |
+| Contract Reviewer | Legal | agents/legal/contract_reviewer/ | General Counsel | Active |
+| IP Specialist | Legal | agents/legal/ip_specialist/ | General Counsel | Active |
+
+## Data & Analytics
+| Agent | Department | Directory | Reports to | Status |
+|-------|-----------|-----------|------------|--------|
+| Head of Data | Data | agents/data/head_of_data/ | Chief of Staff | Active |
+| Data Engineer | Data | agents/data/data_engineer/ | Head of Data | Active |
+| Data Analyst | Data | agents/data/data_analyst/ | Head of Data | Active |
+| ML Engineer | Data | agents/data/ml_engineer/ | Head of Data | Active |
+
+## Design
+| Agent | Department | Directory | Reports to | Status |
+|-------|-----------|-----------|------------|--------|
+| Creative Director | Design | agents/design/creative_director/ | Chief of Staff | Active |
+| Brand Designer | Design | agents/design/brand_designer/ | Creative Director | Active |
+| Motion Designer | Design | agents/design/motion_designer/ | Creative Director | Active |
+
+## Customer Support
+| Agent | Department | Directory | Reports to | Status |
+|-------|-----------|-----------|------------|--------|
+| Head of Support | Support | agents/support/head_of_support/ | Chief of Staff | Active |
+| Support Agent | Support | agents/support/support_agent/ | Head of Support | Active |
+| Support Technical Writer | Support | agents/support/support_technical_writer/ | Head of Support | Active |
+
+## Research
+| Agent | Department | Directory | Reports to | Status |
+|-------|-----------|-----------|------------|--------|
+| Research Director | Research | agents/research/research_director/ | Chief of Staff | Active |
+| Market Researcher | Research | agents/research/market_researcher/ | Research Director | Active |
+| Competitive Analyst | Research | agents/research/competitive_analyst/ | Research Director | Active |
+
+## Operations
+| Agent | Department | Directory | Reports to | Status |
+|-------|-----------|-----------|------------|--------|
+| COO | Operations | agents/operations/coo/ | Chief of Staff | Active |
+| Operations Manager | Operations | agents/operations/operations_manager/ | COO | Active |
+| Process Analyst | Operations | agents/operations/process_analyst/ | COO | Active |
+
+## PR & Communications
+| Agent | Department | Directory | Reports to | Status |
+|-------|-----------|-----------|------------|--------|
+| PR Director | PR | agents/pr/pr_director/ | Chief of Staff | Active |
+| PR Manager | PR | agents/pr/pr_manager/ | PR Director | Active |
+| Communications Specialist | PR | agents/pr/communications_specialist/ | PR Director | Active |
+
+## Strategy
+| Agent | Department | Directory | Reports to | Status |
+|-------|-----------|-----------|------------|--------|
+| Chief Strategy Officer | Strategy | agents/strategy/chief_strategy_officer/ | Chief of Staff | Active |
+| Strategy Analyst | Strategy | agents/strategy/strategy_analyst/ | Chief Strategy Officer | Active |
+
 ## Registry statistics
-Total agents: 39
-Active: 39
+Total agents: 76
+Active: 76
 Inactive: 0
-Departments: 8
+Departments: 19
 
-## Full escalation chain (every agent has a path to Atharva)
-
-Individual contributor → Team manager → Senior/Architect → Director/VP → Chief of Staff → [discusses with Guide and Explainer] → Atharva
-
-### Engineering chain
-Backend/Frontend/DB/Mobile/Integration/Code Reviewer/Technical Writer
-→ Dev Team Lead → Solution Architect → VP Engineering → Chief of Staff → Atharva
-
-### Security chain
-Penetration Tester / SAST/DAST Engineer / Compliance Auditor
-→ Security Architect → Director Security → Chief of Staff → Atharva
-
-### QA chain
-Performance Tester / Test Automation Engineer
-→ Full Stack Tester → Director QA → Chief of Staff → Atharva
-
-### DevOps chain
-CI/CD Engineer / Monitoring Engineer / Container Engineer / SRE
-→ Infrastructure Engineer → Director DevOps → Chief of Staff → Atharva
-
-### HR chain
-Agent Performance Manager / Org Designer / Knowledge Manager
-→ HR Manager → Chief of Staff → Atharva
-
-### PM chain
-Risk Manager / Requirements Analyst / Delivery Manager
-→ Senior Project Manager → Chief of Staff → Atharva
-
-### Product chain
-UX Designer / UI Designer / Business Analyst
-→ Product Manager → Chief of Staff → Atharva
+## Full escalation chain
+Individual contributor → Manager → Senior/Director/VP → Chief of Staff → [discusses with Guide and Explainer] → Atharva
