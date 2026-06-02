@@ -3,9 +3,16 @@
 # Purpose: Real-time feed of every file created, modified, or reviewed
 # Format: [DATE] [AGENT_ROLE] — [CREATED/MODIFIED/REVIEWED] — [file path] — [reason]
 # This file is how the Chief of Staff and Guide track what is happening
+2026-06-02 TAX_ACCOUNTANT — MODIFIED — docs/projects/financial-dashboard/features/INDIA_NRI_TAX_MODULE_SPEC.md — Fixed 2 blocking issues per CA review: rental income std deduction s.24(a), dividend flat rate s.115A. 5 minor amendments applied.
 
 ## Activity entries
 
+2026-06-02 FRONTEND_DEVELOPER — MODIFIED — src/projects/financial-dashboard — Implemented ISA/SIPP/LISA tracker and NPS/ELSS/PPF/SGB India investment tracker per spec
+2026-06-02 CA_ARJUN_MEHTA — CREATED — docs/finance/CA_NRI_SPEC_REVIEW.md — Reviewed India NRI tax module spec: answered 7 technical questions, verified slab tables, issued go/no-go
+2026-06-02 INTEGRATION_ENGINEER — CREATED — src/projects/financial-dashboard/js/fx-rate.js — Live GBP/INR rate fetch via Frankfurter API with 4h cache and graceful fallback
+2026-06-02 INTEGRATION_ENGINEER — MODIFIED — src/projects/financial-dashboard/js/pages/settings-page.js — Settings page now has live rate fetch button on Profile and Display tabs
+
+2026-06-02 TAX_ACCOUNTANT — CREATED — docs/projects/financial-dashboard/features/INDIA_NRI_TAX_MODULE_SPEC.md — India NRI tax module developer spec: Section 80E, ITR, DTAA relief, TDS tracker
 2026-06-01 FRONTEND_DEVELOPER — MODIFIED — src/projects/financial-dashboard/js/page-init.js — Fixed dynamic setup highlighting: clears on save, re-applies correctly
 2026-06-01 FRONTEND_DEVELOPER — VERIFIED — src/projects/financial-dashboard — data-section attributes verified on all pages, dashboard banner added
 2026-06-01 LINKEDIN_SPECIALIST — CREATED — docs/career/linkedin/LINKEDIN_STRATEGY.md — LinkedIn profile optimisation and 30-day content strategy
@@ -28,6 +35,9 @@
 2026-05-31 FRONTEND_DEVELOPER — MODIFIED — monitor.html — Full audit and fix of monitoring dashboard
 2026-05-31 FRONTEND_DEVELOPER — MODIFIED — monitor.html — Added live file content viewer panel
 2026-06-01 FRONTEND_DEVELOPER — MODIFIED — monitor.html — Added org chart, agent status table, 48h filter, tab navigation, interactive agent details
+2026-06-02 KNOWLEDGE_MANAGER — CREATED — knowledge/protocols/INTER_AGENT_COMMUNICATION.md — Inter-agent communication standard: request format, delivery format, consultation records
+2026-06-02 KNOWLEDGE_MANAGER — MODIFIED — WORKSPACE.md — Added reference to inter-agent communication protocol
+2026-06-02 KNOWLEDGE_MANAGER — CREATED — docs/consultations/SAMPLE_CONSULTATION.md — Sample consultation record for agent reference
 2026-06-01 FRONTEND_DEVELOPER — MODIFIED — monitor.html — Pass 2: live/history split, 1-hour live window, live agent task cards, History tab
 2026-06-01 CHIEF_OF_STAFF — CREATED — knowledge/ACCESS.md — GitHub credentials location reference for dev team and Chief of Staff
 2026-06-01 CHIEF_OF_STAFF — CONFIGURED — GitHub PAT stored in macOS Keychain and gh CLI — atharvak161, all repos, full scope
@@ -110,3 +120,15 @@
 2026-06-01 GUIDE_EXPLAINER — ACTIVE — All workstreams reviewed and synthesised — Guide and Explainer operational
 2026-06-01 PERFORMANCE_TESTER — CREATED — docs/projects/monitor/PERFORMANCE_REPORT.md — Performance audit: sequential scans, dead code calls, innerHTML churn identified
 2026-06-01 FULL_STACK_TESTER — CREATED — docs/projects/monitor/QA_REPORT.md — Comprehensive static QA audit of monitor.html all 5 tabs and global functions
+2026-06-01 CHIEF_OF_STAFF — MEP — Full organisation mobilisation — 10 parallel workstreams across Engineering, Finance, Career, Monitor, and Org Infrastructure
+2026-06-01 CHIEF_OF_STAFF — DECISION — Mobile navigation: hamburger menu (standard for dashboards, no screen real estate lost)
+2026-06-01 CHIEF_OF_STAFF — DECISION — Live FX rate: approved for immediate implementation (1 day, no backend)
+2026-06-01 CHIEF_OF_STAFF — DECISION — CSV import: Requirements Analyst writes spec first, then Dev Team implements
+2026-06-01 CHIEF_OF_STAFF — DECISION — India NRI module: Tax Accountant writes spec, CA Arjun Mehta reviews, Dev Team implements
+2026-06-02 MOBILE_DEVELOPER — MODIFIED — src/projects/financial-dashboard — Added hamburger navigation, iOS zoom fix, mobile touch targets — P0 and P1 mobile issues resolved
+2026-06-02 FRONTEND_DEVELOPER — MODIFIED — monitor.html — Performance: single ACTIVITY.md parse, content-hash render guards, metadata cache TTL
+2026-06-02 REQUIREMENTS_ANALYST — CREATED — docs/projects/financial-dashboard/features/INVESTMENT_TRACKER_SPEC.md — ISA/SIPP/LISA + NPS/ELSS/PPF/SGBs feature specification for developer implementation
+2026-06-02 TAX_ACCOUNTANT — CREATED — docs/projects/financial-dashboard/features/INDIA_NRI_TAX_MODULE_SPEC.md — India NRI tax module spec: 30+ fields, 7 calc functions, phased build plan, 7 CA review questions flagged
+2026-06-02 CHIEF_OF_STAFF — ESCALATED — docs/projects/financial-dashboard/features/INDIA_NRI_TAX_MODULE_SPEC.md — Routed to CA Arjun Mehta for 7 technical review questions before implementation
+2026-06-02 CA_ARJUN_MEHTA — CREATED — docs/finance/CA_NRI_SPEC_REVIEW.md — APPROVED WITH AMENDMENTS: 2 blocking issues found (rental income standard deduction, dividend flat rate), 5 minor amendments
+2026-06-02 CHIEF_OF_STAFF — DECISION — India NRI implementation BLOCKED — Tax Accountant must fix spec before Phase 2 starts: (1) rental income needs 30% std deduction per s.24(a), (2) dividend income needs flat 20% per s.115A not slab rates
