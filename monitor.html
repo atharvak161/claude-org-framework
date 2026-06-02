@@ -1433,50 +1433,41 @@
   }
 
   /* CoS → dept grid top-level connector */
+  /* Top connector: vertical line → horizontal bar → dept grid */
   .oc-top-connector {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0 auto 0;
     width: 100%;
+    position: relative;
   }
   .oc-top-connector-line {
     width: 2px;
     height: 28px;
     background: var(--border2);
+    flex-shrink: 0;
   }
+  /* Horizontal bar spanning the full width of the grid */
   .oc-top-connector-spread {
-    width: 85%;
+    width: 100%;
     height: 2px;
     background: var(--border2);
     position: relative;
-    margin-bottom: 0;
   }
-  /* Left and right drops go DOWN toward the dept grid */
-  .oc-top-connector-spread::before,
-  .oc-top-connector-spread::after {
-    content: '';
-    position: absolute;
-    width: 2px;
-    height: 20px;
-    background: var(--border2);
-    top: 0;
-  }
-  .oc-top-connector-spread::before { left: 0; }
-  .oc-top-connector-spread::after { right: 0; }
-  /* Centre drop — connects the middle column */
-  .oc-top-connector-spread .oc-spread-mid {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    width: 2px;
-    height: 20px;
-    background: var(--border2);
-    transform: translateX(-50%);
-  }
-  /* Extra padding so dept grid starts below the drops */
+  /* Dept grid sits directly below the horizontal bar */
   .oc-dept-grid {
-    padding-top: 20px;
+    padding-top: 0;
+    margin-top: 0;
+    position: relative;
+  }
+  /* Each cluster gets a short vertical drop from the bar above */
+  .oc-cluster::before {
+    content: '';
+    display: block;
+    width: 2px;
+    height: 16px;
+    background: var(--border2);
+    margin: 0 auto 10px;
   }
 
   /* ── Agent table (Tab 3) ───────────────────────────────────────────────── */
@@ -4229,7 +4220,7 @@
       </div>
       <div class="oc-top-connector">
         <div class="oc-top-connector-line"></div>
-        <div class="oc-top-connector-spread"><span class="oc-spread-mid"></span></div>
+        <div class="oc-top-connector-spread"></div>
       </div>
       <div class="oc-dept-grid">${clusters}</div>
     </div>`;

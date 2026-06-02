@@ -156,3 +156,10 @@
 2026-06-02 17:25 MANAGEMENT_ACCOUNTANT — CREATED — docs/finance/personal/MY_FINANCIAL_DATA_REFERENCE.md — All original financial figures recovered from git history for Atharva's reference
 2026-06-02 17:25 MANAGEMENT_ACCOUNTANT — CREATED — docs/finance/personal/MY_FINANCIAL_DATA.csv — Excel-compatible CSV of all financial data
 2026-06-02 21:31 CHIEF_OF_STAFF — MODIFIED — monitor.html — Fixed oc-top-connector: drops now go downward, 85% spread width, centre drop added
+2026-06-02 DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard — Fixed math audit medium items: hourlyRate uses hoursPerWeek, income tax label dynamic
+2026-06-02 21:45 CA_ARJUN_MEHTA — CREATED — docs/finance/CA_NRI_PHASE3_SIGNOFF.md — Phase 3 code review of India NRI tax module
+2026-06-02 21:35 INTEGRATION_ENGINEER — CREATED — src/projects/financial-dashboard/js/csv-import.js — CSV bank import: Revolut/Monzo/generic, FileReader API, deduplication, merchant categorisation
+2026-06-02 21:42 CHIEF_OF_STAFF — MEP — OT Tracker & Salary Predictor feature — 4 sub-features (shift logger, predictive salary, savings forecast, charts) assigned to Dev Team Lead + Frontend Developer
+2026-06-02 21:42 CHIEF_OF_STAFF — DECISION — Use calculateNetPay from calc.js not spec formula — corrected tax bands give accurate predictions
+2026-06-02 21:42 CHIEF_OF_STAFF — DECISION — Store as plain JSON in store.js (encryption removed) — fin_ot_shifts + fin_ot_monthly_summary
+2026-06-02 21:46 CHIEF_OF_STAFF — MODIFIED — monitor.html — Redesigned top connector: vertical line → full-width horizontal bar → per-cluster drop lines
