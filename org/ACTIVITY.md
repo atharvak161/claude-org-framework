@@ -7,6 +7,9 @@
 
 ## Activity entries
 
+2026-06-02 CREATIVE_DIRECTOR — CREATED — docs/design/CTF_DESIGN_CONSULTATION.md — Visual design consultation on CTF writeup section before publication
+2026-06-02 CAREER_COACH — CREATED — docs/career/CTF_CAREER_CONSULTATION.md — Career impact consultation on CTF writeups before portfolio publication
+
 2026-06-02 FRONTEND_DEVELOPER — MODIFIED — src/projects/financial-dashboard — Implemented ISA/SIPP/LISA tracker and NPS/ELSS/PPF/SGB India investment tracker per spec
 2026-06-02 CA_ARJUN_MEHTA — CREATED — docs/finance/CA_NRI_SPEC_REVIEW.md — Reviewed India NRI tax module spec: answered 7 technical questions, verified slab tables, issued go/no-go
 2026-06-02 INTEGRATION_ENGINEER — CREATED — src/projects/financial-dashboard/js/fx-rate.js — Live GBP/INR rate fetch via Frankfurter API with 4h cache and graceful fallback
@@ -135,3 +138,9 @@
 2026-06-02 CA_ARJUN_MEHTA — CREATED — docs/finance/CA_NRI_SPEC_REVIEW_V2.md — Second review of India NRI spec v1.1 — final go/no-go decision
 2026-06-02 CA_ARJUN_MEHTA — CREATED — docs/finance/CA_NRI_SPEC_REVIEW_V2.md — APPROVED: both blocking fixes verified, all 5 amendments confirmed, Phase 2 cleared for implementation
 2026-06-02 CHIEF_OF_STAFF — DECISION — India NRI tax module: implementation APPROVED — Frontend Developer assigned
+2026-06-02 PORTFOLIO_SPECIALIST — MODIFIED — src/projects/atharvak161-github-io/index.html — Portfolio pushed: headline repositioned, bio improved, skills rebuilt with ATS tags, GitHub link added, CTF placeholder added
+2026-06-02 FRONTEND_DEVELOPER — CREATED — src/projects/atharvak161-github-io/writeups/ — 5 CTF writeup HTML pages added to portfolio: Capture, Flag Vault, Flag Vault 2, Pickle Rick, Simple CTF
+2026-06-02 PORTFOLIO_SPECIALIST — CREATED — docs/career/portfolio/CTF_WRITEUP_CONSULTATION.md — Pre-push consultation on CTF writeup presentation strategy
+2026-06-02 FRONTEND_DEVELOPER — MODIFIED — src/projects/atharvak161-github-io — Applied all agent-recommended CTF writeup changes: reorder, CWE tags, severity badges, key takeaways, green borders, active voice cards — HOLDING FOR PUSH
+2026-06-02 CODE_REVIEWER — CREATED — docs/projects/financial-dashboard/CODE_REVIEW_FINAL.md — Final code review: calc functions, safeRate, new features, no hardcodes
+2026-06-02 FULL_STACK_TESTER — CREATED — docs/projects/monitor/MONITOR_AUDIT.md — Full audit of monitor.html: tabs, org chart, performance, roleToName, live feed
