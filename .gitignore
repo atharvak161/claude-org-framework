@@ -1,5 +1,4 @@
 # Financial dashboard is its own separate git repo
-src/projects/financial-dashboard/
 
 # macOS
 .DS_Store

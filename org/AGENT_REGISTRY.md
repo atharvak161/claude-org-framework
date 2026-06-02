@@ -173,8 +173,8 @@
 | Strategy Analyst | Strategy | agents/strategy/strategy_analyst/ | Chief Strategy Officer | Active |
 
 ## Registry statistics
-Total agents: 90
-Active: 90
+Total agents: 89
+Active: 89
 Inactive: 0
 Departments: 21
 
