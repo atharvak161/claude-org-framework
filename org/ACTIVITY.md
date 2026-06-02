@@ -151,3 +151,5 @@
 2026-06-02 FRONTEND_DEVELOPER — MODIFIED — monitor.html — Added hierarchy connector lines to org chart: within-cluster tree lines, CoS→dept connector, engineering nested hierarchy
 2026-06-02 16:43 FRONTEND_DEVELOPER — MODIFIED — monitor.html — Added hierarchy connector lines to org chart: tree lines, CoS→dept connector, engineering nested hierarchy
 2026-06-02 16:50 CHIEF_OF_STAFF — MODIFIED — monitor.html — Fixed org chart (removed color-mix, added --oc-color, error handling) + live feed shows only timestamped entries
+2026-06-02 17:05 VP_ENGINEERING — FIXED — src/projects/financial-dashboard/js/pages/settings-page.js — Diagnosed and fixed missing input fields regression
+2026-06-02 16:59 VP_ENGINEERING — FIXED — src/projects/financial-dashboard/js/pages/settings-page.js — TDZ ReferenceError: renderTab called before _pendingState/_currentStoreKey declared. Moved call after declarations. All input fields restored.
