@@ -4179,12 +4179,9 @@
       const orphans = rest.filter(a => !seen.has(a.name));
       if (orphans.length) {
         const orphanRows = orphans.map(ocAgentRow).join('');
-        if (reportsHTML) {
-          // Insert orphan rows into the existing reports wrapper.
-          reportsHTML = reportsHTML.replace('</div>', orphanRows + '</div>');
-        } else {
-          reportsHTML = `<div class="oc-cluster-reports">${orphanRows}</div>`;
-        }
+        // Append orphans in their own top-level reports wrapper so they keep
+        // the connector styling without corrupting the nested tree markup.
+        reportsHTML += `<div class="oc-cluster-reports">${orphanRows}</div>`;
       }
       const hasReports = rest.length > 0;
 
