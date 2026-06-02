@@ -3,10 +3,13 @@
 # Purpose: Real-time feed of every file created, modified, or reviewed
 # Format: [DATE] [AGENT_ROLE] — [CREATED/MODIFIED/REVIEWED] — [file path] — [reason]
 # This file is how the Chief of Staff and Guide track what is happening
+
+[2026-06-02] DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard/js/pages/settings-page.js — Auto-fetch live GBP/INR rate on page load, no button click required
 2026-06-02 TAX_ACCOUNTANT — MODIFIED — docs/projects/financial-dashboard/features/INDIA_NRI_TAX_MODULE_SPEC.md — Fixed 2 blocking issues per CA review: rental income std deduction s.24(a), dividend flat rate s.115A. 5 minor amendments applied.
 
 ## Activity entries
 
+2026-06-02 CREATIVE_DIRECTOR — CREATED — docs/design/ORG_CHART_SVG_REVIEW.md — Visual design review of restored SVG org chart
 2026-06-02 CREATIVE_DIRECTOR — CREATED — docs/design/CTF_DESIGN_CONSULTATION.md — Visual design consultation on CTF writeup section before publication
 2026-06-02 CAREER_COACH — CREATED — docs/career/CTF_CAREER_CONSULTATION.md — Career impact consultation on CTF writeups before portfolio publication
 
@@ -163,3 +166,7 @@
 2026-06-02 21:42 CHIEF_OF_STAFF — DECISION — Use calculateNetPay from calc.js not spec formula — corrected tax bands give accurate predictions
 2026-06-02 21:42 CHIEF_OF_STAFF — DECISION — Store as plain JSON in store.js (encryption removed) — fin_ot_shifts + fin_ot_monthly_summary
 2026-06-02 21:46 CHIEF_OF_STAFF — MODIFIED — monitor.html — Redesigned top connector: vertical line → full-width horizontal bar → per-cluster drop lines
+2026-06-02 21:51 FRONTEND_DEVELOPER — CREATED — src/projects/financial-dashboard/overtime.html + js/pages/overtime.js — OT Tracker & Salary Predictor: shift logger, predictive salary, savings forecast, 4 charts
+2026-06-02 21:53 FRONTEND_DEVELOPER — MODIFIED — monitor.html — Restored original SVG org chart with bezier hierarchy lines, removed HTML/CSS cluster design
+2026-06-02 22:05 CODE_REVIEWER — CREATED — docs/projects/monitor/CODE_REVIEW_ORG_CHART.md — Technical review of restored SVG org chart
+2026-06-02 22:15 VP_ENGINEERING — CREATED — docs/architecture/ORG_CHART_VPE_SIGNOFF.md — Manager sign-off on restored SVG org chart, 3 minor fixes applied
