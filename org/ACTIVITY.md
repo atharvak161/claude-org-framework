@@ -150,3 +150,4 @@
 2026-06-02 16:41 CHIEF_OF_STAFF — MODIFIED — WORKSPACE.md — Updated activity log format to include HH:MM timestamps for live monitor precision
 2026-06-02 FRONTEND_DEVELOPER — MODIFIED — monitor.html — Added hierarchy connector lines to org chart: within-cluster tree lines, CoS→dept connector, engineering nested hierarchy
 2026-06-02 16:43 FRONTEND_DEVELOPER — MODIFIED — monitor.html — Added hierarchy connector lines to org chart: tree lines, CoS→dept connector, engineering nested hierarchy
+2026-06-02 16:50 CHIEF_OF_STAFF — MODIFIED — monitor.html — Fixed org chart (removed color-mix, added --oc-color, error handling) + live feed shows only timestamped entries
