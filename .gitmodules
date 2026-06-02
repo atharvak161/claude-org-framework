@@ -4,3 +4,6 @@
 [submodule "src/projects/atharvak161-profile"]
 	path = src/projects/atharvak161-profile
 	url = https://github.com/atharvak161/atharvak161.git
+[submodule "src/projects/financial-dashboard"]
+	path = src/projects/financial-dashboard
+	url = https://github.com/atharvak161/finance-dashboard.git
