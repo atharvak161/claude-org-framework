@@ -120,11 +120,14 @@ write it there AND log it in org/DECISIONS.md explaining why.
 
 ### Rule 3 — log every file you create
 Immediately after creating or modifying any file, append to org/ACTIVITY.md:
-[DATE] [YOUR_ROLE] — CREATED — [full relative file path] — [one line reason]
+[DATE HH:MM] [YOUR_ROLE] — CREATED — [full relative file path] — [one line reason]
+
+Use the actual current time in HH:MM (24h) format so the live monitor shows
+precise timing. Example: 2026-06-02 14:30 SOLUTION_ARCHITECT — CREATED — ...
 
 ### Rule 4 — log every decision
 When you make any significant decision, append to org/DECISIONS.md:
-[DATE] [YOUR_ROLE] DECISION: [what was decided] — RATIONALE: [why]
+[DATE HH:MM] [YOUR_ROLE] DECISION: [what was decided] — RATIONALE: [why]
 
 ### Rule 5 — log every blocker
 If you cannot proceed, append to org/BLOCKERS.md immediately:

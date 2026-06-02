@@ -1381,6 +1381,85 @@
   .oc-agent-dot.ready { background: var(--teal); opacity: 0.6; }
   .oc-agent-dot.idle { background: var(--text3); opacity: 0.4; }
 
+  /* ── Org chart hierarchy connector lines ──────────────────────────────── */
+  /* Within-cluster hierarchy connectors */
+  .oc-cluster-reports {
+    position: relative;
+    padding-left: 20px;
+    margin-top: 4px;
+    border-left: 1px solid var(--border2);
+    margin-left: 16px;
+  }
+  .oc-cluster-reports.oc-empty { border-left: none; margin-top: 0; padding-left: 0; }
+  .oc-agent-node {
+    position: relative;
+  }
+  .oc-cluster-reports > .oc-agent-node::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    width: 16px;
+    height: 1px;
+    background: var(--border2);
+  }
+  /* Dot at junction */
+  .oc-cluster-reports > .oc-agent-node::after {
+    content: '';
+    position: absolute;
+    left: -22px;
+    top: calc(50% - 2px);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--border2);
+  }
+
+  /* Director → reports downward connector (only when reports exist) */
+  .oc-cluster-director.has-reports {
+    position: relative;
+  }
+  .oc-cluster-director.has-reports::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 8px;
+    background: var(--border2);
+  }
+
+  /* CoS → dept grid top-level connector */
+  .oc-top-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto 8px;
+  }
+  .oc-top-connector-line {
+    width: 2px;
+    height: 24px;
+    background: var(--border2);
+  }
+  .oc-top-connector-spread {
+    width: 60%;
+    height: 2px;
+    background: var(--border2);
+    position: relative;
+  }
+  .oc-top-connector-spread::before,
+  .oc-top-connector-spread::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 16px;
+    background: var(--border2);
+    bottom: 0;
+  }
+  .oc-top-connector-spread::before { left: 0; }
+  .oc-top-connector-spread::after { right: 0; }
+
   /* ── Agent table (Tab 3) ───────────────────────────────────────────────── */
   .agents-summary {
     background: var(--surface);
@@ -4045,6 +4124,28 @@
     </div>`;
   }
 
+  // Build a nested reports tree (HTML) for the given members, rooted at the
+  // agents whose manager is `rootName`. Recurses through reportsTo so deep
+  // hierarchies (e.g. Engineering: VP → SA → DTL → devs) render nested with
+  // connector lines, rather than a flat list. `seen` guards against cycles.
+  function ocBuildReportsTree(members, rootName, seen) {
+    seen = seen || new Set();
+    const rootNorm = (rootName || '').toLowerCase().trim();
+    const children = members.filter(a => {
+      if (seen.has(a.name)) return false;
+      return (a.reportsTo || '').toLowerCase().trim() === rootNorm;
+    });
+    if (!children.length) return '';
+    let html = '<div class="oc-cluster-reports">';
+    children.forEach(child => {
+      seen.add(child.name);
+      html += ocAgentRow(child);
+      html += ocBuildReportsTree(members, child.name, seen);
+    });
+    html += '</div>';
+    return html;
+  }
+
   // Pick the director of a department: the agent whose manager is the Chief of
   // Staff or Atharva (i.e. the cluster's top). Falls back to the first agent.
   function ocFindDirector(members) {
@@ -4070,7 +4171,24 @@
       const rest = members.filter(a => a !== director);
       const dirStatus = director ? agentStatusFor(director.name) : 'ready';
 
-      const directorHTML = director ? `<div class="oc-cluster-director" onclick="openAgentDetail('${escAttr(director.name)}')">
+      // Build the nested reports tree under the director using reportsTo.
+      const seen = new Set(director ? [director.name] : []);
+      let reportsHTML = director ? ocBuildReportsTree(members, director.name, seen) : '';
+      // Any members not reachable from the director (e.g. mismatched reportsTo)
+      // are appended flat so nobody silently disappears from the cluster.
+      const orphans = rest.filter(a => !seen.has(a.name));
+      if (orphans.length) {
+        const orphanRows = orphans.map(ocAgentRow).join('');
+        if (reportsHTML) {
+          // Insert orphan rows into the existing reports wrapper.
+          reportsHTML = reportsHTML.replace('</div>', orphanRows + '</div>');
+        } else {
+          reportsHTML = `<div class="oc-cluster-reports">${orphanRows}</div>`;
+        }
+      }
+      const hasReports = rest.length > 0;
+
+      const directorHTML = director ? `<div class="oc-cluster-director${hasReports ? ' has-reports' : ''}" onclick="openAgentDetail('${escAttr(director.name)}')">
           <span class="oc-agent-dot ${dirStatus}"></span>
           <span class="oc-agent-name">${escHtml(director.name)}</span>
         </div>` : '';
@@ -4081,7 +4199,7 @@
           <span class="oc-count">${members.length}</span>
         </div>
         ${directorHTML}
-        <div class="oc-cluster-agents">${rest.map(ocAgentRow).join('')}</div>
+        <div class="oc-cluster-agents">${reportsHTML}</div>
       </div>`;
     });
 
@@ -4099,6 +4217,10 @@
             Guide &amp; Explainer
           </div>
         </div>
+      </div>
+      <div class="oc-top-connector">
+        <div class="oc-top-connector-line"></div>
+        <div class="oc-top-connector-spread"></div>
       </div>
       <div class="oc-dept-grid">${clusters}</div>
     </div>`;
