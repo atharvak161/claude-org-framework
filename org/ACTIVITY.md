@@ -132,3 +132,6 @@
 2026-06-02 CHIEF_OF_STAFF — ESCALATED — docs/projects/financial-dashboard/features/INDIA_NRI_TAX_MODULE_SPEC.md — Routed to CA Arjun Mehta for 7 technical review questions before implementation
 2026-06-02 CA_ARJUN_MEHTA — CREATED — docs/finance/CA_NRI_SPEC_REVIEW.md — APPROVED WITH AMENDMENTS: 2 blocking issues found (rental income standard deduction, dividend flat rate), 5 minor amendments
 2026-06-02 CHIEF_OF_STAFF — DECISION — India NRI implementation BLOCKED — Tax Accountant must fix spec before Phase 2 starts: (1) rental income needs 30% std deduction per s.24(a), (2) dividend income needs flat 20% per s.115A not slab rates
+2026-06-02 CA_ARJUN_MEHTA — CREATED — docs/finance/CA_NRI_SPEC_REVIEW_V2.md — Second review of India NRI spec v1.1 — final go/no-go decision
+2026-06-02 CA_ARJUN_MEHTA — CREATED — docs/finance/CA_NRI_SPEC_REVIEW_V2.md — APPROVED: both blocking fixes verified, all 5 amendments confirmed, Phase 2 cleared for implementation
+2026-06-02 CHIEF_OF_STAFF — DECISION — India NRI tax module: implementation APPROVED — Frontend Developer assigned
