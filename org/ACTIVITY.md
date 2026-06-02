@@ -155,3 +155,4 @@
 2026-06-02 16:59 VP_ENGINEERING — FIXED — src/projects/financial-dashboard/js/pages/settings-page.js — TDZ ReferenceError: renderTab called before _pendingState/_currentStoreKey declared. Moved call after declarations. All input fields restored.
 2026-06-02 17:25 MANAGEMENT_ACCOUNTANT — CREATED — docs/finance/personal/MY_FINANCIAL_DATA_REFERENCE.md — All original financial figures recovered from git history for Atharva's reference
 2026-06-02 17:25 MANAGEMENT_ACCOUNTANT — CREATED — docs/finance/personal/MY_FINANCIAL_DATA.csv — Excel-compatible CSV of all financial data
+2026-06-02 21:31 CHIEF_OF_STAFF — MODIFIED — monitor.html — Fixed oc-top-connector: drops now go downward, 85% spread width, centre drop added
