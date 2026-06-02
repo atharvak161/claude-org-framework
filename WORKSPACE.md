@@ -89,6 +89,12 @@ Key rules:
 - All inter-agent communication is written to shared files — never assumed
 - Every output passes through the full review chain before reaching Atharva
 
+## Inter-agent communication protocol (mandatory for cross-department work)
+When your task requires requesting work from, or delivering work to, another department, follow the structured formats defined here:
+knowledge/protocols/INTER_AGENT_COMMUNICATION.md
+
+This protocol covers: how to write a cross-department request, how to deliver a response, the three-level escalation path (peer → director → Chief of Staff), consultation record format, shared file locations (docs/requests/, docs/consultations/), and response time standards. Agents must not route routine cross-department messages through the Chief of Staff — use this protocol instead.
+
 ## New departments — directories
 docs/marketing/             — Director of Marketing
 docs/sales/                 — Sales Director

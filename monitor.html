@@ -2845,7 +2845,9 @@
   // Track which files were seen on the very first load so we don't badge them as "new"
   let firstLoadDone = false;
   let lastRefreshTime = null;
-  let deliverableFileMeta = {}; // path -> { size, lastModified }
+  let deliverableFileMeta = {}; // path -> { size, lastModified, cachedAt }
+  const METADATA_TTL = 5 * 60 * 1000; // 5 minutes
+  let renderHashes = {}; // content-hash guard for expensive renders
 
   // ── Org chart / agents state ───────────────────────────────────────────────
   let activeTab = 'feed';
@@ -2983,19 +2985,9 @@
 
   // FEATURE 1: parse activity, then drop any entry older than 48h (by leading YYYY-MM-DD).
   // The file itself is never modified — this only affects what is displayed.
-  function parseActivityEntries(content) {
-    if (!content) return [];
-    const lines = content.split('\n').filter(l => {
-      const trimmed = l.trim();
-      // Skip blank lines, markdown headers, and the format-example lines
-      return trimmed &&
-        !trimmed.startsWith('#') &&
-        trimmed.length > 5 &&
-        !trimmed.startsWith('Format:') &&
-        !trimmed.startsWith('format:') &&
-        // Skip lines that are clearly format examples (contain template brackets)
-        !/^\[DATE\]/.test(trimmed);
-    });
+  function parseActivityEntries(content, preLines) {
+    if (!preLines && !content) return [];
+    const lines = preLines || activityLines(content);
 
     // 48-hour cutoff: now minus 48h. Entries with a parseable date older than that
     // are silently dropped. Entries without a leading date are kept (can't judge age).
@@ -3049,8 +3041,8 @@
   // If an entry has only a date (no time — our standard log format), it is
   // included if it matches today's date. This prevents all today's work from
   // disappearing because the time resolves to 00:00.
-  function parseActivityLive(content) {
-    const lines = activityLines(content);
+  function parseActivityLive(content, preLines) {
+    const lines = preLines || activityLines(content);
     const cutoff = Date.now() - 60 * 60 * 1000;
     const todayStr = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD local time
     const live = lines.filter(line => {
@@ -3067,13 +3059,13 @@
   }
 
   // ALL: every activity entry, no date filter, newest-first (for the History tab).
-  function parseActivityAll(content) {
-    return activityLines(content).reverse();
+  function parseActivityAll(content, preLines) {
+    return (preLines || activityLines(content)).reverse();
   }
 
   // HISTORY: entries from previous days only. Today's entries are "live".
-  function parseActivityHistory(content) {
-    const lines = activityLines(content);
+  function parseActivityHistory(content, preLines) {
+    const lines = preLines || activityLines(content);
     const cutoff = Date.now() - 60 * 60 * 1000;
     const todayStr = new Date().toISOString().slice(0, 10);
     const older = lines.filter(line => {
@@ -3555,6 +3547,11 @@
     const grid = document.getElementById('live-now-grid');
     if (!grid) return;
 
+    // Content-hash guard: skip innerHTML rebuild when data is unchanged.
+    const hash = JSON.stringify(allEntries1h).length + '_' + (allEntries1h[0] || '');
+    if (renderHashes['liveNow'] === hash) return;
+    renderHashes['liveNow'] = hash;
+
     if (!allEntries1h.length) {
       grid.innerHTML = '<div class="live-empty-card">All agents idle — no activity in the last hour.</div>';
       return;
@@ -3702,9 +3699,10 @@
     }
 
     const rows = await Promise.all(completed.map(async ({ doc, path }) => {
-      if (!deliverableFileMeta[path]) {
+      const cached = deliverableFileMeta[path];
+      if (!cached || (Date.now() - cached.cachedAt) > METADATA_TTL) {
         const meta = await readFileMeta(orgHandle, path);
-        if (meta) deliverableFileMeta[path] = meta;
+        if (meta) deliverableFileMeta[path] = { ...meta, cachedAt: Date.now() };
       }
       const meta = deliverableFileMeta[path];
       const sizeStr = meta ? formatBytes(meta.size) : '';
@@ -4138,6 +4136,12 @@
     const body = document.getElementById('agents-table-body');
     const summary = document.getElementById('agents-summary');
     if (!body) return;
+
+    // Content-hash guard: skip full table rebuild when registry and statuses are unchanged.
+    const hash = JSON.stringify(agentRegistry).length + '_' + (agentRegistry[0] ? agentRegistry[0].name : '');
+    if (renderHashes['agentTable'] === hash) return;
+    renderHashes['agentTable'] = hash;
+
     if (!agentRegistry.length) {
       body.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:24px;font-family:\'JetBrains Mono\',monospace;">No agents found</td></tr>';
       return;
@@ -4337,10 +4341,12 @@
         agentRegistry = parseAgentRegistry(regContent);
       }
 
-      const activityEntries = parseActivityEntries(actContent);   // 48h, for Agents/OrgChart
-      const liveEntries = parseActivityLive(actContent);          // last 1h, newest-first
-      const historyEntries = parseActivityHistory(actContent);    // older than 1h, newest-first
-      lastAllActivityEntries = parseActivityAll(actContent);      // all-time, for dynamic pending detection
+      // Split ACTIVITY.md into lines once; share the array across all four parse calls.
+      const actLines = activityLines(actContent);
+      const activityEntries = parseActivityEntries(null, actLines);   // 48h, for Agents/OrgChart
+      const liveEntries = parseActivityLive(null, actLines);          // last 1h, newest-first
+      const historyEntries = parseActivityHistory(null, actLines);    // older than 1h, newest-first
+      lastAllActivityEntries = parseActivityAll(null, actLines);      // all-time, for dynamic pending detection
 
       // Per-agent activity stats drive org chart dots, agent table, and 48h views.
       computeAgentActivity(activityEntries, lastActivityRaw);
