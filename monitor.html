@@ -1261,214 +1261,76 @@
 
   .oc-zoom button:hover { background: var(--border2); color: var(--text); }
 
+  /* ── Org chart (SVG) ─────────────────────────────────────────────────────── */
   .oc-canvas-wrap {
     overflow: auto;
     max-height: 640px;
     width: 100%;
-    background:
-      radial-gradient(circle at 1px 1px, var(--border) 1px, transparent 0) 0 0 / 28px 28px;
+    background: #0d0d14;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border2) transparent;
   }
+  .oc-canvas-wrap::-webkit-scrollbar { width: 4px; height: 4px; }
+  .oc-canvas-wrap::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  .oc-canvas-wrap svg { display: block; }
 
-  /* ── Org chart — HTML/CSS department-cluster layout ───────────────────── */
-  .oc-container {
-    padding: 24px 20px 32px;
-    min-width: 880px;
-    transform-origin: top center;
-    transition: transform 0.15s ease;
+  .oc-node {
+    width: 140px;
+    height: 48px;
+    box-sizing: border-box;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 5px 9px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.15s, background 0.15s;
     font-family: 'Space Grotesk', sans-serif;
   }
-
-  /* Top row: Atharva → Chief of Staff (+ Guide) */
-  .oc-top-row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-    margin-bottom: 28px;
-  }
-  .oc-node-atharva {
-    background: linear-gradient(135deg, rgba(124,108,255,0.18), rgba(168,85,247,0.18));
-    border: 2px solid var(--accent);
-    border-radius: 10px;
-    padding: 12px 48px;
-    font-size: 16px; font-weight: 700; color: var(--text);
-    text-align: center; letter-spacing: 0.01em;
-  }
-  .oc-exec-row {
-    display: flex; align-items: stretch; gap: 12px; justify-content: center;
-    flex-wrap: wrap;
-  }
-  .oc-node-cos {
-    background: rgba(245,158,11,0.10);
-    border: 2px solid var(--amber);
-    border-radius: 10px;
-    padding: 10px 28px;
-    font-size: 13px; font-weight: 700; color: var(--text);
-    text-align: center; cursor: pointer;
-    display: flex; align-items: center; gap: 8px;
-    transition: background 0.15s;
-  }
-  .oc-node-cos:hover { background: rgba(245,158,11,0.18); }
-  .oc-node-guide {
-    background: rgba(124,108,255,0.08);
-    border: 2px solid var(--accent);
-    border-radius: 10px;
-    padding: 10px 24px;
-    font-size: 13px; font-weight: 700; color: var(--text);
-    text-align: center; cursor: pointer;
-    display: flex; align-items: center; gap: 8px;
-    transition: background 0.15s;
-  }
-  .oc-node-guide:hover { background: rgba(124,108,255,0.16); }
-  .oc-connector-v { width: 2px; height: 22px; background: var(--border2); }
-
-  /* Department grid */
-  .oc-dept-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-    align-items: start;
-  }
-  @media (max-width: 1100px) { .oc-dept-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-
-  .oc-cluster {
+  .oc-node:hover { background: var(--surface3); border-color: var(--border); }
+  .oc-root {
     background: var(--surface);
-    border: 1px solid var(--border2);
-    border-top: 3px solid var(--oc-color, var(--border2));
-    border-radius: 10px;
-    padding: 12px;
-    box-sizing: border-box;
+    border: 2px solid var(--accent);
+    font-weight: 700;
   }
-  .oc-cluster-header {
-    font-size: 9px;
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 0.12em;
-    color: var(--oc-color, var(--text3));
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center; gap: 8px;
-  }
-  .oc-cluster-header .oc-count { color: var(--text3); letter-spacing: 0.05em; }
-  .oc-cluster-director {
-    background: var(--surface2);
-    border: 1.5px solid var(--border2);
-    border-left: 3px solid var(--oc-color, var(--border2));
-    border-radius: 7px;
-    padding: 7px 10px;
-    font-size: 12px; font-weight: 700; color: var(--text);
-    margin-bottom: 6px; cursor: pointer;
-    display: flex; align-items: center; gap: 7px;
-    transition: background 0.15s;
-  }
-  .oc-cluster-director:hover { background: var(--surface3); }
-  .oc-cluster-agents { display: flex; flex-direction: column; gap: 1px; }
-  .oc-agent-node {
-    padding: 5px 10px;
-    font-size: 11px; color: var(--text2);
-    border-radius: 5px; cursor: pointer;
-    display: flex; align-items: center; gap: 7px;
-    transition: background 0.15s, color 0.15s;
-  }
-  .oc-agent-node:hover { background: rgba(255,255,255,0.04); color: var(--text); }
-  .oc-agent-name { line-height: 1.25; }
-
-  .oc-agent-dot {
-    width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
-    background: var(--teal);
-  }
-  .oc-agent-dot.working { background: var(--amber); animation: pulse 1s infinite; box-shadow: 0 0 5px var(--amber); }
-  .oc-agent-dot.recent { background: var(--green); box-shadow: 0 0 4px var(--green); }
-  .oc-agent-dot.ready { background: var(--teal); opacity: 0.6; }
-  .oc-agent-dot.idle { background: var(--text3); opacity: 0.4; }
-
-  /* ── Org chart hierarchy connector lines ──────────────────────────────── */
-  /* Within-cluster hierarchy connectors */
-  .oc-cluster-reports {
-    position: relative;
-    padding-left: 20px;
+  .oc-name {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin-top: 4px;
-    border-left: 1px solid var(--border2);
-    margin-left: 16px;
   }
-  .oc-cluster-reports.oc-empty { border-left: none; margin-top: 0; padding-left: 0; }
-  .oc-agent-node {
-    position: relative;
+  .oc-dept {
+    font-size: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
   }
-  .oc-cluster-reports > .oc-agent-node::before {
-    content: '';
+  .oc-status-dot {
     position: absolute;
-    left: -20px;
-    top: 50%;
-    width: 16px;
-    height: 1px;
-    background: var(--border2);
-  }
-  /* Dot at junction */
-  .oc-cluster-reports > .oc-agent-node::after {
-    content: '';
-    position: absolute;
-    left: -22px;
-    top: calc(50% - 2px);
-    width: 4px;
-    height: 4px;
+    top: 5px;
+    right: 6px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: var(--border2);
+    background: var(--teal);
+    opacity: 0.6;
   }
-
-  /* Director → reports downward connector (only when reports exist) */
-  .oc-cluster-director.has-reports {
-    position: relative;
-  }
-  .oc-cluster-director.has-reports::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 8px;
-    background: var(--border2);
-  }
-
-  /* CoS → dept grid top-level connector */
-  /* Top connector: vertical line → horizontal bar → dept grid */
-  .oc-top-connector {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    position: relative;
-  }
-  .oc-top-connector-line {
-    width: 2px;
-    height: 28px;
-    background: var(--border2);
-    flex-shrink: 0;
-  }
-  /* Horizontal bar spanning the full width of the grid */
-  .oc-top-connector-spread {
-    width: 100%;
-    height: 2px;
-    background: var(--border2);
-    position: relative;
-  }
-  /* Dept grid sits directly below the horizontal bar */
-  .oc-dept-grid {
-    padding-top: 0;
-    margin-top: 0;
-    position: relative;
-  }
-  /* Each cluster gets a short vertical drop from the bar above */
-  .oc-cluster::before {
-    content: '';
-    display: block;
-    width: 2px;
-    height: 16px;
-    background: var(--border2);
-    margin: 0 auto 10px;
-  }
+  .oc-status-dot.working { background: var(--amber); animation: pulse 1s infinite; box-shadow: 0 0 5px var(--amber); opacity: 1; }
+  .oc-status-dot.recent  { background: var(--green); box-shadow: 0 0 4px var(--green); opacity: 1; }
+  .oc-status-dot.ready   { background: var(--teal); opacity: 0.6; }
+  .oc-status-dot.idle    { background: var(--text3); opacity: 0.4; }
+  .oc-link { fill: none; stroke-width: 1.5; opacity: 0.5; transition: opacity 0.15s, stroke-width 0.15s; }
+  .oc-link.highlight { opacity: 1; stroke-width: 2; }
 
   /* ── Agent table (Tab 3) ───────────────────────────────────────────────── */
   .agents-summary {
@@ -2282,8 +2144,8 @@
             <div class="oc-title">org/AGENT_REGISTRY.md — reporting hierarchy</div>
             <div class="oc-legend">
               <span><i style="background:var(--amber)"></i>Working</span>
-              <span><i style="background:var(--green)"></i>Recently active</span>
-              <span><i style="background:var(--text3)"></i>Idle</span>
+              <span><i style="background:var(--green)"></i>Active</span>
+              <span><i style="background:var(--teal)"></i>Ready</span>
             </div>
             <div class="oc-zoom">
               <button onclick="orgZoom(-0.15)" title="Zoom out">−</button>
@@ -2293,7 +2155,7 @@
           </div>
           <div class="oc-canvas-wrap" id="oc-canvas-wrap">
             <div style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);padding:40px;text-align:center;">
-              Connect folder to render the live org chart.
+              Connect your organisation folder to render the live org chart.
             </div>
           </div>
         </div>
@@ -2942,6 +2804,7 @@
   let activeTab = 'feed';
   let agentRegistry = [];        // [{ name, dept, dir, reportsTo, status }]
   let lastRegistryRaw = '';      // cache key — only re-layout if registry text changes
+  let orgLayoutCache = null;     // memoised SVG layout; invalidated when registry changes
   let orgZoomLevel = 1;
   let lastAllActivityEntries = []; // all-time activity entries, updated every refresh
   let lastActivityRaw = '';      // raw ACTIVITY.md content, for per-agent detail
@@ -4105,157 +3968,130 @@
     return s.status || 'ready';
   }
 
-  // ── Org chart — HTML/CSS department-cluster layout (FEATURE 3) ─────────────
-  // Preferred top-to-bottom ordering of departments in the grid. Any department
-  // present in the registry but not listed here is appended alphabetically, so
-  // future departments render automatically.
-  const OC_DEPT_ORDER = [
-    'HR', 'PM', 'Engineering', 'Security', 'QA', 'DevOps', 'Product', 'Data',
-    'Design', 'Marketing', 'Sales', 'Finance', 'Legal', 'Support', 'Research',
-    'Operations', 'PR', 'Strategy', 'Career'
-  ];
-
-  function escAttr(name) {
-    return escHtml(String(name)).replace(/'/g, "\\'");
-  }
-
-  function ocAgentRow(a) {
-    const status = agentStatusFor(a.name);
-    return `<div class="oc-agent-node" onclick="openAgentDetail('${escAttr(a.name)}')">
-      <span class="oc-agent-dot ${status}"></span>
-      <span class="oc-agent-name">${escHtml(a.name)}</span>
-    </div>`;
-  }
-
-  // Build a nested reports tree (HTML) for the given members, rooted at the
-  // agents whose manager is `rootName`. Recurses through reportsTo so deep
-  // hierarchies (e.g. Engineering: VP → SA → DTL → devs) render nested with
-  // connector lines, rather than a flat list. `seen` guards against cycles.
-  function ocBuildReportsTree(members, rootName, seen) {
-    seen = seen || new Set();
-    const rootNorm = (rootName || '').toLowerCase().trim();
-    const children = members.filter(a => {
-      if (seen.has(a.name)) return false;
-      return (a.reportsTo || '').toLowerCase().trim() === rootNorm;
+  // ── Org chart — SVG tree layout (FEATURE 3) ────────────────────────────────
+  function buildOrgTree() {
+    const ATHARVA = '__ATHARVA__';
+    const nodes = {};
+    nodes[ATHARVA] = { name: 'Atharva', dept: 'Owner', reportsTo: null, status: 'Active', children: [], isRoot: true };
+    agentRegistry.forEach(a => { nodes[a.name] = { ...a, children: [] }; });
+    agentRegistry.forEach(a => {
+      const rt = a.reportsTo || '';
+      let parentKey;
+      if (/atharva/i.test(rt)) parentKey = ATHARVA;
+      else if (nodes[rt]) parentKey = rt;
+      else parentKey = ATHARVA;
+      nodes[parentKey].children.push(a.name);
     });
-    if (!children.length) return '';
-    let html = '<div class="oc-cluster-reports">';
-    children.forEach(child => {
-      seen.add(child.name);
-      html += ocAgentRow(child);
-      html += ocBuildReportsTree(members, child.name, seen);
-    });
-    html += '</div>';
-    return html;
+    return { nodes, rootKey: ATHARVA };
   }
 
-  // Pick the director of a department: the agent whose manager is the Chief of
-  // Staff or Atharva (i.e. the cluster's top). Falls back to the first agent.
-  function ocFindDirector(members) {
-    return members.find(a => /chief of staff|atharva/i.test(a.reportsTo || ''))
-        || members[0];
-  }
-
-  function buildClusterHTML(depts) {
-    // Resolve every department colour to a concrete hex so color-mix() works.
-    const orderedDeptNames = Object.keys(depts).sort((a, b) => {
-      const ia = OC_DEPT_ORDER.indexOf(a), ib = OC_DEPT_ORDER.indexOf(b);
-      if (ia === -1 && ib === -1) return a.localeCompare(b);
-      if (ia === -1) return 1;
-      if (ib === -1) return -1;
-      return ia - ib;
-    });
-
-    let clusters = '';
-    orderedDeptNames.forEach(dept => {
-      const members = depts[dept];
-      const color = resolveColor(deptColor(dept));
-      const director = ocFindDirector(members);
-      const rest = members.filter(a => a !== director);
-      const dirStatus = director ? agentStatusFor(director.name) : 'ready';
-
-      // Build the nested reports tree under the director using reportsTo.
-      const seen = new Set(director ? [director.name] : []);
-      let reportsHTML = director ? ocBuildReportsTree(members, director.name, seen) : '';
-      // Any members not reachable from the director (e.g. mismatched reportsTo)
-      // are appended flat so nobody silently disappears from the cluster.
-      const orphans = rest.filter(a => !seen.has(a.name));
-      if (orphans.length) {
-        const orphanRows = orphans.map(ocAgentRow).join('');
-        // Append orphans in their own top-level reports wrapper so they keep
-        // the connector styling without corrupting the nested tree markup.
-        reportsHTML += `<div class="oc-cluster-reports">${orphanRows}</div>`;
+  function computeOrgLayout() {
+    const NODE_W = 140, NODE_H = 48;
+    const H_GAP = 20, V_GAP = 60;
+    const { nodes, rootKey } = buildOrgTree();
+    const depthOf = {};
+    const order = [];
+    (function bfs() {
+      const q = [[rootKey, 0]];
+      const seen = new Set();
+      while (q.length) {
+        const [key, d] = q.shift();
+        if (seen.has(key)) continue;
+        seen.add(key);
+        depthOf[key] = d;
+        order.push(key);
+        (nodes[key].children || []).forEach(c => q.push([c, d + 1]));
       }
-      const hasReports = rest.length > 0;
-
-      const directorHTML = director ? `<div class="oc-cluster-director${hasReports ? ' has-reports' : ''}" onclick="openAgentDetail('${escAttr(director.name)}')">
-          <span class="oc-agent-dot ${dirStatus}"></span>
-          <span class="oc-agent-name">${escHtml(director.name)}</span>
-        </div>` : '';
-
-      clusters += `<div class="oc-cluster" style="--oc-color: ${color}">
-        <div class="oc-cluster-header">
-          <span>${escHtml(dept)}</span>
-          <span class="oc-count">${members.length}</span>
-        </div>
-        ${directorHTML}
-        <div class="oc-cluster-agents">${reportsHTML}</div>
-      </div>`;
+    })();
+    let nextLeafX = 0;
+    const xOf = {};
+    function assignX(key) {
+      const kids = nodes[key].children || [];
+      if (!kids.length) { xOf[key] = nextLeafX * (NODE_W + H_GAP); nextLeafX++; return xOf[key]; }
+      const childXs = kids.map(assignX);
+      xOf[key] = (Math.min(...childXs) + Math.max(...childXs)) / 2;
+      return xOf[key];
+    }
+    assignX(rootKey);
+    const positioned = [], links = [];
+    let maxX = 0, maxDepth = 0;
+    order.forEach(key => {
+      const x = xOf[key], y = depthOf[key] * (NODE_H + V_GAP);
+      maxX = Math.max(maxX, x); maxDepth = Math.max(maxDepth, depthOf[key]);
+      positioned.push({ key, x, y, node: nodes[key] });
+      (nodes[key].children || []).forEach(childKey => links.push({ from: key, to: childKey }));
     });
-
-    return `<div class="oc-container" id="oc-container" style="transform: scale(${orgZoomLevel})">
-      <div class="oc-top-row">
-        <div class="oc-node-atharva">Atharva</div>
-        <div class="oc-connector-v"></div>
-        <div class="oc-exec-row">
-          <div class="oc-node-cos" onclick="openAgentDetail('Chief of Staff')">
-            <span class="oc-agent-dot ${agentStatusFor('Chief of Staff')}"></span>
-            Chief of Staff
-          </div>
-          <div class="oc-node-guide" onclick="openAgentDetail('Guide and Explainer')">
-            <span class="oc-agent-dot ${agentStatusFor('Guide and Explainer')}"></span>
-            Guide &amp; Explainer
-          </div>
-        </div>
-      </div>
-      <div class="oc-top-connector">
-        <div class="oc-top-connector-line"></div>
-        <div class="oc-top-connector-spread"></div>
-      </div>
-      <div class="oc-dept-grid">${clusters}</div>
-    </div>`;
+    const PAD = 32;
+    const width = maxX + NODE_W + PAD * 2;
+    const height = (maxDepth + 1) * (NODE_H + V_GAP) + PAD * 2;
+    const posMap = {};
+    positioned.forEach(p => { p.x += PAD; p.y += PAD; posMap[p.key] = p; });
+    return { positioned, links, posMap, width, height, NODE_W, NODE_H };
   }
 
   function renderOrgChart() {
     const wrap = document.getElementById('oc-canvas-wrap');
     if (!wrap) return;
     if (!agentRegistry.length) {
-      wrap.innerHTML = '<div style="font-size:11px;font-family:\'JetBrains Mono\',monospace;color:var(--text3);padding:40px;text-align:center;">No agents found in org/AGENT_REGISTRY.md</div>';
+      wrap.innerHTML = '<div style="font-size:11px;font-family:\'JetBrains Mono\',monospace;color:var(--text3);padding:40px;text-align:center;">Connect your organisation folder to render the live org chart.</div>';
       return;
     }
-
-    // Group agents by department. The Executive department (Chief of Staff,
-    // Guide and Explainer) is hoisted into the top row, not a grid cluster.
-    const depts = {};
-    agentRegistry.forEach(a => {
-      if ((a.dept || '').toLowerCase() === 'executive') return;
-      if (!depts[a.dept]) depts[a.dept] = [];
-      depts[a.dept].push(a);
-    });
-
     try {
-      wrap.innerHTML = buildClusterHTML(depts);
+      if (!orgLayoutCache) orgLayoutCache = computeOrgLayout();
+      const L = orgLayoutCache;
+      let pathsSvg = '';
+      L.links.forEach(link => {
+        const p = L.posMap[link.from], c = L.posMap[link.to];
+        if (!p || !c) return;
+        const x1 = p.x + L.NODE_W / 2, y1 = p.y + L.NODE_H;
+        const x2 = c.x + L.NODE_W / 2, y2 = c.y;
+        const ymid = (y1 + y2) / 2;
+        const color = resolveColor(deptColor(c.node.dept));
+        pathsSvg += `<path class="oc-link" data-to="${escHtml(link.to)}" data-from="${escHtml(link.from)}" d="M ${x1},${y1} C ${x1},${ymid} ${x2},${ymid} ${x2},${y2}" stroke="${color}" stroke-opacity="0.6"></path>`;
+      });
+      let nodesSvg = '';
+      L.positioned.forEach(p => {
+        const n = p.node;
+        const isRoot = !!n.isRoot;
+        const status = isRoot ? 'recent' : agentStatusFor(n.name);
+        const color = resolveColor(deptColor(n.dept));
+        const cls = 'oc-node' + (isRoot ? ' oc-root' : '');
+        const clickAttr = isRoot ? '' : ` onclick="openAgentDetail('${escHtml(n.name).replace(/'/g, "\\'")}')"`;
+        nodesSvg += `<foreignObject x="${p.x}" y="${p.y}" width="${L.NODE_W}" height="${L.NODE_H}">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="${cls}" style="border-left:3px solid ${color}"
+               data-key="${escHtml(p.key)}"${clickAttr}
+               onmouseover="highlightOrgLinks('${escHtml(p.key).replace(/'/g, "\\'")}', true)"
+               onmouseout="highlightOrgLinks('${escHtml(p.key).replace(/'/g, "\\'")}', false)">
+            <div class="oc-status-dot ${status}"></div>
+            <div class="oc-name">${escHtml(n.name)}</div>
+            <div class="oc-dept">${escHtml(isRoot ? 'Owner' : (n.dept || ''))}</div>
+          </div>
+        </foreignObject>`;
+      });
+      const svgW = Math.round(L.width * orgZoomLevel);
+      const svgH = Math.round(L.height * orgZoomLevel);
+      wrap.innerHTML = `<svg width="${svgW}" height="${svgH}" viewBox="0 0 ${L.width} ${L.height}" style="display:block;">
+        <g class="oc-links">${pathsSvg}</g>
+        <g class="oc-nodes">${nodesSvg}</g>
+      </svg>`;
     } catch(e) {
-      console.error('Org chart render error:', e);
+      console.error('Org chart error:', e);
       wrap.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;color:var(--red);padding:24px;font-size:11px;">Org chart error: ${escHtml(e.message)}</div>`;
     }
+  }
+
+  function highlightOrgLinks(key, on) {
+    document.querySelectorAll('.oc-link').forEach(path => {
+      if (path.getAttribute('data-to') === key || path.getAttribute('data-from') === key) {
+        path.classList.toggle('highlight', on);
+      }
+    });
   }
 
   function orgZoom(delta) {
     if (delta === 0) orgZoomLevel = 1;
     else orgZoomLevel = Math.min(2.5, Math.max(0.3, orgZoomLevel + delta));
-    const c = document.getElementById('oc-container');
-    if (c) c.style.transform = `scale(${orgZoomLevel})`;
+    if (orgLayoutCache) renderOrgChart();
   }
 
   // ── Agent table + summary (FEATURE 4) ──────────────────────────────────────
@@ -4466,6 +4302,7 @@
       if ((regContent || '') !== lastRegistryRaw) {
         lastRegistryRaw = regContent || '';
         agentRegistry = parseAgentRegistry(regContent);
+        orgLayoutCache = null;   // registry changed — recompute SVG layout on next render
       }
 
       // Split ACTIVITY.md into lines once; share the array across all four parse calls.
