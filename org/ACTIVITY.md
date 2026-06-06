@@ -222,3 +222,5 @@
 2026-06-06 23:47:33 CHIEF_OF_STAFF — MODIFIED — monitor.html — Expanded Fix 1 (roster dots) to full three-state logic: AMBER=working now (LIVE.md or ACTIVITY.md last 20min), GREEN=active (ACTIVITY.md last 48h), GREY=idle. Updated updateAgentStatuses signature to (liveEntries, liveRolesFromLiveMd, allHistoryEntries) and call site to pass lastAllActivityEntries as third arg.
 2026-06-06 23:48:16 CHIEF_OF_STAFF — SPAWNED — Frontend Developer + Knowledge Manager — RIGHT NOW window too wide (20min showing stale entries), changing to 2min; LIVE.md has test pollution from Test Automation Engineer, cleaning it
 2026-06-06 23:49:05 FRONTEND_DEVELOPER — MODIFIED — monitor.html — RIGHT NOW panel now shows last 2 minutes only, not 20 minutes
+2026-06-06 23:49:19 KNOWLEDGE_MANAGER — MODIFIED — org/LIVE.md — Cleaned test pollution from LIVE.md, kept only real agent entries
+2026-06-06 23:49:27 CHIEF_OF_STAFF — REVIEWED — monitor.html — RIGHT NOW window fixed: 2min constant added, parseRightNow uses it, label updated. Awaiting LIVE.md cleanup.
