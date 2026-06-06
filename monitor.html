@@ -2891,6 +2891,10 @@
   // (lastModified timestamp), no file content is read during the watch cycle.
   setInterval(scanForChanges, 1000);
 
+  // Fallback refresh timer — ensures data is never more than 5 seconds stale
+  // even if the file-watcher misses a change event.
+  setInterval(() => { if (orgHandle) refresh(); }, 5000);
+
   // Update "last refreshed X seconds ago" every second
   setInterval(() => {
     if (lastRefreshTime !== null) {
