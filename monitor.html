@@ -3247,7 +3247,7 @@
       const parts = line.split('—').map(p => p.trim());
       const role = extractRole(parts[0] || '');
       const color = agentColor(role);
-      const dateMatch = (parts[0] || '').match(/\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2})?/);
+      const dateMatch = (parts[0] || '').match(/\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2}(?::\d{2})?)?/);
       const time = dateMatch ? dateMatch[0] : (parts[0] || '').substring(0, 16);
       const action = parts.slice(1).join(' — ');
 
