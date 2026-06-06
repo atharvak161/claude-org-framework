@@ -2199,7 +2199,7 @@
 
         <!-- Full activity log (older than 1h) -->
         <div>
-          <div class="section-label">Activity history · before today</div>
+          <div class="section-label">Activity history · older than 15 minutes</div>
           <div class="activity-feed">
             <div class="feed-header">
               <div class="feed-title">org/ACTIVITY.md — full log</div>
@@ -2875,9 +2875,9 @@
     }
   }
 
-  // Scan every 2 seconds — fast enough to feel live, light enough not to
-  // block the browser. Each scan is metadata-only (lastModified), no content read.
-  setInterval(scanForChanges, 2000);
+  // Scan every 1 second — feels instant. Each scan is metadata-only
+  // (lastModified timestamp), no file content is read during the watch cycle.
+  setInterval(scanForChanges, 1000);
 
   // Update "last refreshed X seconds ago" every second
   setInterval(() => {
@@ -3055,23 +3055,19 @@
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   }
 
-  // LIVE: all entries from today (any timestamp format), newest-first.
-  // Entries with HH:MM: shown if within last hour.
-  // Entries with date-only (no time): shown if the date is today — agents that
-  // log without a clock timestamp still appear live so long as they ran today.
+  // LIVE: entries with an explicit HH:MM timestamp within the last 15 minutes.
+  // Date-only entries (no time) are NEVER shown as live — they go to History.
+  // This keeps the live feed clean: only work that happened in the last 15 min.
+  const LIVE_WINDOW_MS = 15 * 60 * 1000;
+
   function parseActivityLive(content, preLines) {
     const lines = preLines || activityLines(content);
-    const cutoff = Date.now() - 60 * 60 * 1000;
-    const today = todayStr();
+    const cutoff = Date.now() - LIVE_WINDOW_MS;
     const live = lines.filter(line => {
       const hasTime = /^\s*\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(line);
-      if (hasTime) {
-        const ts = entryTimestampFull(line);
-        return ts !== null && ts >= cutoff;
-      }
-      // Date-only entry: include if it is from today
-      const m = (line || '').match(/^\s*(\d{4}-\d{2}-\d{2})/);
-      return m ? m[1] === today : false;
+      if (!hasTime) return false;
+      const ts = entryTimestampFull(line);
+      return ts !== null && ts >= cutoff;
     });
     return live.reverse();
   }
@@ -3081,21 +3077,15 @@
     return (preLines || activityLines(content)).reverse();
   }
 
-  // HISTORY: entries NOT in Live Now — timestamped entries older than 1 hour,
-  // and date-only entries from before today.
+  // HISTORY: everything not in Live — older timestamped entries and all date-only entries.
   function parseActivityHistory(content, preLines) {
     const lines = preLines || activityLines(content);
-    const cutoff = Date.now() - 60 * 60 * 1000;
-    const today = todayStr();
+    const cutoff = Date.now() - LIVE_WINDOW_MS;
     const older = lines.filter(line => {
       const hasTime = /^\s*\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(line);
-      if (hasTime) {
-        const ts = entryTimestampFull(line);
-        return ts === null ? true : ts < cutoff;
-      }
-      // Date-only: in history only if NOT today
-      const m = (line || '').match(/^\s*(\d{4}-\d{2}-\d{2})/);
-      return m ? m[1] !== today : true;
+      if (!hasTime) return true; // date-only always in history
+      const ts = entryTimestampFull(line);
+      return ts === null ? true : ts < cutoff;
     });
     return older.reverse();
   }
@@ -3571,7 +3561,7 @@
     renderHashes['liveNow'] = hash;
 
     if (!allEntries1h.length) {
-      grid.innerHTML = '<div class="live-empty-card">All agents idle — no activity today.</div>';
+      grid.innerHTML = '<div class="live-empty-card">No activity in the last 15 minutes — all agents idle.</div>';
       return;
     }
 
