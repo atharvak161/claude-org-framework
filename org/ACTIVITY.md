@@ -216,3 +216,4 @@
 2026-06-06 23:41:30 TEST_AUTOMATION_ENGINEER — CREATED — docs/projects/monitor/AUTOMATION_TEST_REPORT.md — Full test report: 8 test cases, all PASS
 2026-06-06 23:41:30 TEST_AUTOMATION_ENGINEER — COMPLETED — task — All 6 test groups (8 cases) passed; no blocking defects found in RIGHT NOW panel
 2026-06-06 23:41:40 CHIEF_OF_STAFF — REVIEWED — docs/projects/monitor/PERFORMANCE_TEST_REPORT.md — Performance Tester found 7 issues: 2 HIGH (no refresh() concurrency guard, allFiles double-walk), 1 MEDIUM (dead code listFilesRecursive), others low. Awaiting Full Stack Tester + Test Automation Engineer before fix pass.
+2026-06-06 23:43:23 CHIEF_OF_STAFF — SPAWNED — Frontend Developer — Fix agent roster dots: updateAgentStatuses must also read LIVE.md so dots light up while agents are actively working
