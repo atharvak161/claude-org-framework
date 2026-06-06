@@ -1931,7 +1931,7 @@
     </div>
     <div class="stat-card" style="--accent-color: var(--amber)">
       <div class="stat-value" id="stat-activity">0</div>
-      <div class="stat-label">Actions (1h)</div>
+      <div class="stat-label">Actions (20m)</div>
     </div>
     <div class="stat-card" style="--accent-color: var(--cyan)">
       <div class="stat-value" id="stat-decisions">0</div>
@@ -2089,7 +2089,7 @@
 
       <!-- Section A: LIVE NOW cards -->
       <div>
-        <div class="section-label">Live now · active in last hour</div>
+        <div class="section-label">Live now · active in last 20 minutes</div>
         <div class="live-now-grid" id="live-now-grid">
           <div class="live-empty-card">
             Connect your organisation folder to see which agents are active right now.
@@ -3055,9 +3055,9 @@
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   }
 
-  // LIVE: entries with an explicit HH:MM timestamp within the last 15 minutes.
+  // LIVE: entries with an explicit HH:MM timestamp within the last 20 minutes.
   // Date-only entries (no time) are NEVER shown as live — they go to History.
-  // This keeps the live feed clean: only work that happened in the last 15 min.
+  // This keeps the live feed clean: only work that happened in the last 20 min.
   const LIVE_WINDOW_MS = 20 * 60 * 1000;
 
   function parseActivityLive(content, preLines) {
@@ -4373,7 +4373,7 @@
       // Split ACTIVITY.md into lines once; share the array across all four parse calls.
       const actLines = activityLines(actContent);
       const activityEntries = parseActivityEntries(null, actLines);   // 48h, for Agents/OrgChart
-      const liveEntries = parseActivityLive(null, actLines);          // last 1h, newest-first
+      const liveEntries = parseActivityLive(null, actLines);          // last 20m, newest-first
       const historyEntries = parseActivityHistory(null, actLines);    // older than 1h, newest-first
       lastAllActivityEntries = parseActivityAll(null, actLines);      // all-time, for dynamic pending detection
 
@@ -4390,23 +4390,25 @@
       // FEATURE 5: live stat cards + status bar + dept badges
       updateLiveCounts();
 
-      // ── Live-window stats (CHANGE 4): override with the 1-hour window ──
-      // Active now = unique agents in the last 1h. Actions (1h) = live entry count.
+      // ── Live-window stats (CHANGE 4): override with the 20-minute window ──
+      // Active now = unique agents in the last 20m. Actions (20m) = live entry count.
       const liveRoles = new Set(liveEntries.map(l => extractRole((l.split('—')[0]) || l)).filter(Boolean));
       const statActiveNow = document.getElementById('stat-active-agents');
       if (statActiveNow) statActiveNow.textContent = liveRoles.size;
       const statActions = document.getElementById('stat-activity');
       if (statActions) statActions.textContent = liveEntries.length;
 
-      // List all files across the three scanned dirs
-      // Run all 3 directory scans in parallel — was sequential (blocked render pipeline)
+      // List all files across the five scanned dirs
+      // Run all 5 directory scans in parallel — was sequential (blocked render pipeline)
       const allFiles = [];
-      const [d, o, r] = await Promise.all([
+      const [d, o, r, s, k] = await Promise.all([
         listFilesRecursive(orgHandle, 'docs', []),
         listFilesRecursive(orgHandle, 'org', []),
         listFilesRecursive(orgHandle, 'review', []),
+        listFilesRecursive(orgHandle, 'src', []),
+        listFilesRecursive(orgHandle, 'knowledge', []),
       ]);
-      allFiles.push(...d, ...o, ...r);
+      allFiles.push(...d, ...o, ...r, ...s, ...k);
 
       // ── Feed tab: live-only sections (CHANGE 2 + 3) — always update ──
       renderLiveNow(liveEntries, allFiles);
