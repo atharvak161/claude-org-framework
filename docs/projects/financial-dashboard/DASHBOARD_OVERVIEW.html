@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance Dashboard — Architecture Overview</title>
+<style>
+  :root {
+    --bg:#070b14;--bg2:#0d1120;--surface:#111827;--surface2:#1a2235;
+    --border:rgba(0,191,255,0.12);--border2:rgba(0,191,255,0.22);
+    --text:#e2e8f0;--text2:#8099b3;--text3:#3d5473;
+    --blue:#00bfff;--green:#00e676;--amber:#ff9100;
+    --red:#ff1744;--purple:#d500f9;--teal:#00e5ff;--pink:#ff4081;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;line-height:1.6;}
+  .wrap{max-width:1400px;margin:0 auto;padding:32px 24px 64px;}
+  h1{font-size:26px;font-weight:700;color:var(--blue);letter-spacing:-.02em;margin-bottom:4px;}
+  .sub{color:var(--text2);font-size:13px;margin-bottom:36px;}
+  h2{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  h2::after{content:'';flex:1;height:1px;background:var(--border);}
+  section{margin-bottom:44px;}
+  /* TAB GRID */
+  .tab-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+  .tab-card{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--blue);border-radius:10px;padding:14px;}
+  .tab-card.hi{border-top-color:var(--amber);}
+  .tname{font-size:12px;font-weight:700;color:var(--blue);margin-bottom:8px;}
+  .tab-card.hi .tname{color:var(--amber);}
+  .tab-card ul{list-style:none;margin:0 0 10px;}
+  .tab-card ul li{font-size:10.5px;color:var(--text2);padding:1px 0 1px 10px;position:relative;}
+  .tab-card ul li::before{content:'›';position:absolute;left:0;color:var(--text3);}
+  .badges{display:flex;flex-wrap:wrap;gap:3px;margin-top:8px;border-top:1px solid var(--border);padding-top:8px;}
+  .b{font-size:9px;font-weight:600;letter-spacing:.06em;padding:1px 6px;border-radius:10px;text-transform:uppercase;}
+  .bi{background:rgba(0,191,255,.1);color:var(--blue);}
+  .be{background:rgba(255,145,0,.1);color:var(--amber);}
+  .bv{background:rgba(213,0,249,.1);color:var(--purple);}
+  .bg{background:rgba(0,230,118,.1);color:var(--green);}
+  .bd{background:rgba(255,23,68,.1);color:var(--red);}
+  .bo{background:rgba(255,214,0,.1);color:#ffd600;}
+  .bs{background:rgba(255,255,255,.06);color:var(--text2);}
+  .bt{background:rgba(0,229,255,.1);color:var(--teal);}
+  .bl{background:rgba(255,64,129,.1);color:var(--pink);}
+  .tnote{font-size:9.5px;color:var(--amber);margin-top:6px;}
+  /* FLOW */
+  .flow-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .fc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;}
+  .fkey{font-size:10px;font-family:monospace;color:var(--blue);margin-bottom:6px;font-weight:700;}
+  .fa{font-size:10.5px;color:var(--text2);margin:3px 0;}
+  .fa strong{color:var(--text);}
+  .fa.star{color:var(--amber);}
+  /* PAGE GRID */
+  .page-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .pc{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:10px;padding:14px;}
+  .pname{font-size:12px;font-weight:700;color:var(--green);margin-bottom:6px;}
+  .pkey{font-size:9px;font-family:monospace;background:rgba(0,230,118,.08);color:var(--green);padding:2px 7px;border-radius:10px;margin-bottom:8px;display:inline-block;}
+  .pc ul{list-style:none;margin:0;}
+  .pc ul li{font-size:10.5px;color:var(--text2);padding:1px 0 1px 12px;position:relative;}
+  .pc ul li::before{content:'✏';position:absolute;left:0;font-size:8px;color:var(--text3);}
+  .pnote{font-size:9.5px;color:var(--amber);margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
+  /* TOP BAR */
+  .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:36px;}
+  .rate-box{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 16px;font-size:10.5px;color:var(--text2);text-align:right;}
+  .rate-box strong{color:var(--blue);font-size:14px;font-family:monospace;display:block;}
+  /* FOOTER */
+  .foot{text-align:center;color:var(--text3);font-size:10px;margin-top:32px;padding-top:20px;border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="top">
+  <div>
+    <h1>Finance Dashboard — Architecture</h1>
+    <div class="sub">Complete reference · tabs · pages · data flows · what lives where</div>
+  </div>
+  <div class="rate-box">
+    Dashboard top bar (always visible)<br>
+    <strong>£1 = ₹107.xx</strong>
+    auto-refreshes · [↻] manual refresh
+  </div>
+</div>
+
+<!-- TABS -->
+<section>
+<h2>📊 Dashboard Tabs — View Only · All Charts Live Here</h2>
+<div class="tab-grid">
+
+  <div class="tab-card hi">
+    <div class="tname">🏠 Overview</div>
+    <ul>
+      <li>Net pay card (monthly take-home)</li>
+      <li>Surplus card (net – expenses)</li>
+      <li>Savings rate %</li>
+      <li>India trip gauge (goals + Revolut)</li>
+      <li>Emergency fund gauge</li>
+      <li>Net pay trend chart (6 months)</li>
+      <li>Expense category donut</li>
+    </ul>
+    <div class="badges">
+      <span class="b bi">income</span><span class="b be">expenses</span>
+      <span class="b bv">investments</span><span class="b bg">goals</span>
+    </div>
+    <div class="tnote">★ Home tab — first thing you see</div>
+  </div>
+
+  <div class="tab-card">
+    <div class="tname">💰 Income</div>
+    <ul>
+      <li>Net pay waterfall chart</li>
+      <li>Salary scenario table</li>
+      <li>YTD overtime total</li>
+    </ul>
+    <div class="badges">
+      <span class="b bi">income</span><span class="b bo">otShifts</span>
+    </div>
+  </div>
+
+  <div class="tab-card">
+    <div class="tname">💸 Expenses</div>
+    <ul>
+      <li>Category donut chart</li>
+      <li>Month-by-month bar chart</li>
+    </ul>
+    <div class="badges">
+      <span class="b be">expenses</span><span class="b bl">monthlyLog</span>
+    </div>
+  </div>
+
+  <div class="tab-card">
+    <div class="tname">🏦 Debts</div>
+    <ul>
+      <li>Amortisation balance chart</li>
+      <li>Interest vs principal donut</li>
+      <li>Payoff date card</li>
+    </ul>
+    <div class="badges">
+      <span class="b bd">debts</span><span class="b bs">settings</span>
+    </div>
+  </div>
+
+  <div class="tab-card">
+    <div class="tname">📈 Assets</div>
+    <ul>
+      <li>Portfolio breakdown donut</li>
+      <li>ULIP 3-scenario projection</li>
+      <li>ISA allowance bar (£20k)</li>
+    </ul>
+    <div class="badges">
+      <span class="b bv">investments</span><span class="b bs">settings</span>
+    </div>
+  </div>
+
+  <div class="tab-card">
+    <div class="tname">📉 Net Worth</div>
+    <ul>
+      <li>Timeline projection (to age 50)</li>
+      <li>Age-to-wealth trajectory</li>
+      <li>Salary scenario comparison</li>
+    </ul>
+    <div class="badges">
+      <span class="b bi">income</span><span class="b be">expenses</span>
+      <span class="b bv">investments</span><span class="b bd">debts</span>
+    </div>
+  </div>
+
+  <div class="tab-card">
+    <div class="tname">✈️ Goals</div>
+    <ul>
+      <li>India trip gauge (+ Revolut)</li>
+      <li>Emergency fund gauge</li>
+      <li>Wealth target gauge</li>
+    </ul>
+    <div class="badges">
+      <span class="b bg">goals</span><span class="b bv">investments</span>
+    </div>
+    <div class="tnote">★ India = goals.saved + cash accounts</div>
+  </div>
+
+  <div class="tab-card">
+    <div class="tname">⏱ OT Tracker</div>
+    <ul>
+      <li>Monthly OT bar + avg line</li>
+      <li>Savings forecast vs £3,000</li>
+      <li>What-if OT slider</li>
+    </ul>
+    <div class="badges">
+      <span class="b bo">otShifts</span><span class="b bo">otSummary</span>
+      <span class="b bg">goals</span>
+    </div>
+  </div>
+
+  <div class="tab-card">
+    <div class="tname">🧾 Tax</div>
+    <ul>
+      <li>UK underpayment progress</li>
+      <li>India NRI tax summary cards</li>
+      <li>DTAA relief tracker</li>
+    </ul>
+    <div class="badges">
+      <span class="b bt">taxTracker</span><span class="b bt">indiaTax</span>
+    </div>
+  </div>
+
+  <div class="tab-card">
+    <div class="tname">📊 Analytics</div>
+    <ul>
+      <li>Savings rate trend</li>
+      <li>Income vs expenses trend</li>
+      <li>Budget vs actual</li>
+    </ul>
+    <div class="badges">
+      <span class="b bl">monthlyLog</span><span class="b bi">income</span>
+      <span class="b be">expenses</span>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- DATA FLOW -->
+<section>
+<h2>↔️ Data Flow — Sidebar save → localStorage → Dashboard reads</h2>
+<div class="flow-grid">
+
+  <div class="fc">
+    <div class="fkey">fin_income → state.income</div>
+    <div class="fa">→ <strong>Overview:</strong> net pay, surplus, savings rate</div>
+    <div class="fa">→ <strong>Income tab:</strong> waterfall, scenario table</div>
+    <div class="fa">→ <strong>Net Worth:</strong> net pay in projection</div>
+    <div class="fa">→ <strong>OT predictions:</strong> base salary for forecast</div>
+  </div>
+
+  <div class="fc">
+    <div class="fkey">fin_expenses → state.expenses</div>
+    <div class="fa">→ <strong>Overview:</strong> expense donut, surplus card</div>
+    <div class="fa">→ <strong>Expenses tab:</strong> category chart, monthly bar</div>
+    <div class="fa">→ <strong>Net Worth:</strong> monthly surplus calculation</div>
+    <div class="fa">→ <strong>OT forecast:</strong> expenses deducted per month</div>
+  </div>
+
+  <div class="fc">
+    <div class="fkey">fin_investments → state.investments</div>
+    <div class="fa">→ <strong>Assets tab:</strong> portfolio donut, ULIP chart</div>
+    <div class="fa">→ <strong>Net Worth:</strong> all assets in timeline</div>
+    <div class="fa star">★ <strong>Goals tab:</strong> Revolut adds to India trip</div>
+    <div class="fa">→ <strong>Overview:</strong> emergency fund gauge</div>
+  </div>
+
+  <div class="fc">
+    <div class="fkey">fin_goals → state.goals</div>
+    <div class="fa">→ <strong>Goals tab:</strong> all three gauges</div>
+    <div class="fa">→ <strong>Overview:</strong> India trip gauge</div>
+    <div class="fa">→ <strong>OT forecast:</strong> start balance</div>
+    <div class="fa star">★ Written back by OT confirm (savedGBP)</div>
+  </div>
+
+  <div class="fc">
+    <div class="fkey">fin_ot_shifts → state.otShifts</div>
+    <div class="fa">→ <strong>OT tab:</strong> bar chart, savings forecast</div>
+    <div class="fa">→ <strong>Income tab:</strong> YTD OT total</div>
+    <div class="fa">→ <strong>Income page:</strong> monthly OT prediction</div>
+    <div class="fa star">★ On confirm: writes to fin_goals.savedGBP</div>
+  </div>
+
+  <div class="fc">
+    <div class="fkey">fin_debts → state.debts</div>
+    <div class="fa">→ <strong>Debts tab:</strong> amortisation chart</div>
+    <div class="fa">→ <strong>Net Worth:</strong> debt subtracted from NW</div>
+    <div class="fa">→ <strong>Overview:</strong> debt card</div>
+  </div>
+
+  <div class="fc">
+    <div class="fkey">fin_tax_tracker → state.taxTracker</div>
+    <div class="fa">→ <strong>Tax tab:</strong> UK underpayment progress</div>
+    <div class="fa">→ <strong>Income page:</strong> extra tax deduction</div>
+  </div>
+
+  <div class="fc">
+    <div class="fkey">fin_india_tax → state.indiaTax</div>
+    <div class="fa">→ <strong>Tax tab:</strong> India NRI summary cards</div>
+    <div class="fa">→ <strong>Tax tab:</strong> DTAA relief, ITR status</div>
+  </div>
+
+  <div class="fc">
+    <div class="fkey">fin_settings → state.settings</div>
+    <div class="fa">→ <strong>All tabs:</strong> INR/GBP rate for £↔₹</div>
+    <div class="fa">→ <strong>Net Worth:</strong> pension growth, career date</div>
+    <div class="fa">→ <strong>Top bar:</strong> live rate display</div>
+  </div>
+
+</div>
+</section>
+
+<!-- PAGES -->
+<section>
+<h2>✏️ Sidebar Pages — Click Edit · Fill Fields · Click Save</h2>
+<div class="page-grid">
+
+  <div class="pc">
+    <div class="pname">💰 Income</div>
+    <div class="pkey">fin_income</div>
+    <ul>
+      <li>Base salary (£/yr)</li>
+      <li>Average overtime (£/mo)</li>
+      <li>Hours per week</li>
+      <li>Pension employee % (of gross + OT)</li>
+      <li>Pension employer %</li>
+      <li>Tax code (e.g. 1034L)</li>
+      <li>Tax-free allowance (£/yr)</li>
+      <li>HMRC underpayment (£/mo)</li>
+      <li>Underpayment clears (date)</li>
+    </ul>
+  </div>
+
+  <div class="pc">
+    <div class="pname">💸 Expenses</div>
+    <div class="pkey">fin_expenses</div>
+    <ul>
+      <li>Add / edit / delete expense items</li>
+      <li>Name, category, £/month, active</li>
+      <li>Scheduled changes (date + new £)</li>
+      <li>e.g. Rent drops Aug, EE ends Oct</li>
+    </ul>
+  </div>
+
+  <div class="pc">
+    <div class="pname">🏦 Debts</div>
+    <div class="pkey">fin_debts</div>
+    <ul>
+      <li>SBI outstanding balance (₹)</li>
+      <li>Original principal (₹)</li>
+      <li>Interest rate (% p.a.)</li>
+      <li>Monthly EMI (₹)</li>
+      <li>Extra monthly payment (₹)</li>
+      <li>Loan start date</li>
+    </ul>
+  </div>
+
+  <div class="pc">
+    <div class="pname">📈 Assets</div>
+    <div class="pkey">fin_investments</div>
+    <ul>
+      <li>Cash accounts (Revolut, balance, AER)</li>
+      <li>Pension (Standard Life, value)</li>
+      <li>ULIPs (SUD Life / PNB / Axis)</li>
+      <li>ISA (Stocks, Cash, Lifetime)</li>
+      <li>SIPP (value, contributions)</li>
+      <li>NPS Tier 1 &amp; 2 (₹)</li>
+      <li>ELSS SIPs, PPF, Sovereign Gold Bonds</li>
+    </ul>
+  </div>
+
+  <div class="pc">
+    <div class="pname">✈️ Goals</div>
+    <div class="pkey">fin_goals</div>
+    <ul>
+      <li>Emergency fund target (£)</li>
+      <li>Wealth target (£)</li>
+      <li>Target retirement age</li>
+      <li>India trip: saved, target, deadline</li>
+      <li>India trip budget breakdown</li>
+    </ul>
+    <div class="pnote">★ Dashboard adds Revolut to saved automatically</div>
+  </div>
+
+  <div class="pc">
+    <div class="pname">📉 Net Worth</div>
+    <div class="pkey">fin_settings.nwProjection</div>
+    <ul>
+      <li>Pension growth rate (% p.a.)</li>
+      <li>Career transition date</li>
+      <li>New salary after transition (£/yr)</li>
+    </ul>
+  </div>
+
+  <div class="pc">
+    <div class="pname">⏱ OT Tracker</div>
+    <div class="pkey">fin_ot_shifts · fin_ot_monthly_summary</div>
+    <ul>
+      <li>Add / delete individual OT shifts</li>
+      <li>Date, gross amount (£), confirmed?</li>
+      <li>Mark month confirmed → actual net pay</li>
+      <li>What-if slider (display only)</li>
+    </ul>
+    <div class="pnote">★ Confirming writes savings to India trip goal</div>
+  </div>
+
+  <div class="pc">
+    <div class="pname">🧾 Tax Tracker</div>
+    <div class="pkey">fin_tax_tracker · fin_india_tax</div>
+    <ul>
+      <li>UK: underpayment total, monthly, dates</li>
+      <li>India: NRO interest, rental, dividends</li>
+      <li>India: TDS deducted (4 fields)</li>
+      <li>India: Section 80E (old regime only)</li>
+      <li>India: DTAA relief, Form 67, ITR status</li>
+    </ul>
+  </div>
+
+  <div class="pc">
+    <div class="pname">⚙️ Preferences</div>
+    <div class="pkey">fin_settings</div>
+    <ul>
+      <li>Theme (dark / light)</li>
+      <li>INR/GBP rate (live fetch button)</li>
+      <li>Show INR equivalents toggle</li>
+      <li>Chart parameters</li>
+      <li>Data reset / export</li>
+    </ul>
+  </div>
+
+</div>
+</section>
+
+<div class="foot">Finance Dashboard Architecture · All data stored locally in browser localStorage · Nothing sent to any server · atharvak161.github.io/finance-dashboard</div>
+
+</div>
+</body>
+</html>
