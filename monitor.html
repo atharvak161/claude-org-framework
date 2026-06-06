@@ -3104,7 +3104,7 @@
     if (['CHIEF_OF_STAFF', 'GUIDE_EXPLAINER', 'GUIDE'].includes(role)) return 'var(--amber)';
     if (['SECURITY_ARCHITECT', 'PENETRATION_TESTER', 'SAST_DAST_ENGINEER', 'COMPLIANCE_AUDITOR'].includes(role)) return 'var(--red)';
     if (['BACKEND_DEVELOPER', 'FRONTEND_DEVELOPER', 'DB_ENGINEER', 'MOBILE_DEVELOPER', 'INTEGRATION_ENGINEER', 'DEV_TEAM_LEAD', 'SOLUTION_ARCHITECT', 'CODE_REVIEWER', 'TECHNICAL_WRITER'].includes(role)) return 'var(--blue)';
-    if (['FULL_STACK_TESTER', 'PERFORMANCE_TESTER', 'TEST_AUTOMATION_ENGINEER'].includes(role)) return 'var(--green)';
+    if (['FULL_STACK_TESTER', 'PERFORMANCE_TESTER', 'TEST_AUTOMATION_ENGINEER', 'QA_DIRECTOR', 'DIRECTOR_QA'].includes(role)) return 'var(--green)';
     if (['INFRA_ENGINEER', 'INFRASTRUCTURE_ENGINEER', 'CICD_ENGINEER', 'MONITORING_ENGINEER', 'CONTAINER_ENGINEER', 'SRE'].includes(role)) return 'var(--accent)';
     if (['SENIOR_PM', 'RISK_MANAGER', 'REQUIREMENTS_ANALYST', 'DELIVERY_MANAGER'].includes(role)) return 'var(--teal)';
     if (['PRODUCT_MANAGER', 'UX_DESIGNER', 'UI_DESIGNER', 'BUSINESS_ANALYST'].includes(role)) return 'var(--cyan)';
@@ -3200,7 +3200,7 @@
       const time = dateMatch ? dateMatch[0] : (parts[0] || '').substring(0, 16);
       const action = parts.slice(1).join(' — ');
 
-      const pathMatch = action.match(/\b((?:docs|org|review)\/[^\s,—]+\.[a-zA-Z]+)\b/);
+      const pathMatch = action.match(/\b((?:docs|org|src|review)\/[^\s,—]+(?:\.[a-zA-Z0-9]+)?)\b/);
       let actionHtml;
       if (pathMatch) {
         const filePath = pathMatch[1];
@@ -3246,7 +3246,7 @@
       const action = parts.slice(1).join(' — ');
 
       // Detect a file path in the action segment (e.g. docs/projects/…/FILE.md or org/…)
-      const pathMatch = action.match(/\b((?:docs|org|review)\/[^\s,—]+\.[a-zA-Z]+)\b/);
+      const pathMatch = action.match(/\b((?:docs|org|src|review)\/[^\s,—]+(?:\.[a-zA-Z0-9]+)?)\b/);
       let actionHtml;
       if (pathMatch) {
         const filePath = pathMatch[1];
@@ -3550,7 +3550,7 @@
       const ago = ts !== null ? (hasExplicitTime ? relativeTime(ts) : 'today') : '';
 
       // Find a file path in this agent's recent line for the "View files" link.
-      const pathMatch = line.match(/\b((?:docs|org|review)\/[^\s,—]+\.[a-zA-Z0-9]+)\b/);
+      const pathMatch = line.match(/\b((?:docs|org|src|review)\/[^\s,—]+(?:\.[a-zA-Z0-9]+)?)\b/);
       let filesLink = '';
       if (pathMatch) {
         const fp = escHtml(pathMatch[1]).replace(/'/g, "\\'");
@@ -3799,6 +3799,7 @@
       COMPLIANCE_AUDITOR: 'Compliance Auditor',
       // QA
       DIRECTOR_QA: 'Director QA',
+      QA_DIRECTOR: 'QA Director',
       FULL_STACK_TESTER: 'Full Stack Tester',
       PERFORMANCE_TESTER: 'Performance Tester',
       TEST_AUTOMATION_ENGINEER: 'Test Automation Engineer',
@@ -4213,7 +4214,7 @@
     const fileSet = [];
     allLines.forEach(l => {
       if (!/CREATED/i.test(l)) return;
-      const m = l.match(/\b((?:docs|org|review)\/[^\s,—]+\.[a-zA-Z0-9]+)\b/);
+      const m = l.match(/\b((?:docs|org|src|review)\/[^\s,—]+(?:\.[a-zA-Z0-9]+)?)\b/);
       if (m && !fileSet.includes(m[1])) fileSet.push(m[1]);
     });
     const filesHtml = fileSet.length
