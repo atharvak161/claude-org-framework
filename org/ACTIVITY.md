@@ -185,3 +185,4 @@
 2026-06-06 12:23 FRONTEND_DEVELOPER — MODIFIED — src/projects/Excel-Project-Hub — Added Export/Import data buttons to projects page; data backup/restore works like financial dashboard
 2026-06-06 22:51 FRONTEND_DEVELOPER — MODIFIED — src/projects/Excel-Project-Hub — Added breadcrumb navigation with back button and Projects link to project detail page
 2026-06-06 23:12 FRONTEND_DEVELOPER — MODIFIED — src/projects/Excel-Project-Hub — Fixed back button: replaced window.history.back() with in-app navigation history tracker (wouter-aware)
+2026-06-06 23:30:23 CHIEF_OF_STAFF — MODIFIED — monitor.html — Direct fix: live feed window, 1s scan, HH:MM:SS timestamps, full directory watcher. Delegating all further monitor and code work to agents.
