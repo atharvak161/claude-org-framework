@@ -118,12 +118,33 @@ Never fail because a directory is missing — create it.
 If your task requires creating a file in another agent's area,
 write it there AND log it in org/DECISIONS.md explaining why.
 
-### Rule 3 — log every file you create
-Immediately after creating or modifying any file, append to org/ACTIVITY.md:
-[DATE HH:MM:SS] [YOUR_ROLE] — CREATED — [full relative file path] — [one line reason]
+### Rule 3 — log every file you create (summary log — start, end, milestones)
+org/ACTIVITY.md is the summary log. Write here at three points only:
+1. When you START your task
+2. When you reach a major milestone (e.g. a feature complete, a decision made)
+3. When you COMPLETE your task
+
+Append to org/ACTIVITY.md:
+[DATE HH:MM:SS] [YOUR_ROLE] — CREATED|MODIFIED|STARTED|COMPLETED — [full relative file path or "task"] — [one line reason]
 
 Use the actual current time in HH:MM:SS (24h) format so the live monitor shows
 second-level precision. Example: 2026-06-02 14:30:45 SOLUTION_ARCHITECT — CREATED — ...
+
+### Rule 3a — write to org/LIVE.md for every file you touch (real-time)
+Every time you open, read, write, or modify ANY file, append one line to org/LIVE.md:
+[YYYY-MM-DD HH:MM:SS] [YOUR_ROLE] — [READING|WRITING|CREATED|MODIFIED|DELETED] — [full relative file path] — [one sentence: what you are doing right now]
+
+This is the real-time feed. Write it BEFORE you do the work, not after.
+Format: date +"%Y-%m-%d %H:%M:%S" gives you the exact timestamp.
+
+Examples:
+2026-06-06 14:32:45 FRONTEND_DEVELOPER — WRITING — src/projects/Excel-Project-Hub/src/App.tsx — Adding error boundary component to wrap the Router
+2026-06-06 14:32:50 CODE_REVIEWER — READING — artifacts/api-server/src/routes/tasks.ts — Checking phaseId ownership validation logic
+2026-06-06 14:33:12 FRONTEND_DEVELOPER — MODIFIED — src/projects/Excel-Project-Hub/src/App.tsx — Error boundary added, wraps Router inside TooltipProvider
+
+Also write when you START and COMPLETE your task:
+2026-06-06 14:30:00 FRONTEND_DEVELOPER — STARTED — task — Implementing error boundary and fixing SelectItem crash in project-detail.tsx
+2026-06-06 14:45:00 FRONTEND_DEVELOPER — COMPLETED — task — All 7 fixes implemented, typecheck clean, committed and pushed
 
 ### Rule 4 — log every decision
 When you make any significant decision, append to org/DECISIONS.md:
