@@ -3,10 +3,12 @@
 # Purpose: Real-time feed of every file created, modified, or reviewed
 # Format: [DATE] [AGENT_ROLE] — [CREATED/MODIFIED/REVIEWED] — [file path] — [reason]
 # This file is how the Chief of Staff and Guide track what is happening
+2026-06-06 FRONTEND_DEVELOPER — MODIFIED — src/projects/Excel-Project-Hub — Added localStorage mode and GitHub Pages deployment pipeline; app now works fully offline from github.io
 
 2026-06-06 FRONTEND_DEVELOPER — MODIFIED — src/projects/Excel-Project-Hub — Implemented all critical and high severity fixes from VP Engineering sign-off: error boundary, Radix crash fix, mutation error handling, phase selector, sortOrder, ownership check, transaction wrap
 2026-06-06 FULL_STACK_TESTER — CREATED — docs/projects/Excel-Project-Hub/QA_AUDIT.md — Full audit of Excel-Project-Hub app: API flows + UI code review
 2026-06-06 FULL_STACK_TESTER — CREATED — docs/projects/Excel-Project-Hub/QA_SIGN_OFF.md — Final verification of all 7 critical fixes: C1 through C7
+2026-06-06 FRONTEND_DEVELOPER — MODIFIED — src/projects/Excel-Project-Hub — Fixed 6 remaining medium/low audit issues: InlineDescEdit feedback, Gantt timezone, phase double-fire, DashboardView null, QueryClient global handler, holiday docs
 
 [2026-06-02] DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard/js/pages/settings-page.js — Auto-fetch live GBP/INR rate on page load, no button click required
 2026-06-02 TAX_ACCOUNTANT — MODIFIED — docs/projects/financial-dashboard/features/INDIA_NRI_TAX_MODULE_SPEC.md — Fixed 2 blocking issues per CA review: rental income std deduction s.24(a), dividend flat rate s.115A. 5 minor amendments applied.
