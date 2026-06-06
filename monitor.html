@@ -2199,7 +2199,7 @@
 
         <!-- Full activity log (older than 1h) -->
         <div>
-          <div class="section-label">Activity history · older than 15 minutes</div>
+          <div class="section-label">Activity history · older than 20 minutes</div>
           <div class="activity-feed">
             <div class="feed-header">
               <div class="feed-title">org/ACTIVITY.md — full log</div>
@@ -3058,7 +3058,7 @@
   // LIVE: entries with an explicit HH:MM timestamp within the last 15 minutes.
   // Date-only entries (no time) are NEVER shown as live — they go to History.
   // This keeps the live feed clean: only work that happened in the last 15 min.
-  const LIVE_WINDOW_MS = 15 * 60 * 1000;
+  const LIVE_WINDOW_MS = 20 * 60 * 1000;
 
   function parseActivityLive(content, preLines) {
     const lines = preLines || activityLines(content);
@@ -3561,7 +3561,7 @@
     renderHashes['liveNow'] = hash;
 
     if (!allEntries1h.length) {
-      grid.innerHTML = '<div class="live-empty-card">No activity in the last 15 minutes — all agents idle.</div>';
+      grid.innerHTML = '<div class="live-empty-card">No activity in the last 20 minutes — all agents idle.</div>';
       return;
     }
 
