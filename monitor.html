@@ -3190,25 +3190,40 @@
     });
   }
 
-  // Update agent status dots from the last N activity entries.
-  // Agents seen in the last 10 entries get an amber "working" dot.
-  // The Chief of Staff and Guide always show green "active" if present in activity at all.
-  function updateAgentStatuses(entries, extraRoles = new Set()) {
+  // Update agent status dots — three-state:
+  //   AMBER pulsing (working)  — appeared in LIVE.md last 20 min OR ACTIVITY.md last 20 min
+  //   GREEN (active recently)  — appeared in ACTIVITY.md last 48 h, but not working right now
+  //   GREY  (idle)             — no activity in the last 48 h
+  //
+  // Parameters:
+  //   liveEntries         — ACTIVITY.md entries within last 20 min (newest-first)
+  //   liveRolesFromLiveMd — Set of role strings seen in LIVE.md within last 20 min
+  //   allHistoryEntries   — ALL ACTIVITY.md entries ever (for 48h look-back)
+  function updateAgentStatuses(liveEntries, liveRolesFromLiveMd, allHistoryEntries) {
+    liveRolesFromLiveMd = liveRolesFromLiveMd || new Set();
+    allHistoryEntries   = allHistoryEntries   || [];
+
     resetAgentDots();
-    if (!entries.length && !extraRoles.size) return;
 
-    // entries is already newest-first, slice last 10 = most recent 10
-    const recent = entries.slice(0, 10);
-    const recentRoles = new Set([
-      ...recent.map(line => extractRole((line.split('—')[0]) || line)).filter(Boolean),
-      ...extraRoles,
-    ]);
-    const allRoles = new Set([
-      ...entries.map(line => extractRole((line.split('—')[0]) || line)).filter(Boolean),
-      ...extraRoles,
+    // WORKING = appeared in LIVE.md last 20 min OR ACTIVITY.md last 20 min
+    const workingRoles = new Set([
+      ...liveEntries.slice(0, 10).map(l => extractRole((l.split('—')[0]) || l)).filter(Boolean),
+      ...liveRolesFromLiveMd,
     ]);
 
-    // Executive agents get green if seen at all (they're coordination roles)
+    // ACTIVE = appeared in ACTIVITY.md last 48 h
+    const cutoff48h = Date.now() - 48 * 60 * 60 * 1000;
+    const activeRoles = new Set(
+      allHistoryEntries
+        .filter(l => { const ts = entryTimestampFull(l); return ts && ts >= cutoff48h; })
+        .map(l => extractRole((l.split('—')[0]) || l))
+        .filter(Boolean)
+    );
+
+    // Union of every role we have signal for
+    const allRoles = new Set([...workingRoles, ...activeRoles]);
+
+    // Executive agents always show green when seen in any capacity
     const execRoles = ['CHIEF_OF_STAFF', 'GUIDE_EXPLAINER', 'GUIDE'];
 
     allRoles.forEach(role => {
@@ -3216,14 +3231,10 @@
       const dotId = 'dot-' + (role === 'GUIDE' ? 'GUIDE_EXPLAINER' : role);
       const dot = document.getElementById(dotId);
       if (!dot) return;
-      if (execRoles.includes(role)) {
-        dot.className = 'agent-status active'; // green
-      } else if (recentRoles.has(role)) {
-        dot.className = 'agent-status working'; // amber
-      } else {
-        // seen in history but not recently — dim active
-        dot.className = 'agent-status';
-      }
+      if (execRoles.includes(role))    { dot.className = 'agent-status active';  return; } // always green
+      if (workingRoles.has(role))      { dot.className = 'agent-status working'; return; } // amber pulsing
+      if (activeRoles.has(role))       { dot.className = 'agent-status active';  return; } // green
+      dot.className = 'agent-status'; // grey (idle — should not reach here given allRoles union)
     });
   }
 
@@ -4417,7 +4428,7 @@
           .map(l => extractRole(l))
           .filter(Boolean)
       );
-      updateAgentStatuses(liveEntries, liveRolesFromLiveMd);
+      updateAgentStatuses(liveEntries, liveRolesFromLiveMd, lastAllActivityEntries);
 
       // List all files across the entire organisation folder (cached; rebuilt only on structural changes)
       if (allFilesNeedsRebuild) {
