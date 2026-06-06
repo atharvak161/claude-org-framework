@@ -11,3 +11,4 @@
 2026-06-06 23:29:54 BACKEND_DEVELOPER — WRITING — src/backend/routes/tasks.ts — Earlier entry for BACKEND_DEVELOPER (10 min ago, should be superseded)
 2026-06-06 23:37:54 BACKEND_DEVELOPER — MODIFIED — src/backend/services/task.service.ts — More recent entry for BACKEND_DEVELOPER (2 min ago, should WIN)
 2026-06-06 23:41:07 FRONTEND_DEVELOPER — MODIFIED — monitor.html — Changed fallback refresh interval from 10s to 5s
+2026-06-06 23:47:02 FRONTEND_DEVELOPER — COMPLETED — monitor.html — Fixed 6 issues: roster dots use LIVE.md, refresh() concurrency guard, allFiles cache, dead code removed, stale comments fixed
