@@ -2199,7 +2199,7 @@
 
         <!-- Full activity log (older than 1h) -->
         <div>
-          <div class="section-label">Activity history · older than 1 hour</div>
+          <div class="section-label">Activity history · before today</div>
           <div class="activity-feed">
             <div class="feed-header">
               <div class="feed-title">org/ACTIVITY.md — full log</div>
@@ -2988,22 +2988,29 @@
     });
   }
 
-  // LIVE: entries from today only, newest-first.
-  // If an entry has a full date+time, it must be within the last 1 hour.
-  // If an entry has only a date (no time — our standard log format), it is
-  // included if it matches today's date. This prevents all today's work from
-  // disappearing because the time resolves to 00:00.
+  // Today's date string in local time, e.g. "2026-06-06"
+  function todayStr() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  // LIVE: all entries from today (any timestamp format), newest-first.
+  // Entries with HH:MM: shown if within last hour.
+  // Entries with date-only (no time): shown if the date is today — agents that
+  // log without a clock timestamp still appear live so long as they ran today.
   function parseActivityLive(content, preLines) {
     const lines = preLines || activityLines(content);
     const cutoff = Date.now() - 60 * 60 * 1000;
-    // Only entries with explicit HH:MM timestamps appear in Live Now.
-    // Date-only entries (no time) go to History — they have no precise time
-    // so we cannot know if they happened within the last hour.
+    const today = todayStr();
     const live = lines.filter(line => {
       const hasTime = /^\s*\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(line);
-      if (!hasTime) return false;
-      const ts = entryTimestampFull(line);
-      return ts !== null && ts >= cutoff;
+      if (hasTime) {
+        const ts = entryTimestampFull(line);
+        return ts !== null && ts >= cutoff;
+      }
+      // Date-only entry: include if it is from today
+      const m = (line || '').match(/^\s*(\d{4}-\d{2}-\d{2})/);
+      return m ? m[1] === today : false;
     });
     return live.reverse();
   }
@@ -3013,16 +3020,21 @@
     return (preLines || activityLines(content)).reverse();
   }
 
-  // HISTORY: all entries NOT in Live Now. Date-only entries always go here.
-  // Timestamped entries older than 1 hour also go here.
+  // HISTORY: entries NOT in Live Now — timestamped entries older than 1 hour,
+  // and date-only entries from before today.
   function parseActivityHistory(content, preLines) {
     const lines = preLines || activityLines(content);
     const cutoff = Date.now() - 60 * 60 * 1000;
+    const today = todayStr();
     const older = lines.filter(line => {
       const hasTime = /^\s*\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(line);
-      if (!hasTime) return true; // date-only always in history
-      const ts = entryTimestampFull(line);
-      return ts === null ? true : ts < cutoff;
+      if (hasTime) {
+        const ts = entryTimestampFull(line);
+        return ts === null ? true : ts < cutoff;
+      }
+      // Date-only: in history only if NOT today
+      const m = (line || '').match(/^\s*(\d{4}-\d{2}-\d{2})/);
+      return m ? m[1] !== today : true;
     });
     return older.reverse();
   }
@@ -3498,7 +3510,7 @@
     renderHashes['liveNow'] = hash;
 
     if (!allEntries1h.length) {
-      grid.innerHTML = '<div class="live-empty-card">All agents idle — no activity in the last hour.</div>';
+      grid.innerHTML = '<div class="live-empty-card">All agents idle — no activity today.</div>';
       return;
     }
 
@@ -3534,7 +3546,8 @@
       const parts = line.split('—').map(p => p.trim());
       const action = parts.slice(1).join(' — ') || parts[0] || '';
       const ts = info.ts;
-      const ago = ts !== null ? relativeTime(ts) : '';
+      const hasExplicitTime = /^\s*\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(line);
+      const ago = ts !== null ? (hasExplicitTime ? relativeTime(ts) : 'today') : '';
 
       // Find a file path in this agent's recent line for the "View files" link.
       const pathMatch = line.match(/\b((?:docs|org|review)\/[^\s,—]+\.[a-zA-Z0-9]+)\b/);
