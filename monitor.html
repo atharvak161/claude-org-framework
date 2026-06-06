@@ -1920,7 +1920,7 @@
 
   <!-- Connected path display -->
   <div class="org-path" id="org-path-display" style="display:none;">
-    Connected to: <span id="connected-path">Not connected</span> — live file-change detection active
+    Connected to: <span id="connected-path">Not connected</span> — watching all files, refreshes on any change
   </div>
 
   <!-- Stats row -->
@@ -2811,41 +2811,73 @@
   // Map of AGENT_REGISTRY name -> { lastTs, count48h, recencyRank } computed per refresh
   let agentActivityStats = {};
 
-  // ── File-change watcher ──────────────────────────────────────────────────
-  // Watch key files' lastModified every second. When any file changes,
-  // trigger a full refresh immediately — no waiting for the timer.
+  // ── Full directory watcher ────────────────────────────────────────────────
+  // Walks the entire organisation folder every 2 seconds, collecting
+  // lastModified for every file. Triggers an immediate full refresh the
+  // moment any file anywhere in the tree is created, modified, or deleted.
+  // Skips noise directories that agents never write to.
 
-  const WATCHED_FILES = [
-    'org/ACTIVITY.md',
-    'org/STATUS.md',
-    'org/BLOCKERS.md',
-    'org/DECISIONS.md',
-  ];
-  const watchedModTimes = {};
+  const SKIP_DIR_NAMES = new Set([
+    'node_modules', '.git', 'dist', 'out', '.cache', '.pnpm',
+    '.turbo', 'coverage', '__pycache__', '.venv', 'build',
+    '.next', '.nuxt', 'tmp', '.tsbuildinfo',
+  ]);
 
-  async function checkForChanges() {
-    if (!orgHandle) return;
-    let changed = false;
-    for (const path of WATCHED_FILES) {
-      try {
-        const meta = await getFileMeta(orgHandle, path);
-        if (!meta) continue;
-        if (watchedModTimes[path] !== undefined && meta.lastModified !== watchedModTimes[path]) {
-          changed = true;
+  const fileSnapshots = new Map(); // relative-path -> lastModified (ms)
+  let isScanning = false;
+
+  // Async generator: yields { path, handle } for every file under dirHandle.
+  async function* walkEntireDir(dirHandle, prefix, depth) {
+    if (depth > 8) return;
+    try {
+      for await (const [name, handle] of dirHandle.entries()) {
+        if (name.startsWith('.') && name !== '.github') continue; // skip hidden except .github
+        const path = prefix ? `${prefix}/${name}` : name;
+        if (handle.kind === 'directory') {
+          if (!SKIP_DIR_NAMES.has(name)) {
+            yield* walkEntireDir(handle, path, depth + 1);
+          }
+        } else {
+          yield { path, handle };
         }
-        watchedModTimes[path] = meta.lastModified;
-      } catch(e) { /* file may not exist yet — ignore */ }
-    }
-    if (changed) refresh();
+      }
+    } catch(e) { /* permission or traversal error — skip */ }
   }
 
-  // Poll for changes every second (metadata only — very cheap)
-  setInterval(checkForChanges, 1000);
+  async function scanForChanges() {
+    if (!orgHandle || isScanning) return;
+    isScanning = true;
+    let changed = false;
+    const seen = new Set();
 
-  // Fallback full refresh every 10 seconds in case watcher misses something
-  setInterval(() => {
-    if (orgHandle) refresh();
-  }, 10000);
+    try {
+      for await (const { path, handle } of walkEntireDir(orgHandle, '', 0)) {
+        seen.add(path);
+        try {
+          const file = await handle.getFile();
+          const prev = fileSnapshots.get(path);
+          if (prev !== undefined && prev !== file.lastModified) changed = true;
+          fileSnapshots.set(path, file.lastModified);
+        } catch(e) { /* file vanished mid-scan */ }
+      }
+
+      // Detect deleted files
+      for (const [path] of fileSnapshots) {
+        if (!seen.has(path)) {
+          fileSnapshots.delete(path);
+          changed = true;
+        }
+      }
+
+      if (changed) refresh();
+    } finally {
+      isScanning = false;
+    }
+  }
+
+  // Scan every 2 seconds — fast enough to feel live, light enough not to
+  // block the browser. Each scan is metadata-only (lastModified), no content read.
+  setInterval(scanForChanges, 2000);
 
   // Update "last refreshed X seconds ago" every second
   setInterval(() => {
