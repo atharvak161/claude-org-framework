@@ -1860,7 +1860,7 @@
   </div>
   <div class="header-right">
     <div class="refresh-info">Last refreshed <span id="last-refresh-ago">—</span> ago</div>
-    <button id="refresh-btn" onclick="if(orgHandle){refresh();}" style="
+    <button id="refresh-btn" onclick="if(orgHandle){refresh();}else{connectFolder();}" style="
       background: var(--surface2);
       border: 1px solid var(--border2);
       color: var(--text2);
@@ -1920,7 +1920,7 @@
 
   <!-- Connected path display -->
   <div class="org-path" id="org-path-display" style="display:none;">
-    Connected to: <span id="connected-path">Not connected</span> — auto-refreshing every 5s
+    Connected to: <span id="connected-path">Not connected</span> — live file-change detection active
   </div>
 
   <!-- Stats row -->
@@ -2811,12 +2811,41 @@
   // Map of AGENT_REGISTRY name -> { lastTs, count48h, recencyRank } computed per refresh
   let agentActivityStats = {};
 
-  // ── Timers ────────────────────────────────────────────────────────────────
+  // ── File-change watcher ──────────────────────────────────────────────────
+  // Watch key files' lastModified every second. When any file changes,
+  // trigger a full refresh immediately — no waiting for the timer.
 
-  // Auto-refresh every 5 seconds
+  const WATCHED_FILES = [
+    'org/ACTIVITY.md',
+    'org/STATUS.md',
+    'org/BLOCKERS.md',
+    'org/DECISIONS.md',
+  ];
+  const watchedModTimes = {};
+
+  async function checkForChanges() {
+    if (!orgHandle) return;
+    let changed = false;
+    for (const path of WATCHED_FILES) {
+      try {
+        const meta = await getFileMeta(orgHandle, path);
+        if (!meta) continue;
+        if (watchedModTimes[path] !== undefined && meta.lastModified !== watchedModTimes[path]) {
+          changed = true;
+        }
+        watchedModTimes[path] = meta.lastModified;
+      } catch(e) { /* file may not exist yet — ignore */ }
+    }
+    if (changed) refresh();
+  }
+
+  // Poll for changes every second (metadata only — very cheap)
+  setInterval(checkForChanges, 1000);
+
+  // Fallback full refresh every 10 seconds in case watcher misses something
   setInterval(() => {
     if (orgHandle) refresh();
-  }, 5000);
+  }, 10000);
 
   // Update "last refreshed X seconds ago" every second
   setInterval(() => {
