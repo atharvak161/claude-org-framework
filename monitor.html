@@ -2094,7 +2094,7 @@
             <span style="width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 6px var(--red);animation:pulse 0.8s infinite;display:inline-block;"></span>
             RIGHT NOW
           </div>
-          <span style="font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--text3);">live · per-file · last 20 min</span>
+          <span style="font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--text3);">live · per-file · last 2 min</span>
         </div>
         <div id="right-now-body"></div>
       </div>
@@ -3051,6 +3051,7 @@
   // Date-only entries (no time) are NEVER shown as live — they go to History.
   // This keeps the live feed clean: only work that happened in the last 20 min.
   const LIVE_WINDOW_MS = 20 * 60 * 1000;
+  const RIGHT_NOW_WINDOW_MS = 2 * 60 * 1000; // 2 minutes — RIGHT NOW panel only
 
   function parseActivityLive(content, preLines) {
     const lines = preLines || activityLines(content);
@@ -3506,7 +3507,7 @@
   // ── RIGHT NOW panel — reads org/LIVE.md, shows per-file agent activity ──────
   function parseRightNow(content) {
     if (!content) return [];
-    const cutoff = Date.now() - LIVE_WINDOW_MS;
+    const cutoff = Date.now() - RIGHT_NOW_WINDOW_MS;
     const lines = content.split('\n').filter(l => {
       const t = l.trim();
       return t && !t.startsWith('#') && /^\d{4}-\d{2}-\d{2}/.test(t);
