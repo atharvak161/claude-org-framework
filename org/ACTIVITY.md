@@ -4,6 +4,10 @@
 # Format: [DATE] [AGENT_ROLE] — [CREATED/MODIFIED/REVIEWED] — [file path] — [reason]
 # This file is how the Chief of Staff and Guide track what is happening
 
+2026-06-06 FRONTEND_DEVELOPER — MODIFIED — src/projects/Excel-Project-Hub — Implemented all critical and high severity fixes from VP Engineering sign-off: error boundary, Radix crash fix, mutation error handling, phase selector, sortOrder, ownership check, transaction wrap
+2026-06-06 FULL_STACK_TESTER — CREATED — docs/projects/Excel-Project-Hub/QA_AUDIT.md — Full audit of Excel-Project-Hub app: API flows + UI code review
+2026-06-06 FULL_STACK_TESTER — CREATED — docs/projects/Excel-Project-Hub/QA_SIGN_OFF.md — Final verification of all 7 critical fixes: C1 through C7
+
 [2026-06-02] DEV_TEAM_LEAD — MODIFIED — src/projects/financial-dashboard/js/pages/settings-page.js — Auto-fetch live GBP/INR rate on page load, no button click required
 2026-06-02 TAX_ACCOUNTANT — MODIFIED — docs/projects/financial-dashboard/features/INDIA_NRI_TAX_MODULE_SPEC.md — Fixed 2 blocking issues per CA review: rental income std deduction s.24(a), dividend flat rate s.115A. 5 minor amendments applied.
 
@@ -174,3 +178,6 @@
 2026-06-03 20:17:35 FRONTEND_DEVELOPER — MODIFIED — multiple HTML pages — Fixed missing element IDs: pages no longer blank, chart canvases added
 [2026-06-03 14:32] FULL_STACK_TESTER — CREATED — docs/projects/financial-dashboard/INTERCONNECT_AUDIT.md — Emergency interconnectivity audit: element IDs, data flows, import checks
 2026-06-04 14:00 FULL_STACK_TESTER — CREATED — docs/projects/financial-dashboard/INTERCONNECTION_AUDIT_FINAL.md — Definitive section-by-section interconnection audit
+2026-06-06 CODE_REVIEWER — CREATED — docs/projects/Excel-Project-Hub/CODE_REVIEW.md — Static code review of all routes, schema, and frontend components
+2026-06-06 QA_DIRECTOR — CREATED — docs/projects/Excel-Project-Hub/FIX_PLAN.md — Consolidated fix plan from QA + Code Review audits, triaged by severity
+2026-06-06 VP_ENGINEERING — CREATED — docs/projects/Excel-Project-Hub/VP_ENGINEERING_SIGNOFF.md — Technical approach and sign-off for all critical and high severity fixes
