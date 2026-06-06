@@ -2209,7 +2209,7 @@
                  placeholder="Filter activity history…" oninput="filterHistory(this.value)">
         </div>
 
-        <!-- Full activity log (older than 1h) -->
+        <!-- Full activity log (older than 20 minutes) -->
         <div>
           <div class="section-label">Activity history · older than 20 minutes</div>
           <div class="activity-feed">
@@ -2837,6 +2837,9 @@
 
   const fileSnapshots = new Map(); // relative-path -> lastModified (ms)
   let isScanning = false;
+  let isRefreshing = false;
+  let cachedAllFiles = [];
+  let allFilesNeedsRebuild = true; // true on first run, then only when structure changes
 
   // Async generator: yields { path, handle } for every file under dirHandle.
   async function* walkEntireDir(dirHandle, prefix, depth) {
@@ -2881,7 +2884,10 @@
         }
       }
 
-      if (changed) refresh();
+      if (changed) {
+        allFilesNeedsRebuild = true;
+        refresh();
+      }
     } finally {
       isScanning = false;
     }
@@ -2978,36 +2984,6 @@
     } catch(e) {
       return null;
     }
-  }
-
-  // FIX: listFilesRecursive now passes the current dirHandle forward rather than
-  // re-navigating from root on every recursive call (was O(n²) in depth).
-  // Top-level call: listFilesRecursive(orgHandle, 'docs', results)
-  // Internal call:  listFilesRecursive(subDirHandle, 'docs/sub', results, true)
-  async function listFilesRecursive(startHandle, basePath, results = [], _alreadyAtHandle = false) {
-    try {
-      let current;
-      if (_alreadyAtHandle) {
-        // startHandle IS the directory — no navigation needed
-        current = startHandle;
-      } else {
-        // Navigate from startHandle down to basePath
-        const parts = basePath.split('/').filter(Boolean);
-        current = startHandle;
-        for (const part of parts) {
-          current = await current.getDirectoryHandle(part);
-        }
-      }
-      for await (const entry of current.values()) {
-        if (entry.kind === 'file') {
-          results.push(basePath + '/' + entry.name);
-        } else if (entry.kind === 'directory' && entry.name !== '.git' && !entry.name.startsWith('.')) {
-          const subHandle = await current.getDirectoryHandle(entry.name);
-          await listFilesRecursive(subHandle, basePath + '/' + entry.name, results, true);
-        }
-      }
-    } catch(e) {}
-    return results;
   }
 
   // ── Parsers ────────────────────────────────────────────────────────────────
@@ -3217,14 +3193,20 @@
   // Update agent status dots from the last N activity entries.
   // Agents seen in the last 10 entries get an amber "working" dot.
   // The Chief of Staff and Guide always show green "active" if present in activity at all.
-  function updateAgentStatuses(entries) {
+  function updateAgentStatuses(entries, extraRoles = new Set()) {
     resetAgentDots();
-    if (!entries.length) return;
+    if (!entries.length && !extraRoles.size) return;
 
     // entries is already newest-first, slice last 10 = most recent 10
     const recent = entries.slice(0, 10);
-    const recentRoles = new Set(recent.map(line => extractRole(line)).filter(Boolean));
-    const allRoles = new Set(entries.map(line => extractRole(line)).filter(Boolean));
+    const recentRoles = new Set([
+      ...recent.map(line => extractRole((line.split('—')[0]) || line)).filter(Boolean),
+      ...extraRoles,
+    ]);
+    const allRoles = new Set([
+      ...entries.map(line => extractRole((line.split('—')[0]) || line)).filter(Boolean),
+      ...extraRoles,
+    ]);
 
     // Executive agents get green if seen at all (they're coordination roles)
     const execRoles = ['CHIEF_OF_STAFF', 'GUIDE_EXPLAINER', 'GUIDE'];
@@ -3289,60 +3271,6 @@
 
     feed.scrollTop = 0;
     if (countId) { const c = document.getElementById(countId); if (c) c.textContent = entries.length + ' entries'; }
-  }
-
-  function renderActivity(entries) {
-    const feed = document.getElementById('activity-feed');
-    if (!feed) {
-      // Feed-tab activity feed removed in the live/history redesign; nothing to render.
-      return;
-    }
-    if (!entries.length) {
-      feed.innerHTML = '<div class="feed-empty">No activity logged yet.<br><br>Activity will appear here as agents work.</div>';
-      const eb = document.getElementById('feed-window-badge');
-      if (eb) eb.textContent = 'Showing last 48h · 0 entries';
-      return;
-    }
-
-    feed.innerHTML = entries.map(line => {
-      const parts = line.split('—').map(p => p.trim());
-      const role = extractRole(parts[0] || '');
-      const color = agentColor(role);
-      const dateMatch = (parts[0] || '').match(/\d{4}-\d{2}-\d{2}/);
-      const time = dateMatch ? dateMatch[0] : (parts[0] || '').substring(0, 16);
-      const action = parts.slice(1).join(' — ');
-
-      // Detect a file path in the action segment (e.g. docs/projects/…/FILE.md or org/…)
-      const pathMatch = action.match(/\b((?:docs|org|src|review)\/[^\s,—]+(?:\.[a-zA-Z0-9]+)?)\b/);
-      let actionHtml;
-      if (pathMatch) {
-        const filePath = pathMatch[1];
-        const before = escHtml(action.substring(0, pathMatch.index));
-        const after  = escHtml(action.substring(pathMatch.index + pathMatch[0].length));
-        actionHtml = before +
-          '<span class="file-link" onclick="viewFile(\'' + escHtml(filePath).replace(/'/g, "\\'") + '\')" title="Click to view file">' +
-          escHtml(filePath) + '</span>' + after;
-      } else {
-        actionHtml = escHtml(action.substring(0, 120));
-      }
-
-      return `<div class="feed-entry new-entry">
-        <span class="feed-time">${escHtml(time)}</span>
-        <span class="feed-role" style="color:${color}">${escHtml(role || '?')}</span>
-        <span class="feed-action">${actionHtml}</span>
-      </div>`;
-    }).join('');
-
-    // Scroll to top — newest entries are first
-    feed.scrollTop = 0;
-
-    const ac = document.getElementById('activity-count');
-    if (ac) ac.textContent = entries.length + ' entries';
-    const badge = document.getElementById('feed-window-badge');
-    if (badge) badge.textContent = 'Showing last 48h · ' + entries.length + ' entries';
-
-    // Update agent status dots from activity
-    updateAgentStatuses(entries);
   }
 
   function renderDecisions(entries) {
@@ -4407,7 +4335,9 @@
   // ── Main refresh ───────────────────────────────────────────────────────────
 
   async function refresh() {
-    if (!orgHandle) return;
+    if (!orgHandle || isRefreshing) return;
+    isRefreshing = true;
+    try {
 
     // Check permission is still valid before proceeding
     try {
@@ -4450,7 +4380,7 @@
       const actLines = activityLines(actContent);
       const activityEntries = parseActivityEntries(null, actLines);   // 48h, for Agents/OrgChart
       const liveEntries = parseActivityLive(null, actLines);          // last 20m, newest-first
-      const historyEntries = parseActivityHistory(null, actLines);    // older than 1h, newest-first
+      const historyEntries = parseActivityHistory(null, actLines);    // older than 20 minutes, newest-first
       lastAllActivityEntries = parseActivityAll(null, actLines);      // all-time, for dynamic pending detection
 
       // Per-agent activity stats drive org chart dots, agent table, and 48h views.
@@ -4474,11 +4404,30 @@
       const statActions = document.getElementById('stat-activity');
       if (statActions) statActions.textContent = liveEntries.length;
 
-      // List all files across the entire organisation folder
-      const allFiles = [];
-      for await (const { path } of walkEntireDir(orgHandle, '', 0)) {
-        allFiles.push(path);
+      // Extract roles from LIVE.md entries within last 20 min and update agent roster dots.
+      // This ensures dots light up even when agents write only to LIVE.md (not ACTIVITY.md).
+      const liveRolesFromLiveMd = new Set(
+        (liveContent || '').split('\n')
+          .filter(l => {
+            const t = l.trim();
+            if (!t || t.startsWith('#')) return false;
+            const ts = entryTimestampFull(t);
+            return ts && (Date.now() - ts) < LIVE_WINDOW_MS;
+          })
+          .map(l => extractRole(l))
+          .filter(Boolean)
+      );
+      updateAgentStatuses(liveEntries, liveRolesFromLiveMd);
+
+      // List all files across the entire organisation folder (cached; rebuilt only on structural changes)
+      if (allFilesNeedsRebuild) {
+        cachedAllFiles = [];
+        for await (const { path } of walkEntireDir(orgHandle, '', 0)) {
+          cachedAllFiles.push(path);
+        }
+        allFilesNeedsRebuild = false;
       }
+      const allFiles = cachedAllFiles;
 
       // ── Feed tab: live-only sections (CHANGE 2 + 3) — always update ──
       renderRightNow(liveContent);
@@ -4532,6 +4481,10 @@
       badge.innerHTML = '<div class="live-dot" style="background:var(--red)"></div> ERROR';
       // Show re-connect button in case the error is a permissions issue
       document.getElementById('reconnect-btn').style.display = '';
+    }
+
+    } finally {
+      isRefreshing = false;
     }
   }
 
