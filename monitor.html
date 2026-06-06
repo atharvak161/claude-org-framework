@@ -2087,6 +2087,18 @@
       <!-- TAB 1: Feed (LIVE ONLY) -->
       <div class="tab-panel active" id="tab-feed">
 
+      <!-- Section RIGHT NOW: per-file real-time agent activity -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:0;">
+        <div style="padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px;">
+            <span style="width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 6px var(--red);animation:pulse 0.8s infinite;display:inline-block;"></span>
+            RIGHT NOW
+          </div>
+          <span style="font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--text3);">live · per-file · last 20 min</span>
+        </div>
+        <div id="right-now-body"></div>
+      </div>
+
       <!-- Section A: LIVE NOW cards -->
       <div>
         <div class="section-label">Live now · active in last 20 minutes</div>
@@ -3548,6 +3560,65 @@
     }).join('');
   }
 
+  // ── RIGHT NOW panel — reads org/LIVE.md, shows per-file agent activity ──────
+  function parseRightNow(content) {
+    if (!content) return [];
+    const cutoff = Date.now() - LIVE_WINDOW_MS;
+    const lines = content.split('\n').filter(l => {
+      const t = l.trim();
+      return t && !t.startsWith('#') && /^\d{4}-\d{2}-\d{2}/.test(t);
+    });
+    const byRole = {};
+    for (const line of lines) {
+      const ts = entryTimestampFull(line);
+      if (!ts || ts < cutoff) continue;
+      const parts = line.split('—').map(p => p.trim());
+      // parts[0] = "2026-06-06 14:32:45 FRONTEND_DEVELOPER"
+      // parts[1] = "WRITING"
+      // parts[2] = "src/projects/..."
+      // parts[3] = "what doing right now"
+      const role = extractRole(parts[0] || '');
+      if (!role) continue;
+      if (!byRole[role] || ts > byRole[role].ts) {
+        byRole[role] = {
+          role,
+          action: parts[1] || '',
+          path: parts[2] || '',
+          detail: parts[3] || '',
+          ts,
+        };
+      }
+    }
+    return Object.values(byRole).sort((a, b) => b.ts - a.ts);
+  }
+
+  function renderRightNow(liveContent) {
+    const el = document.getElementById('right-now-body');
+    if (!el) return;
+    const agents = parseRightNow(liveContent);
+    if (!agents.length) {
+      el.innerHTML = '<div style="color:var(--text3);font-size:11px;font-family:\'JetBrains Mono\',monospace;padding:12px;">No agents active right now</div>';
+      return;
+    }
+    el.innerHTML = agents.map(a => {
+      const color = agentColor(a.role);
+      const name = roleToName(a.role) || a.role;
+      const actionColor = a.action === 'WRITING' || a.action === 'MODIFIED' || a.action === 'CREATED' ? 'var(--amber)' : 'var(--cyan)';
+      const ago = relativeTime(a.ts);
+      const pathShort = a.path.replace(/^src\/projects\//, '').replace(/^docs\//, 'docs/');
+      return `<div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:4px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="width:7px;height:7px;border-radius:50%;background:${color};box-shadow:0 0 5px ${color};animation:pulse 1s infinite;flex-shrink:0;display:inline-block;"></span>
+          <span style="font-size:12px;font-weight:600;color:${color}">${escHtml(name)}</span>
+          <span style="font-size:10px;font-family:'JetBrains Mono',monospace;color:${actionColor};background:rgba(0,0,0,0.2);padding:1px 6px;border-radius:3px;">${escHtml(a.action)}</span>
+          <span style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-left:auto;">${escHtml(ago)}</span>
+        </div>
+        <div style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--accent);padding-left:15px;">${escHtml(pathShort)}</div>
+        ${a.detail ? `<div style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text2);padding-left:15px;line-height:1.4;">${escHtml(a.detail.substring(0, 120))}</div>` : ''}
+      </div>`;
+    }).join('');
+  }
+
   // ── LIVE NOW cards (Feed Section A) ────────────────────────────────────────
   // allEntries1h: last-1h activity lines, newest-first (from parseActivityLive).
   // allFiles: every file path currently on disk (for the "View files" link).
@@ -4354,12 +4425,13 @@
 
     try {
       // Read org files in parallel
-      const [actContent, decContent, blkContent, stsContent, regContent] = await Promise.all([
+      const [actContent, decContent, blkContent, stsContent, regContent, liveContent] = await Promise.all([
         readFile(orgHandle, 'org/ACTIVITY.md'),
         readFile(orgHandle, 'org/DECISIONS.md'),
         readFile(orgHandle, 'org/BLOCKERS.md'),
         readFile(orgHandle, 'org/STATUS.md'),
         readFile(orgHandle, 'org/AGENT_REGISTRY.md'),
+        readFile(orgHandle, 'org/LIVE.md'),
       ]);
 
       // Parse the agent registry (FEATURE 3). Re-parse only if its text changed.
@@ -4405,6 +4477,7 @@
       }
 
       // ── Feed tab: live-only sections (CHANGE 2 + 3) — always update ──
+      renderRightNow(liveContent);
       renderLiveNow(liveEntries, allFiles);
       renderInProgress(allFiles, liveEntries);
       renderFeedBlockers(blockerEntries);
