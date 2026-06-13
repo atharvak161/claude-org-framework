@@ -3,6 +3,10 @@
 # Purpose: Real-time feed of every file created, modified, or reviewed
 # Format: [DATE] [AGENT_ROLE] — [CREATED/MODIFIED/REVIEWED] — [file path] — [reason]
 # This file is how the Chief of Staff and Guide track what is happening
+
+[2026-06-13 16:33:07] FRONTEND_DEVELOPER — COMPLETED — js/pages/dashboard.js — Wave 4 Feature 3: Cashflow KPI widget added to overview tab
+
+[2026-06-13 16:28:12] FRONTEND_DEVELOPER — COMPLETED — task — Wave 4: transactions.html + js/pages/transactions.js + store/nav/defaults wired (SMS parser + CSV import)
 [2026-06-13 16:20:18] FRONTEND_DEVELOPER — MODIFIED — /Users/atharva/Downloads/organisation/src/projects/financial-dashboard/js/pages/assets.js — Added renderROAI(st) function (167 lines) at EOF and wired call at line 24 before renderTab()
 [2026-06-12 01:44:11] FRONTEND_DEVELOPER — COMPLETED — task — Privacy mode toggle + inline expression evaluation in inputs
 
@@ -559,3 +563,9 @@ Result: Fix applied and logically verified; jest + tsc run required from user te
 [2026-06-12 01:42:21] CHIEF_OF_STAFF — STARTED — task — Wave 3: YoY comparison + fiscal year, privacy mode + inline eval, ROAI metrics — 3 agents in parallel
 [2026-06-13 16:15:29] CHIEF_OF_STAFF — STARTED — task — Resuming wave 3: write renderROAI in assets.js, commit wave 3, then begin wave 4 (SMS parser + CSV import)
 [2026-06-13 16:21:48] CHIEF_OF_STAFF — COMPLETED — src/projects/financial-dashboard (wave 3) — renderROAI written, all 10 wave-3 files committed and pushed to GitHub (89a2e30)
+[2026-06-13 16:33:19] FRONTEND_DEVELOPER — COMPLETED — calendar.html + js/pages/calendar.js — Wave 4 Feature 4: Bill calendar page (monthly grid + due-day editor)
+[2026-06-13 16:34:56] FRONTEND_DEVELOPER — COMPLETED — analytics.html + analytics.js — Wave 4 Feature 5: Period-comparative report table (this mo / last mo / same mo last yr)
+
+[2026-06-13 16:35:26] FRONTEND_DEVELOPER — COMPLETED — js/shared-layout.js + css/theme.css — Wave 4 Features 6+7: OLED dark mode, keyboard shortcuts (G+key), Calendar+Envelopes nav items
+[2026-06-13 16:36:13] FRONTEND_DEVELOPER — COMPLETED — envelopes.html + js/pages/envelopes.js + store.js + defaults.js — Wave 4 Feature 8: Envelope budgeting module
+[2026-06-13 16:38:12] CHIEF_OF_STAFF — COMPLETED — src/projects/financial-dashboard (wave 4) — All 6 wave-4 features committed and pushed (f64fd28): Cashflow KPI, Bill Calendar, Period Reports, OLED mode, Keyboard shortcuts, Envelope budgeting
