@@ -4,6 +4,10 @@
 # Format: [DATE] [AGENT_ROLE] — [CREATED/MODIFIED/REVIEWED] — [file path] — [reason]
 # This file is how the Chief of Staff and Guide track what is happening
 
+[2026-06-13 16:46:26] FULL_STACK_TESTER — COMPLETED — org/bugs/ — QA pass: transactions.js (SMS parser + CSV import). Found 8 bugs (BUG-021..BUG-028). Critical issues: merchant regex truncates names at 4 chars (BUG-021), CSV escaped-quote parsing corrupts rows (BUG-024), CSV import ignores checkbox state for rows beyond preview (BUG-025). Medium: ambiguous SMS debit/credit tagging (BUG-023), no import deduplication (BUG-026), date format ambiguity DD/MM vs MM/DD (BUG-028). Low: Windows CRLF SMS split (BUG-022), delete button missing confirm guard (BUG-027).
+
+[2026-06-13 16:46:58] FULL_STACK_TESTER — COMPLETED — org/bugs/ — QA pass: dashboard.js cashflow KPI + overview tab. Found 2 bugs (BUG-001 to BUG-002). stat-label scoping gap (medium) + expenses bar 100% false positive when income=0 (medium).
+
 [2026-06-13 16:33:07] FRONTEND_DEVELOPER — COMPLETED — js/pages/dashboard.js — Wave 4 Feature 3: Cashflow KPI widget added to overview tab
 
 [2026-06-13 16:28:12] FRONTEND_DEVELOPER — COMPLETED — task — Wave 4: transactions.html + js/pages/transactions.js + store/nav/defaults wired (SMS parser + CSV import)
@@ -569,3 +573,19 @@ Result: Fix applied and logically verified; jest + tsc run required from user te
 [2026-06-13 16:35:26] FRONTEND_DEVELOPER — COMPLETED — js/shared-layout.js + css/theme.css — Wave 4 Features 6+7: OLED dark mode, keyboard shortcuts (G+key), Calendar+Envelopes nav items
 [2026-06-13 16:36:13] FRONTEND_DEVELOPER — COMPLETED — envelopes.html + js/pages/envelopes.js + store.js + defaults.js — Wave 4 Feature 8: Envelope budgeting module
 [2026-06-13 16:38:12] CHIEF_OF_STAFF — COMPLETED — src/projects/financial-dashboard (wave 4) — All 6 wave-4 features committed and pushed (f64fd28): Cashflow KPI, Bill Calendar, Period Reports, OLED mode, Keyboard shortcuts, Envelope budgeting
+[2026-06-13 16:47:13] FULL_STACK_TESTER — COMPLETED — org/bugs/ — QA pass: shared-layout.js OLED+KB shortcuts + store.js + defaults.js. Found 7 bugs (BUG-041..BUG-047). 2 High: G+G chord unreachable (BUG-041), analytics.html missing (BUG-043). 3 Medium: no chord indicator (BUG-042), OLED flash (BUG-044), mobile nav missing calendar/envelopes (BUG-046). 2 Low: SECTION_TITLES missing 3 pages (BUG-045), mobile nav analytics/networth label mismatch (BUG-047). store.js and defaults.js confirmed clean.
+
+[2026-06-13 16:47:30] FULL_STACK_TESTER — COMPLETED — org/bugs/ — QA pass: calendar.js + envelopes.js. Found 6 bugs (BUG-031..036). 2 High: orphaned saveTimer in calendar (031) and envelopes wireEvents (034). 1 High latent: null expenses write risk (033). 1 Medium: day cap at 28 silently moves bills (032). 1 Medium: month-reset save not awaited, data loss on fast nav (035). 1 Low: total remaining missing sign when over budget (036). NAV IDs confirmed correct. applyScheduledChanges confirmed exported. spentGBT typo confirmed already fixed.
+
+[2026-06-13 16:47:30] FULL_STACK_TESTER — COMPLETED — org/bugs/ — QA pass: assets.js (ROAI) + analytics.js (Period Comparison). Found 6 bugs (BUG-011 to BUG-016). BUG-011 High: ULIP/ELSS invested=0 when lock-in far in future causes false positive gain. BUG-012 High: SGB valueGBP uses purchase cost not market price, ROAI always 0%. BUG-013 Medium: SGB cost=0 falsy-coerces invested to null. BUG-014 Medium: ISA/SIPP invested hardcoded 3yr multiplier. BUG-015 Low: Period Comparison delta blank when prev=0. BUG-016 Medium: logExp incorrect in deficit months.
+[2026-06-13 16:50:58] FRONTEND_DEVELOPER — STARTED — task — Bug-fix wave A: BUG-001 stat-label CSS, BUG-002 expenses bar false positive, BUG-041/045/046/047 shared-layout keyboard+nav fixes
+[2026-06-13 16:50:58] FRONTEND_DEVELOPER — STARTED — task — Bug-fix wave B: BUG-011 ROAI spurious gain, BUG-013 SGB cost falsy coercion (assets.js)
+[2026-06-13 16:50:58] FRONTEND_DEVELOPER — STARTED — task — Bug-fix wave C: BUG-021 SMS merchant regex, BUG-024 CSV escaped quotes, BUG-025 CSV checkbox beyond preview (transactions.js)
+[2026-06-13 16:50:58] FRONTEND_DEVELOPER — STARTED — task — Bug-fix wave D: BUG-031 calendar saveTimer, BUG-034/035 envelopes saveTimer+await (calendar.js, envelopes.js)
+2026-06-13 16:51:43 FRONTEND_DEVELOPER — STARTED — task — Fixing BUG-001 BUG-002 BUG-041 BUG-045 BUG-046 BUG-047 in dashboard.js and shared-layout.js
+2026-06-13 16:53:13 FRONTEND_DEVELOPER — COMPLETED — js/pages/assets.js — Fixed BUG-011 (ULIP/ELSS invested=0→null) and BUG-013 (SGB cost>0 explicit check)
+[2026-06-13 16:53:39] FRONTEND_DEVELOPER — COMPLETED — js/pages/transactions.js — Fixed BUG-021 (merchant regex), BUG-024 (CSV escaped quotes), BUG-025 (CSV checkbox scope)
+2026-06-13 16:54:25 FRONTEND_DEVELOPER — COMPLETED — js/pages/dashboard.js + js/shared-layout.js — Fixed BUG-001 BUG-002 BUG-041 BUG-045 BUG-046 BUG-047
+2026-06-13 16:54:47 FRONTEND_DEVELOPER — COMPLETED — js/pages/calendar.js + js/pages/envelopes.js — Fixed BUG-031 (calendar saveTimer scope), BUG-034 (envelopes saveTimer scope), BUG-035 (await saveSec)
+[2026-06-13 16:58:52] CHIEF_OF_STAFF — COORDINATING — org/ACTIVITY.md — All 4 bug-fix waves complete. Spawning commit agent + monitor.html filesystem-tracking upgrade agent.
+[2026-06-13 17:00:57] DEVOPS — COMPLETED — github push — Wave 3+4 bug fixes pushed: BUG-001 002 011 013 021 024 025 031 034 035 041 045 046 047
