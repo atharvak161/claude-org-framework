@@ -1487,6 +1487,93 @@
 
   .ad-empty { color: var(--text3); font-size: 11px; font-family: 'JetBrains Mono', monospace; }
 
+  /* ── Active Agents panel (Feed tab) ────────────────────────────────────── */
+  .active-agents-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    min-width: 0;
+  }
+
+  @media (max-width: 1100px) {
+    .active-agents-grid { grid-template-columns: 1fr; }
+  }
+
+  .active-agent-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .active-agent-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .active-agent-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+    animation: pulse 1.4s infinite;
+  }
+
+  .active-agent-name {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .active-agent-elapsed {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    flex-shrink: 0;
+  }
+
+  .active-agent-task {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text2);
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .active-agents-empty {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.6;
+    grid-column: 1 / -1;
+  }
+
   /* ── LIVE NOW cards (Feed tab) ─────────────────────────────────────────── */
   .live-now-grid {
     display: grid;
@@ -1621,6 +1708,8 @@
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 14px 16px;
+    overflow: hidden;
+    min-width: 0;
   }
 
   .feed-status-line {
@@ -1628,6 +1717,8 @@
     font-size: 10px;
     color: var(--text2);
     line-height: 1.7;
+    word-break: break-word;
+    overflow-wrap: anywhere;
   }
 
   .feed-status-meta {
@@ -1843,6 +1934,125 @@
     border-top: 1px solid var(--border);
     padding-top: 10px;
     line-height: 1.6;
+  }
+
+  /* ── File Activity watcher info bar ────────────────────────────────────────── */
+  .watcher-info-bar {
+    margin: 0 0 16px 0;
+    padding: 10px 16px;
+    background: rgba(6,182,212,0.06);
+    border: 1px solid rgba(6,182,212,0.18);
+    border-radius: 8px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--cyan);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .watcher-info-bar strong {
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .watcher-info-bar code {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 7px;
+    font-size: 10px;
+    color: var(--accent);
+  }
+
+  /* ── File Activity panel ────────────────────────────────────────────────────── */
+  .file-activity-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .fa-header {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .fa-title {
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .fa-count {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text3);
+  }
+
+  .fa-body {
+    padding: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--text2);
+    max-height: 340px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border2) transparent;
+  }
+
+  .fa-body::-webkit-scrollbar { width: 4px; }
+  .fa-body::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  .fa-entry {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    padding: 3px 6px;
+    border-radius: 4px;
+  }
+
+  .fa-entry:hover { background: var(--surface2); }
+
+  .fa-entry.fa-hot {
+    color: var(--text);
+  }
+
+  .fa-entry.fa-hot .fa-path {
+    color: var(--cyan);
+  }
+
+  .fa-time {
+    color: var(--text3);
+    flex-shrink: 0;
+    font-size: 10px;
+    width: 52px;
+  }
+
+  .fa-path {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--text2);
+    font-size: 11px;
+  }
+
+  .fa-empty {
+    color: var(--text3);
+    text-align: center;
+    padding: 24px 16px;
+    font-size: 11px;
+    line-height: 1.8;
   }
 </style>
 </head>
@@ -2087,6 +2297,30 @@
       <!-- TAB 1: Feed (LIVE ONLY) -->
       <div class="tab-panel active" id="tab-feed">
 
+      <!-- Watcher info bar — shown when FILE_ACTIVITY.md is empty or missing -->
+      <div class="watcher-info-bar" id="watcher-info-bar" style="display:none;">
+        <strong>Enable real-time file tracking:</strong>
+        <span>run</span>
+        <code>bash org/watch_poll.sh</code>
+        <span>from your organisation root in a terminal — keep it running in the background.</span>
+      </div>
+
+      <!-- Section FILE ACTIVITY: real-time filesystem changes -->
+      <div class="file-activity-panel">
+        <div class="fa-header">
+          <div class="fa-title">
+            <span style="width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 5px var(--cyan);display:inline-block;"></span>
+            File Activity
+          </div>
+          <span class="fa-count" id="fa-count">org/FILE_ACTIVITY.md · last 30 changes</span>
+        </div>
+        <div class="fa-body" id="fa-body">
+          <div class="fa-empty">
+            Run <strong style="color:var(--accent)">bash org/watch_poll.sh</strong> from the organisation root to start tracking file changes.
+          </div>
+        </div>
+      </div>
+
       <!-- Section RIGHT NOW: per-file real-time agent activity -->
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:0;">
         <div style="padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:space-between;">
@@ -2097,6 +2331,16 @@
           <span style="font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--text3);">live · per-file · last 2 min</span>
         </div>
         <div id="right-now-body"></div>
+      </div>
+
+      <!-- Section Active Agents: in-flight (SPAWNED/STARTED, not yet COMPLETED) -->
+      <div>
+        <div class="section-label">Active agents · spawned, not yet completed</div>
+        <div class="active-agents-grid" id="active-agents-grid">
+          <div class="active-agents-empty">
+            Connect your organisation folder to see in-flight agents.
+          </div>
+        </div>
       </div>
 
       <!-- Section A: LIVE NOW cards -->
@@ -2694,8 +2938,8 @@
       <!-- Current status -->
       <div>
         <div class="section-label">Current status</div>
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px;">
-          <div style="font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text2); line-height: 1.8;" id="status-display">
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; overflow: hidden; min-width: 0;">
+          <div style="font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text2); line-height: 1.8; word-break: break-word; overflow-wrap: anywhere;" id="status-display">
             Reading org/STATUS.md...<br>
             Connect folder to see current project status.
           </div>
@@ -3007,7 +3251,7 @@
 
   // Extract a timestamp (ms) from the leading YYYY-MM-DD of a line, or null if absent.
   function entryTimestamp(line) {
-    const m = (line || '').match(/^\s*(\d{4})-(\d{2})-(\d{2})/);
+    const m = (line || '').match(/^\s*\[?(\d{4})-(\d{2})-(\d{2})/);
     if (!m) return null;
     // Interpret as local end-of-day so entries logged "today" are never cut off.
     const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]), 23, 59, 59);
@@ -3018,7 +3262,7 @@
   // If a time is present, use it. If not, treat the entry as the START of that day (00:00).
   // Returns ms, or null if no leading date.
   function entryTimestampFull(line) {
-    const m = (line || '').match(/^\s*(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2})(?::(\d{2}))?)?/);
+    const m = (line || '').match(/^\s*\[?(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2})(?::(\d{2}))?)?/);
     if (!m) return null;
     const hh = m[4] !== undefined ? Number(m[4]) : 0;
     const mm = m[5] !== undefined ? Number(m[5]) : 0;
@@ -3057,7 +3301,7 @@
     const lines = preLines || activityLines(content);
     const cutoff = Date.now() - LIVE_WINDOW_MS;
     const live = lines.filter(line => {
-      const hasTime = /^\s*\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(line);
+      const hasTime = /^\s*\[?\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(line);
       if (!hasTime) return false;
       const ts = entryTimestampFull(line);
       return ts !== null && ts >= cutoff;
@@ -3075,7 +3319,7 @@
     const lines = preLines || activityLines(content);
     const cutoff = Date.now() - LIVE_WINDOW_MS;
     const older = lines.filter(line => {
-      const hasTime = /^\s*\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(line);
+      const hasTime = /^\s*\[?\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(line);
       if (!hasTime) return true; // date-only always in history
       const ts = entryTimestampFull(line);
       return ts === null ? true : ts < cutoff;
@@ -3117,19 +3361,24 @@
 
   function parseBlockerEntries(content) {
     if (!content) return [];
+    // Only count lines that carry the actual blocker format marker "BLOCKER:".
+    // Resolution notes, bullet details, table rows (|...|), "None.", "---",
+    // headers and format-template lines all lack the marker and are excluded.
     const lines = content.split('\n').filter(l => {
       const trimmed = l.trim();
       return trimmed &&
         !trimmed.startsWith('#') &&
+        !trimmed.startsWith('|') &&
+        !trimmed.startsWith('---') &&
         trimmed.length > 5 &&
+        /BLOCKER:/i.test(trimmed) &&
+        // Skip format example / template lines.
         !trimmed.startsWith('Format:') &&
         !trimmed.startsWith('format:') &&
-        // Skip format example lines with template brackets
-        !/^\[DATE\]/.test(trimmed) &&
-        !/^\[ROLE\]/.test(trimmed);
+        !/\[DATE\]/.test(trimmed) &&
+        !/\[ROLE\]/.test(trimmed);
     });
-    // Secondary filter: drop any line that still looks like a format template
-    return lines.filter(l => !l.includes('Format:') && !l.includes('[DATE]') && !l.includes('[ROLE]'));
+    return lines;
   }
 
   // ── Helpers ────────────────────────────────────────────────────────────────
@@ -3510,7 +3759,7 @@
     const cutoff = Date.now() - RIGHT_NOW_WINDOW_MS;
     const lines = content.split('\n').filter(l => {
       const t = l.trim();
-      return t && !t.startsWith('#') && /^\d{4}-\d{2}-\d{2}/.test(t);
+      return t && !t.startsWith('#') && /^\[?\d{4}-\d{2}-\d{2}/.test(t);
     });
     const byRole = {};
     for (const line of lines) {
@@ -3612,7 +3861,7 @@
       const parts = line.split('—').map(p => p.trim());
       const action = parts.slice(1).join(' — ') || parts[0] || '';
       const ts = info.ts;
-      const hasExplicitTime = /^\s*\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(line);
+      const hasExplicitTime = /^\s*\[?\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(line);
       const ago = ts !== null ? (hasExplicitTime ? relativeTime(ts) : 'today') : '';
 
       // Find a file path in this agent's recent line for the "View files" link.
@@ -3634,6 +3883,82 @@
           <span class="live-card-time">${escHtml(ago)}</span>
           ${filesLink}
         </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── ACTIVE AGENTS panel (Feed) ─────────────────────────────────────────────
+  // In-flight = a role with a SPAWNED/STARTED entry in the last 2 hours that has
+  // no later COMPLETED entry. Reads org/ACTIVITY.md lines (newest-first not assumed).
+  const ACTIVE_AGENT_WINDOW_MS = 2 * 60 * 60 * 1000; // 2 hours
+
+  function parseActiveAgents(preLines) {
+    const lines = preLines || [];
+    const cutoff = Date.now() - ACTIVE_AGENT_WINDOW_MS;
+    // Track, per role, the latest SPAWN/START and the latest COMPLETED timestamps.
+    const spawned = {};   // role -> { ts, task, line }
+    const completed = {}; // role -> ts (latest)
+
+    for (const line of lines) {
+      const ts = entryTimestampFull(line);
+      if (ts === null) continue;
+      const role = extractRole((line.split('—')[0]) || line);
+      if (!role) continue;
+      const upper = line.toUpperCase();
+
+      if (/—\s*SPAWNED\s*—/.test(upper) || /—\s*STARTED\s*—/.test(upper)) {
+        if (ts < cutoff) continue; // only spawns within the window count as active
+        if (!spawned[role] || ts >= spawned[role].ts) {
+          // Task = text after the SPAWNED/STARTED marker.
+          const parts = line.split('—').map(p => p.trim());
+          // parts[0]=timestamp+role, parts[1]=SPAWNED/STARTED, rest=task
+          const task = parts.slice(2).join(' — ') || parts.slice(1).join(' — ') || '';
+          spawned[role] = { ts, task, line };
+        }
+      } else if (/—\s*COMPLETED\s*—/.test(upper)) {
+        if (!completed[role] || ts > completed[role]) completed[role] = ts;
+      }
+    }
+
+    const active = [];
+    for (const role in spawned) {
+      const s = spawned[role];
+      const doneTs = completed[role];
+      // Active only if no COMPLETED entry at or after the spawn timestamp.
+      if (doneTs !== undefined && doneTs >= s.ts) continue;
+      active.push({ role, ts: s.ts, task: s.task });
+    }
+    // Most recently spawned first.
+    active.sort((a, b) => b.ts - a.ts);
+    return active;
+  }
+
+  function renderActiveAgents(activeAgents) {
+    const grid = document.getElementById('active-agents-grid');
+    if (!grid) return;
+
+    const hash = JSON.stringify(activeAgents.map(a => [a.role, a.ts])).length + '_' +
+      (activeAgents[0] ? activeAgents[0].role + activeAgents[0].ts : '');
+    if (renderHashes['activeAgents'] === hash) return;
+    renderHashes['activeAgents'] = hash;
+
+    if (!activeAgents.length) {
+      grid.innerHTML = '<div class="active-agents-empty">No agents running.</div>';
+      return;
+    }
+
+    grid.innerHTML = activeAgents.map(a => {
+      const color = agentColor(a.role);
+      const name = roleToName(a.role) || a.role;
+      const elapsed = relativeTime(a.ts);
+      const task = a.task ? escHtml(a.task.substring(0, 200)) : '<span style="color:var(--text3)">working…</span>';
+      return `<div class="active-agent-card" style="border-left-color:${color}">
+        <div class="active-agent-top">
+          <span class="active-agent-dot"></span>
+          <span class="active-agent-name" style="color:${color}">${escHtml(name)}</span>
+          <span class="active-agent-elapsed">${escHtml(elapsed)}</span>
+        </div>
+        <div class="active-agent-task">${task}</div>
       </div>`;
     }).join('');
   }
@@ -4344,6 +4669,160 @@
     });
   }
 
+  // ── File Activity panel — polls org/FILE_ACTIVITY.md every 3s ───────────────
+
+  let lastFileActivityRaw = null; // cache: avoid re-rendering when content unchanged
+
+  // Parse FILE_ACTIVITY.md lines. Returns array of { ts (ms), time (HH:MM:SS), path, hot }.
+  // "hot" = within last 60 seconds.
+  function parseFileActivity(content) {
+    if (!content) return [];
+    const HOT_CUTOFF = Date.now() - 60 * 1000;
+    const lines = content.split('\n').filter(l => {
+      const t = l.trim();
+      return t && !t.startsWith('#') && /^\[?\d{4}-\d{2}-\d{2}/.test(t);
+    });
+    const entries = [];
+    for (const line of lines) {
+      // Format: [YYYY-MM-DD HH:MM:SS] FILE — MODIFIED — relpath
+      const tsMs = entryTimestampFull(line);
+      if (tsMs === null) continue;
+      const timeMatch = line.match(/(\d{2}:\d{2}:\d{2})/);
+      const time = timeMatch ? timeMatch[1] : '';
+      const parts = line.split('—').map(p => p.trim());
+      // parts[2] is the relative path when format is [ts] FILE — MODIFIED — path
+      const path = parts[2] || parts[1] || '';
+      entries.push({ ts: tsMs, time, path, hot: tsMs >= HOT_CUTOFF });
+    }
+    // Newest first, cap at 30
+    return entries.reverse().slice(0, 30);
+  }
+
+  // Render FILE_ACTIVITY.md entries into the fa-body panel.
+  function renderFileActivity(content) {
+    const bar = document.getElementById('watcher-info-bar');
+    const body = document.getElementById('fa-body');
+    const count = document.getElementById('fa-count');
+    if (!body) return;
+
+    const entries = parseFileActivity(content);
+    const hasData = entries.length > 0;
+
+    // Show/hide info bar
+    if (bar) bar.style.display = hasData ? 'none' : '';
+
+    if (!hasData) {
+      if (count) count.textContent = 'org/FILE_ACTIVITY.md · not running';
+      body.innerHTML = '<div class="fa-empty">Run <strong style="color:var(--accent)">bash org/watch_poll.sh</strong> from the organisation root to start tracking file changes.</div>';
+      return;
+    }
+
+    if (count) count.textContent = 'org/FILE_ACTIVITY.md · ' + entries.length + ' entries';
+
+    body.innerHTML = entries.map(e => {
+      const hotClass = e.hot ? 'fa-entry fa-hot' : 'fa-entry';
+      const displayPath = e.path.replace(/^\/Users\/atharva\/Downloads\/organisation\//, '');
+      return `<div class="${hotClass}">
+        <span class="fa-time">${escHtml(e.time)}</span>
+        <span class="fa-path" title="${escHtml(displayPath)}">${escHtml(displayPath)}</span>
+      </div>`;
+    }).join('');
+  }
+
+  // Poll FILE_ACTIVITY.md independently every 3 seconds.
+  // Uses orgHandle if connected; silently skips when not connected.
+  async function pollFileActivity() {
+    if (!orgHandle) return;
+    try {
+      const content = await readFile(orgHandle, 'org/FILE_ACTIVITY.md');
+      if (content !== lastFileActivityRaw) {
+        lastFileActivityRaw = content;
+        renderFileActivity(content);
+      }
+    } catch(e) {
+      // Silently ignore — file may not exist yet
+    }
+  }
+
+  setInterval(pollFileActivity, 3000);
+
+  // ── RIGHT NOW panel — augmented with FILE_ACTIVITY entries ──────────────────
+  // fileActivityContent is the raw content of org/FILE_ACTIVITY.md (may be null).
+  // This wraps the existing parseRightNow + adds filesystem entries from last 120s.
+  function renderRightNowWithFileActivity(liveContent, fileActivityContent) {
+    const el = document.getElementById('right-now-body');
+    if (!el) return;
+
+    const FILE_NOW_CUTOFF = Date.now() - 120 * 1000; // 120 seconds
+
+    // Get agent-level entries from LIVE.md (existing logic)
+    const agentEntries = parseRightNow(liveContent); // array of { role, action, path, detail, ts }
+
+    // Get filesystem entries from FILE_ACTIVITY.md within 120s
+    const fileEntries = [];
+    if (fileActivityContent) {
+      const lines = fileActivityContent.split('\n').filter(l => {
+        const t = l.trim();
+        return t && !t.startsWith('#') && /^\[?\d{4}-\d{2}-\d{2}/.test(t);
+      });
+      // Deduplicate by path — keep most recent per path
+      const byPath = {};
+      for (const line of lines) {
+        const ts = entryTimestampFull(line);
+        if (!ts || ts < FILE_NOW_CUTOFF) continue;
+        const parts = line.split('—').map(p => p.trim());
+        const path = parts[2] || '';
+        if (!path) continue;
+        if (!byPath[path] || ts > byPath[path].ts) {
+          byPath[path] = { path, ts };
+        }
+      }
+      Object.values(byPath)
+        .sort((a, b) => b.ts - a.ts)
+        .slice(0, 10)
+        .forEach(e => fileEntries.push(e));
+    }
+
+    if (!agentEntries.length && !fileEntries.length) {
+      el.innerHTML = '<div style="color:var(--text3);font-size:11px;font-family:\'JetBrains Mono\',monospace;padding:12px;">No agents active right now</div>';
+      return;
+    }
+
+    // Render agent entries (from LIVE.md) — same as existing renderRightNow
+    const agentHtml = agentEntries.map(a => {
+      const color = agentColor(a.role);
+      const name = roleToName(a.role) || a.role;
+      const actionColor = a.action === 'WRITING' || a.action === 'MODIFIED' || a.action === 'CREATED' ? 'var(--amber)' : 'var(--cyan)';
+      const ago = relativeTime(a.ts);
+      const pathShort = a.path.replace(/^src\/projects\//, '').replace(/^docs\//, 'docs/');
+      return `<div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:4px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="width:7px;height:7px;border-radius:50%;background:${color};box-shadow:0 0 5px ${color};animation:pulse 1s infinite;flex-shrink:0;display:inline-block;"></span>
+          <span style="font-size:12px;font-weight:600;color:${color}">${escHtml(name)}</span>
+          <span style="font-size:10px;font-family:'JetBrains Mono',monospace;color:${actionColor};background:rgba(0,0,0,0.2);padding:1px 6px;border-radius:3px;">${escHtml(a.action)}</span>
+          <span style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-left:auto;">${escHtml(ago)}</span>
+        </div>
+        <div style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--accent);padding-left:15px;">${escHtml(pathShort)}</div>
+        ${a.detail ? `<div style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text2);padding-left:15px;line-height:1.4;">${escHtml(a.detail.substring(0, 120))}</div>` : ''}
+      </div>`;
+    }).join('');
+
+    // Render filesystem entries (from FILE_ACTIVITY.md) — deduplicated, only if watcher is running
+    const fileHtml = fileEntries.map(e => {
+      const displayPath = e.path.replace(/^\/Users\/atharva\/Downloads\/organisation\//, '');
+      const ago = relativeTime(e.ts);
+      return `<div style="padding:7px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;display:inline-block;opacity:0.8;"></span>
+        <span style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--cyan);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escHtml(displayPath)}">${escHtml(displayPath)}</span>
+        <span style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text3);flex-shrink:0;">${escHtml(ago)}</span>
+      </div>`;
+    }).join('');
+
+    el.innerHTML = agentHtml + (fileHtml
+      ? `<div style="padding:6px 14px;font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;background:var(--surface2);">filesystem · last 2 min</div>${fileHtml}`
+      : '');
+  }
+
   // ── Main refresh ───────────────────────────────────────────────────────────
 
   async function refresh() {
@@ -4442,7 +4921,8 @@
       const allFiles = cachedAllFiles;
 
       // ── Feed tab: live-only sections (CHANGE 2 + 3) — always update ──
-      renderRightNow(liveContent);
+      renderRightNowWithFileActivity(liveContent, lastFileActivityRaw);
+      renderActiveAgents(parseActiveAgents(actLines));
       renderLiveNow(liveEntries, allFiles);
       renderInProgress(allFiles, liveEntries);
       renderFeedBlockers(blockerEntries);
