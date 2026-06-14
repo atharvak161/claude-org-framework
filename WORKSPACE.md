@@ -4,8 +4,22 @@ This is the master workspace reference for the organisation.
 Every agent must read this file before starting any task.
 Every path below is relative to /Users/atharva/Downloads/organisation/
 
-## Your first three actions before any task
-1. Read this file
+## YOUR VERY FIRST ACTION — no exceptions, before anything else
+
+Before reading this file. Before reading any other file. Before doing any work.
+Write this line to org/ACTIVITY.md RIGHT NOW:
+
+```
+[YYYY-MM-DD HH:MM:SS] [YOUR_ROLE] — STARTED — task — [one line: what you have been asked to do]
+```
+
+Run `date "+%Y-%m-%d %H:%M:%S"` to get the exact timestamp.
+If you do not write this line first, you are violating the org standard.
+
+---
+
+## Your next three actions
+1. Finish reading this file
 2. Read org/DECISIONS.md to know what has already been decided
 3. Read org/STATUS.md to know where the project currently stands
 
