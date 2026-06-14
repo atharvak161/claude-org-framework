@@ -53,6 +53,134 @@ Before any design is handed to engineering:
 - Does it handle all states?
 - Is it responsive?
 - Can it be implemented with the agreed component library?
+## Craft philosophy — What separates good design from premium design
+
+Design is not decoration. It is the product. A poorly designed page loses users before they read a word. A premium design earns trust before it earns attention.
+
+### The three questions before any design decision
+1. **Why here?** — Why does this element live at this position on the page?
+2. **Why now?** — Why does this element appear at this scroll position or interaction state?
+3. **Why this?** — Why this color, this typeface, this spacing, this animation?
+
+If you cannot answer all three, the decision is not ready.
+
+### Dark luxury design system (for premium event/product sites)
+When the brief calls for luxury or premium positioning:
+
+**Color architecture:**
+```
+Background layers (darkest to lightest):
+  --bg-base:    #0A0A0A   (near black — not pure black, avoids harshness)
+  --bg-raised:  #111111   (card surfaces)
+  --bg-float:   #1A1A1A   (elevated panels)
+
+Accent hierarchy:
+  --clr-primary:  Gold (#D4AF37 or #C9A84C) — use sparingly, max 15% of page
+  --clr-accent:   Saffron/Orange (#FF6B00)   — calls to action only
+  --clr-muted:    rgba(255,255,255,0.12)     — borders, dividers
+
+Text:
+  --text-primary:   #FFFFFF           — headings
+  --text-secondary: rgba(255,255,255,0.72) — body copy
+  --text-muted:     rgba(255,255,255,0.45) — captions, labels
+```
+
+**Spacing system (8px base grid):**
+```
+--space-1:  4px
+--space-2:  8px
+--space-3:  12px
+--space-4:  16px
+--space-6:  24px
+--space-8:  32px
+--space-12: 48px
+--space-16: 64px
+--space-24: 96px
+--space-32: 128px
+Section padding: min(10vw, 120px) top + bottom
+```
+
+**Typography pairing for Indian cultural context:**
+| Role | Font | Weight | Notes |
+|---|---|---|---|
+| Hero/couple names | Great Vibes | 400 | Script, evokes Lagna Patrika |
+| Section headings | Cormorant Garamond | 300–600 | Regal serif |
+| Devanagari | Noto Serif Devanagari | 400–700 | All Marathi/Hindi text |
+| Body | DM Sans | 400 | Clean, highly legible on screens |
+| Avoid | Playfair Display | — | Overused as of 2026 |
+
+**Alternative heading fonts for variety:**
+- Allura — refined calligraphy, handles long Indian names
+- Pinyon Script — ink-like, evokes invitation feel
+- Corinthia — tall ascenders, elegant
+
+### Animation as design (not as afterthought)
+Animation should be designed before it is coded. Specify:
+- **What triggers it**: scroll position, hover, load, user action
+- **What moves**: which property (`transform`, `opacity`)
+- **How fast**: duration in ms
+- **What curve**: ease name and reasoning
+- **What it communicates**: entrance = "this is new", exit = "this is leaving", hover = "this is interactive"
+
+**Animation vocabulary by intent:**
+| Intent | Easing | Duration |
+|---|---|---|
+| Element entering the viewport | `power3.out` | 600–900ms |
+| Hero cinematic reveal | `expo.out` | 1200–2000ms |
+| Button hover state | `power2.out` | 150–250ms |
+| Card hover (tilt, scale) | `power2.out` | 300–400ms |
+| Scroll scrub | `none` | scrub: 1 |
+| Success confirmation | `elastic.out(1,0.5)` | 800ms |
+
+### Maharashtrian / Indian cultural design standards
+When designing for Maharashtra or Indian cultural context:
+
+**Colour associations (use intentionally):**
+- Green (#1B4332 deep forest): Maratha Empire, Sahyadri forests, prosperity
+- Gold (#D4AF37): Zari silk, temple gold, auspiciousness
+- Saffron (#FF6B00): Maratha flag, Hanuman, festive energy
+- Ivory (#FDF6E3): Nauvari cotton, warm invitations
+- Deep red (#7B1C2E): Paithani borders, sindoor, celebration
+
+**Never use** pure white backgrounds for Hindu wedding sites — it is associated with mourning.
+
+**Decorative vocabulary:**
+- Warli art borders (white on ochre/clay — white stick figures, geometric)
+- Paithani silk motifs (peacock, mango/kairi, lotus in zari borders)
+- Kolam/Rangoli tile patterns (geometric ground patterns)
+- Mogra flowers (jasmine) — hero garlands, dividers
+- Marigold garlands — section separators
+- Lotus — sacred, used in headers and footers
+
+**Typography for Marathi text:**
+- Always use Noto Serif Devanagari — never use Latin fonts for Devanagari
+- Devanagari text should be 10–15% larger than Latin equivalent at same role
+- Use `lang="mr"` attribute on Marathi text elements
+
+### Visual reference sources
+For every design, check at least two references before starting:
+1. **Dribbble.com** — wedding, luxury, dark design palettes
+2. **Awwwards.com** — motion-forward, experimental
+3. **withjoy.com** — wedding websites (production benchmark)
+4. **Behance.net** — Indian wedding invitation design
+
+Screenshot one reference and describe its key principles in your design brief before producing any output.
+
+### What makes a design "premium" vs "generic"
+**Generic:**
+- Centered heading, body text, stock photo
+- Same spacing everywhere
+- Consistent but flat hierarchy
+- No motion
+
+**Premium:**
+- Deliberate asymmetry and tension
+- Optical spacing (not mechanical)
+- Multiple layers of hierarchy (type size, weight, color, opacity, position)
+- Motion that guides the eye from one focal point to the next
+- Surprise moments — an unexpected color, an image that bleeds to the edge, a section that scrolls differently
+- Details no one notices consciously but everyone feels: hair-line borders, subtle gradients, text-shadow on hero copy
+
 ## Outputs
 - DESIGN_SYSTEM.md
 - /docs/design/screens/ (all screen designs described)
