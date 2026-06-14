@@ -1,9 +1,2 @@
-[submodule "src/projects/atharvak161-github-io"]
-	path = src/projects/atharvak161-github-io
-	url = https://github.com/atharvak161/atharvak161.github.io.git
-[submodule "src/projects/atharvak161-profile"]
-	path = src/projects/atharvak161-profile
-	url = https://github.com/atharvak161/atharvak161.git
-[submodule "src/projects/financial-dashboard"]
-	path = src/projects/financial-dashboard
-	url = https://github.com/atharvak161/finance-dashboard.git
+# No submodules in the public framework.
+# Personal projects live outside this repository.

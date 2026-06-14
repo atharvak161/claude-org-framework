@@ -1,27 +1,60 @@
-# Financial dashboard is its own separate git repo
+# ══ PERSONAL PROJECTS — never push ══
+src/projects/
+src/backend/
+src/frontend/
+src/mobile/
+src/db/
+src/integrations/
+src/shared/
 
-# macOS
-.DS_Store
-.AppleDouble
+# ══ PERSONAL DOCS — project-specific ══
+docs/
 
-# Secrets
+# ══ PERSONAL KNOWLEDGE BASE ══
+knowledge/
+
+# ══ SECRETS ══
 .env
 *.env
 secrets/
 *.key
 *.pem
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+*.secret
 
-# Claude memory (local only)
+# ══ LOCAL CLAUDE MEMORY ══
 .claude/
+agents/**/.claude/
 
-# Node / Python artefacts
+# ══ TEMP / SCRATCH ══
+org/test_write.tmp
+org/FILE_ACTIVITY.md
+*.tmp
+
+# ══ macOS ══
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# ══ Node / Python artefacts ══
 node_modules/
 __pycache__/
 *.pyc
 dist/
 build/
+.next/
+.nuxt/
+.output/
 
-# Editor
+# ══ Editor ══
 .vscode/settings.json
 .idea/
-docs/finance/personal/
+*.swp
+*.swo
+
+# ══ Logs ══
+npm-debug.log*
