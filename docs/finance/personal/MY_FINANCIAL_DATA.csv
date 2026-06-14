@@ -1,0 +1,76 @@
+SECTION,FIELD,VALUE,NOTES
+,,, 
+INCOME,Base salary (annual),£28000,
+INCOME,Average overtime (monthly gross),£275,
+INCOME,Hours per week,37.5,
+INCOME,Pension - employee rate,3%,Salary sacrifice
+INCOME,Pension - employer rate,3%,
+INCOME,Tax code,1034L,HMRC underpayment code
+INCOME,Tax-free allowance,£10348,Annual
+INCOME,HMRC underpayment deduction,£38/month,Clears April 2027
+INCOME,Total HMRC underpayment,£456,
+INCOME,Underpayment end date,5 April 2027,
+,,, 
+EXPENSES,Rent,£700/month,Drops to £600 from Aug 2026
+EXPENSES,Education Loan EMI (SBI),£325/month,
+EXPENSES,SUD Life ULIP,£149/month,
+EXPENSES,PNB MetLife ULIP,£84/month,
+EXPENSES,Axis Max Life ULIP,£85/month,
+EXPENSES,EE Phone,£74/month,Ends Oct 2026 → £12 SIM only
+EXPENSES,TFL Transport,£95/month,
+EXPENSES,Apple / iTunes,£20/month,
+EXPENSES,TryHackMe,£15/month,
+EXPENSES,Claude Pro,£18/month,
+EXPENSES,Yonder Membership,£15/month,
+EXPENSES,Groceries (own),£15/month,
+EXPENSES,Eating out / social,£70/month,
+EXPENSES,Hair (amortised),£8/month,
+EXPENSES,India trip (amortised),£113/month,
+EXPENSES,TOTAL MONTHLY,£1786,
+,,, 
+DEBTS,Lender,SBI,State Bank of India
+DEBTS,Loan type,Education loan,
+DEBTS,Outstanding balance (INR),₹2752000,
+DEBTS,Outstanding balance (approx GBP),£22016,At ₹125/£
+DEBTS,Interest rate,9.90% p.a.,
+DEBTS,Monthly EMI,₹34090,Approx £273
+DEBTS,Loan start date,22 June 2022,
+,,, 
+CASH,Revolut Savings Vault,£600,Emergency buffer - 3.0% AER
+,,, 
+PENSION,Provider,Standard Life,Eurostop workplace pension
+PENSION,Current value,£1690,Includes transferred People's Pension £693
+PENSION,Monthly contribution,£115,
+,,, 
+ULIP,SUD Life International Wealth Creator,£149/month,GBP policy
+ULIP,SUD Life - current value,£149,Just started
+ULIP,SUD Life - lock-in date,1 April 2028,
+ULIP,SUD Life - pay term ends,1 April 2031,
+ULIP,SUD Life - sum assured,£19000,
+ULIP,PNB MetLife Smart Goal Ensuring Multiplier,₹10000/month,INR policy
+ULIP,PNB MetLife - current value,₹30052,
+ULIP,PNB MetLife - lock-in date,1 January 2028,
+ULIP,PNB MetLife - pay term ends,1 January 2031,
+ULIP,PNB MetLife - sum assured,£11400,
+ULIP,Axis Max Life Online Savings Plan,₹10000/month,INR policy
+ULIP,Axis Max Life - current value,₹31555,
+ULIP,Axis Max Life - lock-in date,1 January 2028,
+ULIP,Axis Max Life - pay term ends,1 January 2031,
+ULIP,Axis Max Life - sum assured,£11400,
+,,, 
+GOALS,Emergency fund target,£3000,
+GOALS,Wealth target,£4760000,By age 50
+GOALS,India trip target,£3000,Deadline Oct 2026
+GOALS,India trip saved,£600,Flights paid (£650)
+GOALS,India trip remaining,£2350,
+,,, 
+PAYSLIPS,May 2026 net pay,£2243.51,ACTUAL — £26k base + £725 OT
+PAYSLIPS,May 2026 tax deducted,£405.80,
+PAYSLIPS,May 2026 NI deducted,£147.49,
+PAYSLIPS,May 2026 pension deducted,£94.87,
+PAYSLIPS,May 2026 note,Promoted end of May to £28k,
+PAYSLIPS,Jun 2026 net pay (est),£2003,£28k salary + avg OT
+PAYSLIPS,Jul 2026 net pay (est),£2003,
+PAYSLIPS,Aug 2026 net pay (est),£2003,Rent drops → saves £100
+PAYSLIPS,Sep 2026 net pay (est),£2003,
+PAYSLIPS,Oct 2026 net pay (est),£2003,EE ends → saves £62
