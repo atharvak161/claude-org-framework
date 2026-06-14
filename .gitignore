@@ -58,3 +58,5 @@ build/
 
 # ══ Logs ══
 npm-debug.log*
+.DS_Store
+**/.DS_Store
