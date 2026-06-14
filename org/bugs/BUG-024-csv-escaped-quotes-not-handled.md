@@ -1,0 +1,7 @@
+# BUG-024 — CSV Parser Does Not Handle Escaped Double Quotes Inside Quoted Fields
+**Severity:** High
+**File:** /Users/atharva/Downloads/organisation/src/projects/financial-dashboard/js/pages/transactions.js (lines 95–105)
+**Symptom:** CSV fields containing a literal double-quote character (represented as `""` per RFC 4180) are parsed incorrectly: the field is split at the escaped quote, the second segment becomes a new field, and all subsequent columns shift by one — causing wrong dates, amounts, and descriptions for that row and every row that follows in the preview.
+**Root cause:** `splitCSVLine` (line 99) toggles `inQuote` on every `"` encountered: `if (ch === '"') { inQuote = !inQuote; }`. When the parser sees `""` inside a quoted field it toggles OFF then ON, treating the gap between the two quotes as "outside the quote" — so the comma that may follow is treated as a field separator. Additionally, the quote character itself is stripped from output, meaning the literal `"` never appears in the parsed value.
+**Reproduction:** Upload a CSV where a description column contains: `"Smith ""The Baker"" Ltd",2024-01-15,-12.50` — the parser will split this into more than 3 fields and the amount column will be empty/wrong.
+**Fix hint:** In `splitCSVLine`, detect `""` as an escaped quote: when `inQuote` is true and the current char is `"` and the next char is also `"`, append a single `"` to `cur` and advance the iterator by one extra character instead of toggling `inQuote`.

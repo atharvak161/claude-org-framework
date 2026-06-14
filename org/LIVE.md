@@ -328,3 +328,24 @@
 2026-06-13 16:54:25 FRONTEND_DEVELOPER — COMPLETED — task — Bug-fix wave A: 6 bugs fixed
 2026-06-13 16:54:47 FRONTEND_DEVELOPER — COMPLETED — task — Bug-fix wave D: BUG-031 BUG-034 BUG-035 fixed
 [2026-06-13 16:58:52] FRONTEND_DEVELOPER — COMPLETED — task — monitor.html upgraded: FILE_ACTIVITY.md panel + fswatch script created
+2026-06-14 11:17:53 FRONTEND_DEVELOPER — READING — src/projects/financial-dashboard/js/pages/assets.js — Reading renderROAI function before edits for BUG-012 and BUG-014
+2026-06-14 11:18:06 FRONTEND_DEVELOPER — READING — /Users/atharva/Downloads/organisation/src/projects/financial-dashboard/js/pages/analytics.js — Reading renderPeriodComparison, delta, pctDelta, logExp functions
+2026-06-14 11:18:13 FRONTEND_DEVELOPER — WRITING — src/projects/financial-dashboard/js/pages/assets.js — BUG-012: fix SGB valueGBP to use currentPriceINR when available; BUG-014: fix ISA/SIPP invested to use startYear instead of hardcoded 3
+2026-06-14 11:18:21 FRONTEND_DEVELOPER — WRITING — /Users/atharva/Downloads/organisation/src/projects/financial-dashboard/js/pages/analytics.js — Fixing BUG-015 (delta zero guard) and BUG-016 (logExp clamp)
+2026-06-14 11:18:49 FRONTEND_DEVELOPER — COMPLETED — task — Wave F done
+2026-06-14 11:18:26 FRONTEND_DEVELOPER — READING — src/projects/financial-dashboard/js/pages/transactions.js — Reading full file before fixing BUG-022 023 026 027 028
+2026-06-14 11:18:51 FRONTEND_DEVELOPER — COMPLETED — task — Wave E done
+2026-06-14 11:19:02 FRONTEND_DEVELOPER — WRITING — src/projects/financial-dashboard/js/pages/transactions.js — BUG-022: fix SMS CRLF split regex
+2026-06-14 11:19:18 FRONTEND_DEVELOPER — WRITING — src/projects/financial-dashboard/js/pages/transactions.js — BUG-023: fix ambiguous SMS always tagged debit
+[2026-06-14 11:18:54] FRONTEND_DEVELOPER — READING — /Users/atharva/Downloads/organisation/src/projects/financial-dashboard/js/pages/calendar.js — Reading before BUG-032 and BUG-033 fixes
+[2026-06-14 11:18:54] FRONTEND_DEVELOPER — READING — /Users/atharva/Downloads/organisation/src/projects/financial-dashboard/js/pages/envelopes.js — Reading before BUG-036 fix
+[2026-06-14 11:18:54] FRONTEND_DEVELOPER — READING — /Users/atharva/Downloads/organisation/src/projects/financial-dashboard/calendar.html — Reading before BUG-032 HTML fix
+2026-06-14 11:19:36 FRONTEND_DEVELOPER — WRITING — src/projects/financial-dashboard/js/pages/transactions.js — BUG-026: add deduplication in importTransactions
+2026-06-14 11:19:23 FRONTEND_DEVELOPER — WRITING — src/projects/financial-dashboard/js/shared-layout.js — BUG-042: adding showChordHint/removeChordHint toast functions; BUG-043: analytics.html exists, mapping correct, skip
+2026-06-14 11:19:23 FRONTEND_DEVELOPER — WRITING — src/projects/financial-dashboard/css/theme.css — BUG-044: adding html.oled body selector alongside body.oled
+2026-06-14 11:19:23 FRONTEND_DEVELOPER — WRITING — src/projects/financial-dashboard/*.html — BUG-044: injecting OLED inline script into 16 HTML pages
+2026-06-14 11:20:08 FRONTEND_DEVELOPER — WRITING — src/projects/financial-dashboard/js/pages/transactions.js — BUG-027: add confirm guard to delete transaction handler
+2026-06-14 11:20:22 FRONTEND_DEVELOPER — WRITING — src/projects/financial-dashboard/js/pages/transactions.js — BUG-028: add date format selector to CSV tab, update normaliseDate to support mdy
+[2026-06-14 11:21:06] FRONTEND_DEVELOPER — COMPLETED — task — Wave H done
+2026-06-14 11:21:47 FRONTEND_DEVELOPER — COMPLETED — task — Wave G done
+2026-06-14 11:22:20 FRONTEND_DEVELOPER — COMPLETED — task — Wave I done: BUG-042 BUG-043 BUG-044

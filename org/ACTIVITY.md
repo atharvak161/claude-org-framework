@@ -590,3 +590,21 @@ Result: Fix applied and logically verified; jest + tsc run required from user te
 [2026-06-13 16:58:52] CHIEF_OF_STAFF — COORDINATING — org/ACTIVITY.md — All 4 bug-fix waves complete. Spawning commit agent + monitor.html filesystem-tracking upgrade agent.
 [2026-06-13 17:00:57] DEVOPS — COMPLETED — github push — Wave 3+4 bug fixes pushed: BUG-001 002 011 013 021 024 025 031 034 035 041 045 046 047
 [2026-06-13 16:58:52] FRONTEND_DEVELOPER — COMPLETED — monitor.html + org/watch_poll.sh — Added full filesystem activity tracking to monitor
+[2026-06-14 00:00:00] CHIEF_OF_STAFF — SPAWNING — 5 parallel fix agents — Wave E-I: BUG-012 014 015 016 022 023 026 027 028 032 033 036 042 043 044
+[2026-06-14 11:17:18] CHIEF_OF_STAFF — SPAWNING — 5 parallel fix agents — Wave E-I: BUG-012 014 015 016 022 023 026 027 028 032 033 036 042 043 044
+[2026-06-14 11:17:18] FRONTEND_DEVELOPER — STARTED — js/pages/assets.js — Bug-fix wave E: BUG-012 SGB market value, BUG-014 ISA/SIPP start year
+[2026-06-14 11:17:18] FRONTEND_DEVELOPER — STARTED — js/pages/analytics.js — Bug-fix wave F: BUG-015 delta zero prev, BUG-016 logExp negative
+[2026-06-14 11:17:18] FRONTEND_DEVELOPER — STARTED — js/pages/transactions.js — Bug-fix wave G: BUG-022 CRLF, BUG-023 debit+credit ambiguous, BUG-026 dedup, BUG-027 confirm, BUG-028 date format
+[2026-06-14 11:17:18] FRONTEND_DEVELOPER — STARTED — js/pages/calendar.js + envelopes.js — Bug-fix wave H: BUG-032 day cap, BUG-033 null expenses, BUG-036 sign
+[2026-06-14 11:17:18] FRONTEND_DEVELOPER — STARTED — js/shared-layout.js + HTML files — Bug-fix wave I: BUG-042 chord indicator, BUG-043 analytics nav, BUG-044 OLED flash
+2026-06-14 11:18:49 FRONTEND_DEVELOPER — COMPLETED — js/pages/analytics.js — Fixed BUG-015 (delta zero guard), BUG-016 (logExp clamp)
+2026-06-14 11:18:51 FRONTEND_DEVELOPER — COMPLETED — js/pages/assets.js — Fixed BUG-012 (SGB market price), BUG-014 (ISA/SIPP start year)
+[2026-06-14 11:21:06] FRONTEND_DEVELOPER — COMPLETED — js/pages/calendar.js + envelopes.js + calendar.html — Fixed BUG-032 BUG-033 BUG-036
+2026-06-14 11:21:47 FRONTEND_DEVELOPER — COMPLETED — js/pages/transactions.js — Fixed BUG-022 023 026 027 028
+[2026-06-14 11:22:20] FRONTEND_DEVELOPER — COMPLETED — js/shared-layout.js + HTML pages + css/theme.css — Fixed BUG-042 BUG-043 BUG-044
+[2026-06-14 11:17:18] FRONTEND_DEVELOPER — COMPLETED — Wave E assets.js — BUG-012 BUG-014 fixed
+[2026-06-14 11:17:18] FRONTEND_DEVELOPER — COMPLETED — Wave F analytics.js — BUG-015 BUG-016 fixed
+[2026-06-14 11:17:18] FRONTEND_DEVELOPER — COMPLETED — Wave G transactions.js — BUG-022 BUG-023 BUG-026 BUG-027 BUG-028 fixed
+[2026-06-14 11:17:18] FRONTEND_DEVELOPER — COMPLETED — Wave H calendar.js envelopes.js — BUG-032 BUG-033 BUG-036 fixed
+[2026-06-14 11:17:18] FRONTEND_DEVELOPER — COMPLETED — Wave I shared-layout.js HTML pages theme.css — BUG-042 BUG-043 BUG-044 fixed
+[2026-06-14 11:17:18] DEVOPS — STARTED — github — Committing and pushing all wave E-I fixes

@@ -1,0 +1,7 @@
+# BUG-025 — CSV Import Ignores Checkbox State for Rows Beyond the 10-Row Preview
+**Severity:** High
+**File:** /Users/atharva/Downloads/organisation/src/projects/financial-dashboard/js/pages/transactions.js (lines 598–615)
+**Symptom:** When importing a CSV with more than 10 rows, all rows beyond row 10 are always imported regardless of whether the user unchecked them. Unchecking individual preview rows only suppresses those specific rows; it does not give the user any control over the remaining N-10 rows. Unchecking "Select all" still imports all rows past index 9.
+**Root cause:** Line 610: `if (i < preview.length && !checkedIndices.has(i)) return null;` — the condition only respects the checkbox for rows where `i < 10` (the visible preview). For `i >= 10`, the condition short-circuits to false and the row is always included. The intent appears to be "include non-preview rows when select-all is on" but the logic is not tied to any select-all signal — it is unconditional.
+**Reproduction:** Upload a 50-row CSV. Uncheck all checkboxes (including "Select all"). Click "Import selected". All 40 non-preview rows (rows 11–50) are imported, and the status shows "40 transaction(s) imported."
+**Fix hint:** Track whether the user has checked or unchecked the global "select all" checkbox. When not all-selected, skip non-preview rows. Alternatively, paginate the preview or move the import logic to be strictly checkbox-driven for all rows (render all rows or only import the checked subset regardless of position).

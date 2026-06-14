@@ -1,0 +1,7 @@
+# BUG-028 — normaliseDate Assumes DD/MM/YYYY — Silently Wrong for MM/DD/YYYY (US) Format CSVs
+**Severity:** Medium
+**File:** /Users/atharva/Downloads/organisation/src/projects/financial-dashboard/js/pages/transactions.js (lines 124–132)
+**Symptom:** Dates from US-format bank CSVs (e.g. American Express, Chase exports) are transposed: a transaction dated January 3rd (`01/03/2024`) is stored as March 1st (`2024-03-01`). The transaction log shows the wrong date, month-filter buckets transactions into the wrong month, and summaries are silently incorrect.
+**Root cause:** `normaliseDate` (line 129) always maps `(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})` to `YYYY-uk[2]-uk[1]` — treating the first segment as DD and the second as MM. There is no detection of US format and no user-selectable date format override. For ambiguous dates where the first number is ≤ 12 (e.g. `03/01/2024`), both interpretations are valid and the function always guesses wrong for US sources.
+**Reproduction:** Upload a CSV where dates are `01/15/2024` (January 15). The parser produces `2024-01-15` only because the second segment `15 > 12` forces correct interpretation. But `01/03/2024` (January 3) is stored as `2024-03-01` (March 1) — silently wrong.
+**Fix hint:** Add a date format selector to the CSV import UI (DD/MM/YYYY vs MM/DD/YYYY) and thread the choice into `normaliseDate`, or detect US format heuristically by checking whether any first segment exceeds 12 across the dataset.
