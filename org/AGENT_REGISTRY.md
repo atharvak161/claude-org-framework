@@ -180,3 +180,14 @@ Departments: 21
 
 ## Full escalation chain
 Individual contributor → Manager → Senior/Director/VP → Chief of Staff → [discusses with Guide and Explainer] → Atharva
+
+## Model routing tiers (cost discipline)
+When the Chief of Staff (or any parent) spawns an agent, pick the model by task, not by habit.
+
+| Default tier | Roles / task class |
+|---|---|
+| **Opus** | Chief of Staff, all VPs & Directors, Solution Architect, Security Architect, Penetration Tester, Risk Manager, Compliance Auditor; any architecture, threat-modelling, complex-debugging, or final-review task |
+| **Sonnet** | Developers, testers, technical writers, analysts, most managers/specialists; standard code edits, docs, tests, straightforward features |
+| **Haiku** | Mechanical work regardless of role: search/grep, file moves, logging, formatting, status collection, simple verification |
+
+Tier is a default, not a cage — escalate to Opus for genuinely hard or high-stakes sub-tasks; drop to Haiku for grunt work.

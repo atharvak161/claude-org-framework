@@ -10,3 +10,8 @@
 - [ ] Guide summary ready — Guide & Explainer
 
 ---
+
+## High-stakes dual sign-off (mandatory)
+For any change that is pushed to a live/public system, deletes data, or is security-sensitive:
+Director of Security AND Director of QA must BOTH sign off here (in parallel) before release.
+Routine low-risk changes follow the standard single-chain checklist above.

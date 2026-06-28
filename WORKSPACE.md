@@ -18,10 +18,11 @@ If you do not write this line first, you are violating the org standard.
 
 ---
 
-## Your next three actions
+## Your next actions
 1. Finish reading this file
 2. Read org/DECISIONS.md to know what has already been decided
 3. Read org/STATUS.md to know where the project currently stands
+4. Read knowledge/lessons-learned/PLAYBOOK.md — durable rules that prevent repeat mistakes
 
 ## Directory ownership — where each agent writes
 
@@ -220,3 +221,14 @@ All secrets via environment variables or secrets manager.
 Everything in review/ is written for you to read before you push.
 Start with review/DELIVERY_SUMMARY.md — it is in plain English.
 Everything else is detail if you want to go deeper.
+
+## Model routing policy (cost discipline)
+Spawn the cheapest model that fits the task. This is mandatory, not optional.
+- **Haiku** — search/grep, file moves, logging, formatting, status reads, simple verification, mechanical edits.
+- **Sonnet** — standard code edits, doc writing, tests, straightforward features, most department execution work.
+- **Opus** — architecture, security analysis, threat modelling, complex debugging, Chief/Director reasoning, final review and sign-off, ambiguous high-stakes decisions.
+Default tiers per role are listed in org/AGENT_REGISTRY.md. Escalate or drop a tier when the specific sub-task warrants it.
+
+## Security gate before release (mandatory)
+No deliverable becomes review/READY_FOR_REVIEW until Director of Security has run a security review.
+For HIGH-STAKES changes — anything pushed to a live/public system, any deletion, or anything security-sensitive — BOTH Director of Security AND Director of QA must sign off in review/SIGN_OFFS.md (in parallel) before release.
