@@ -15,6 +15,13 @@ docs/
 
 # ══ PERSONAL KNOWLEDGE BASE ══
 knowledge/
+# ...except the protocol + lessons files the framework needs to run on a fresh
+# clone. Everything else under knowledge/ (courses, notes, plans) stays local.
+!knowledge/protocols/
+!knowledge/protocols/*.md
+!knowledge/protocols/*.py
+!knowledge/lessons-learned/
+!knowledge/lessons-learned/PLAYBOOK.md
 
 # ══ SECRETS ══
 .env
