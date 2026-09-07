@@ -7,6 +7,9 @@ src/db/
 src/integrations/
 src/shared/
 
+# ══ CONFIDENTIAL CLIENT WORK — never push ══
+src/company-work-project/
+
 # ══ PERSONAL DOCS — project-specific ══
 docs/
 
@@ -60,3 +63,36 @@ build/
 npm-debug.log*
 .DS_Store
 **/.DS_Store
+
+# Local-only backups of site snapshots — never commit, never publish
+.local-backups/
+
+# Local-only work tool — contains employer client names and production DB queries. NEVER commit.
+src/tools-local/
+
+# Browser test artifacts (session scratch, not source)
+.playwright-mcp/
+**/.playwright-mcp/
+badges-after-resize.png
+
+# ── Operational logs: machine-local, NEVER committed ─────────────────
+# These accumulate real client names, project detail and internal
+# decisions. This repo is PUBLIC. Templates live in org/templates/;
+# bin/bootstrap-org copies them into place on a fresh clone.
+org/ACTIVITY.md
+org/ACTIVITY_ADDENDUM.md
+org/DECISIONS.md
+org/COMPANY_LOG.md
+org/STATUS.md
+org/BLOCKERS.md
+org/LIVE.md
+org/RISKS.md
+org/HANDOFF.md
+org/FILE_ACTIVITY.md
+org/AGENT_PERFORMANCE.md
+org/AGENT_CHANGELOG.md
+org/bugs/
+review/SIGN_OFFS.md
+
+# Browser/test scratch
+**/.playwright-mcp/

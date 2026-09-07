@@ -18,11 +18,52 @@ If you do not write this line first, you are violating the org standard.
 
 ---
 
+## Fresh clone? Run this first
+
+The operational logs (`org/ACTIVITY.md`, `DECISIONS.md`, `COMPANY_LOG.md`,
+`review/SIGN_OFFS.md`, ...) are **machine-local and never committed** — they
+accumulate real client names and internal detail, and this repo is public.
+
+On a new machine:
+
+```bash
+./bin/bootstrap-org
+```
+
+That creates them from `org/templates/`. Safe to re-run; it never overwrites an
+existing log. Never `git add` these files — `.gitignore` blocks them, and that
+block is deliberate. Do not remove it.
+
 ## Your next actions
 1. Finish reading this file
 2. Read org/DECISIONS.md to know what has already been decided
 3. Read org/STATUS.md to know where the project currently stands
 4. Read knowledge/lessons-learned/PLAYBOOK.md — durable rules that prevent repeat mistakes
+5. Read knowledge/protocols/GSTACK_PROTOCOL.md — the toolchain you are required to work with
+
+## The toolchain — gstack (mandatory, not optional)
+
+gstack is installed at `~/.claude/skills/gstack`. It is this organisation's
+default way of working, on Atharva's standing order: use the skills relevant to
+the task, natively, without being asked.
+
+**Before you choose an approach, check knowledge/protocols/GSTACK_PROTOCOL.md for
+the skill that already does it.** Hand-rolling a workflow a skill encodes is a
+defect, not initiative.
+
+The non-negotiable habits:
+- `/investigate` before ANY fix — no fix without a root cause
+- `/guard` before ANY production-adjacent work
+- `/review` + `/cso` before ANY push — both, every time
+- `/browse` for ALL web interaction — never `mcp__claude-in-chrome__*` tools
+- `/learn` at session end, then promote durable lessons into PLAYBOOK.md
+- Report as DONE / DONE_WITH_CONCERNS / BLOCKED / NEEDS_CONTEXT
+
+House overrides that beat any skill default:
+- Never commit `Co-Authored-By: Claude` — `/ship` emits one, strip it
+- `/ship`, `/land-and-deploy`, `/canary` and every push are Chief of Staff ONLY
+- A permission gate stops you. Surface it. Never route around it.
+- No agent self-certifies — sign-off lives in review/SIGN_OFFS.md
 
 ## Directory ownership — where each agent writes
 
@@ -223,6 +264,10 @@ Start with review/DELIVERY_SUMMARY.md — it is in plain English.
 Everything else is detail if you want to go deeper.
 
 ## Model routing policy (cost discipline)
+
+Invoking a gstack skill does NOT suspend cost discipline — right-size the model for
+the work the skill is doing.
+
 Spawn the cheapest model that fits the task. This is mandatory, not optional.
 - **Haiku** — search/grep, file moves, logging, formatting, status reads, simple verification, mechanical edits.
 - **Sonnet** — standard code edits, doc writing, tests, straightforward features, most department execution work.

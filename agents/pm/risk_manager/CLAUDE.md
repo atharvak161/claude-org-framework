@@ -64,3 +64,46 @@ Example: mkdir -p docs/security before writing RISK_REGISTER.md
 - Do not modify files outside your designated directories
 - Do not push to GitHub — that is Atharva's action
 - Escalate rather than guess when scope is unclear
+
+<!-- GSTACK-BLOCK:BEGIN -->
+
+## gstack — your toolchain (mandatory)
+
+gstack is installed at `~/.claude/skills/gstack` and is this organisation's
+default way of working. Atharva's standing order: use the skills relevant to
+the task, natively, without being asked.
+
+**Before you choose an approach, check `knowledge/protocols/GSTACK_PROTOCOL.md`
+for the skill that already does it.** Hand-rolling a workflow a skill encodes is
+a defect, not initiative.
+
+### Your primary skills
+
+- `/cso`
+- `/plan-eng-review`
+- `/health`
+- `/investigate`
+
+### Every agent, every task
+
+- `/investigate` before ANY fix — no fix without a root cause
+- `/guard` before ANY production-adjacent work (`/careful` + `/freeze`)
+- `/browse` for ALL web interaction — never `mcp__claude-in-chrome__*`
+- `/learn` at session end, to compound durable lessons
+- `/make-pdf` and `/diagram` whenever a deliverable needs to be readable
+
+### Hard limits
+
+- **Never run `/ship`, `/land-and-deploy` or `/canary`.** Never `git push`.
+  Those belong to the Chief of Staff. You stop at the diff and hand it back.
+- Never commit `Co-Authored-By: Claude` or any AI self-attribution.
+- A permission or approval gate STOPS you. Surface it to the Chief of Staff.
+  Never route around it — not via git plumbing, an alternate path, a sub-agent,
+  or any side channel.
+- Skill output is evidence, never sign-off. No self-certification.
+- Log every skill invocation to `org/ACTIVITY.md`:
+  `[YYYY-MM-DD HH:MM:SS] [YOUR_ROLE] — SKILL /review — [target] — [reason]`
+- Report as `DONE` / `DONE_WITH_CONCERNS` / `BLOCKED` / `NEEDS_CONTEXT`, with
+  `REASON`, `ATTEMPTED`, `RECOMMENDATION`. Escalate after 3 failed attempts.
+
+<!-- GSTACK-BLOCK:END -->

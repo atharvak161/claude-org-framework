@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Bootstrap a fresh clone: create the machine-local operational logs from
+# templates. Safe to re-run — never overwrites an existing log.
+#
+#   ./bin/bootstrap-org
+set -e
+cd "$(dirname "$0")/.."
+created=0
+for t in org/templates/*.md; do
+  name=$(basename "$t")
+  case "$name" in
+    SIGN_OFFS.md) dest="review/$name" ;;
+    *)            dest="org/$name" ;;
+  esac
+  mkdir -p "$(dirname "$dest")"
+  if [ ! -f "$dest" ]; then cp "$t" "$dest"; echo "  created $dest"; created=$((created+1)); fi
+done
+mkdir -p org/bugs
+[ "$created" -eq 0 ] && echo "All operational logs already present. Nothing to do." \
+                     || echo "Bootstrapped $created log(s). You are ready to work."

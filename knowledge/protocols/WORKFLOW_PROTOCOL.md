@@ -16,6 +16,12 @@ full review chain.
 
 ## Phase 1 — Intake (Chief of Staff)
 
+**gstack for this phase:** `/office-hours` on any new product idea before the MEP
+is written — it reframes the request and writes a design doc every downstream skill
+reads. `/spec` when the ask is vague and needs to become executable. Run these
+BEFORE producing the MEP; their output is MEP input, not a substitute for it.
+
+
 When Atharva assigns a task:
 
 1. Chief of Staff restates the task in their own words and confirms understanding
@@ -40,6 +46,12 @@ align on interpretation before presenting anything to Atharva.
 
 ## Phase 2 — Planning (Senior Project Manager + Department Directors)
 
+**gstack for this phase:** `/autoplan` is the default. One command runs CEO →
+design → DX → eng review over the plan, eng always last so the shipping gate sees
+the final amended plan. Run the individual `/plan-*-review` skills only when you
+need one lens rather than all four.
+
+
 Senior PM receives the MEP and:
 
 1. Breaks the MEP into department-level task briefs
@@ -56,6 +68,14 @@ Each department director receives their brief and:
 ---
 
 ## Phase 3 — Multi-perspective consultation (MANDATORY for every decision)
+
+**gstack satisfies this phase.** `/plan-ceo-review`, `/plan-eng-review`,
+`/plan-design-review` and `/plan-devex-review` ARE the independent perspectives this
+protocol demands — CEO, engineering, design and developer-experience, each with its
+own forcing questions. A decision that has been through `/autoplan` has met the
+minimum-two-perspectives requirement. Record the consultation record as normal; the
+skill output is its evidence, not a replacement for the record.
+
 
 This is the most important phase. **No significant decision is made by one 
 agent alone.**
@@ -121,6 +141,12 @@ Even in these cases, the executing agent must log what they did and why.
 
 ## Phase 4 — Execution
 
+**gstack for this phase:** `/investigate` before ANY bug fix — no fix without a
+root cause, stop after 3 failed hypotheses. `/freeze` to lock edits to one directory
+so scope cannot creep while debugging. `/guard` for anything production-adjacent.
+`/browse` for all web interaction. `/health` to check repo quality as you go.
+
+
 Each agent executes their assigned work and:
 1. Logs every file created to org/ACTIVITY.md
 2. Logs every significant decision to org/DECISIONS.md
@@ -136,6 +162,16 @@ Each agent executes their assigned work and:
 ---
 
 ## Phase 5 — Review chain (every output passes through every gate)
+
+**gstack for this phase:** `/review` (staff-engineer pass, auto-fixes the obvious,
+flags completeness gaps), `/codex` for an independent cross-model second opinion,
+`/cso` for the security gate (OWASP Top 10 + STRIDE, exploit scenario per finding),
+`/qa` or `/qa-only` for the QA gate, `/design-review` for anything with a UI,
+`/benchmark` for performance, `/devex-review` for anything developers consume.
+
+`/review` and `/cso` are both MANDATORY before any push. Skill output is evidence
+for a reviewer's verdict, never the verdict itself.
+
 
 ```
 Sub-agent produces output
@@ -175,7 +211,52 @@ Atharva receives the delivery
 
 ---
 
+## Validate-or-bounce gate (mandatory at every review point in Phase 5)
+
+Reviewing is not passive. Every parent agent in the Phase 5 review chain
+(manager, Director, VP, Chief of Staff) actively validates the deliverable
+against the acceptance criteria it was commissioned against — it does not
+wave work through and it does not silently rework it themselves.
+
+**The gate:**
+
+1. **Validate.** Check the deliverable against its stated acceptance
+   criteria (the brief it was given, the MEP success criteria, or the
+   relevant spec).
+2. **If it fails:** the reviewing agent explicitly **rejects it in
+   writing** — in org/DECISIONS.md or the relevant request thread — with
+   **specific, actionable feedback**: what failed, against which
+   criterion, and what must change. A rejection without a specific reason
+   is not a valid bounce.
+3. **Redelegate** the work back to the originating agent with that
+   feedback attached. This is one "bounce."
+4. **Cap: 2 bounce attempts per deliverable.** If the deliverable still
+   fails review after the 2nd bounce, do not attempt a 3rd. Escalate
+   immediately per the existing 2-iteration rule (CLAUDE.md: "If any
+   department is blocked for more than 2 iterations → escalate to
+   Atharva"). The reviewing agent escalates with the deliverable history
+   and a proposed path forward — never escalates a bare problem.
+
+This applies at every level of the review chain in Phase 5, not just the
+Chief of Staff's final check — a Senior PM bouncing a department's output
+back to a Director follows the same rule as the Chief of Staff bouncing
+a department's output back to a director.
+
+---
+
 ## Phase 6 — Sign-offs (required before any delivery)
+
+**gstack for this phase:** `/ship`, `/land-and-deploy` and `/canary` run here and
+are **Chief of Staff only**. Every other agent stops at the diff.
+
+Two hard rules: strip the `Co-Authored-By: Claude` trailer `/ship` emits — it must
+never reach a remote. And gstack's DONE / DONE_WITH_CONCERNS / BLOCKED /
+NEEDS_CONTEXT status is an agent report format, NOT a sign-off. Sign-off is recorded
+in review/SIGN_OFFS.md by the designated role with the full required-fields schema.
+
+After delivery: `/document-release` to update docs, `/retro` and `/learn` to close
+the loop.
+
 
 Before any work reaches Atharva, these sign-offs must be collected in 
 review/SIGN_OFFS.md:
