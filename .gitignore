@@ -103,3 +103,6 @@ review/SIGN_OFFS.md
 
 # Browser/test scratch
 **/.playwright-mcp/
+**/*-screenshot.png
+agents/*/recipe-chain.png
+agents/*/badges-after-resize.png
