@@ -244,6 +244,51 @@ a department's output back to a director.
 
 ---
 
+## Portfolio: refresh TryHackMe figures on every visit (mandatory)
+
+The portfolio hard-codes TryHackMe statistics — rank, points, streak, rarity
+percentages on each badge. Those numbers move every week, and a portfolio that
+advertises a stale rank to a recruiter is worse than one that omits it.
+
+**The rule: any time work touches `local/repos/atharvak161-github-io/`, for any
+reason, fetch the live figures from TryHackMe first and update them.** Not only
+when the task is about badges. A CSS fix is still a visit, and the numbers still
+went stale since the last one.
+
+Fetch from the live TryHackMe profile (`tryhackme.com/p/AtharvaK911`) and update
+every figure that changed: rank, total points, streak, and the per-badge rarity
+percentages in `SITE.badges`. The badge rarity tags in particular drift
+constantly, because rarity falls as more people earn a badge.
+
+### New badges — always ask, never decide alone
+
+If TryHackMe shows badges not present in `SITE.badges`, **list them for Atharva
+and ask whether each should be added or skipped.** Never add one silently and
+never skip one silently.
+
+There is a deliberate curation rule, documented in `index.html` above
+`SITE.badges`: only high-signal badges ship — exam and certification badges,
+League first-place wins, offensive-box and tooling badges, and the top streak.
+Beginner module badges are deliberately omitted. A new badge may be high-signal
+or may be noise, and that judgement is Atharva's, not mine.
+
+Note the hero badge strip is a separate hand-picked favourites list in static
+HTML, deliberately NOT driven by `SITE.badges`. Adding a badge to the SSOT
+updates the Badges section and the terminal, never the hero. If a new badge
+deserves hero placement, that is a second question to ask.
+
+### Report it either way
+
+State the result in the completion report, always:
+
+```
+THM figures: checked, rank 1,042 → 987, points 88,510 → 91,204, 2 rarity tags updated
+THM figures: checked, no change since last visit
+THM badges: 1 new badge found (Advent of Cyber) — asked Atharva, awaiting decision
+```
+
+Silence reads as not-checked, and the work is incomplete.
+
 ## Workspace hygiene (runs with every development cycle)
 
 The workspace rots quietly. Stale clones revert live work when pushed, dead

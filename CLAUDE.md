@@ -66,8 +66,17 @@ agent's own `CLAUDE.md`.
    channel.
 4. **No agent self-certifies.** Sign-off is recorded in `review/SIGN_OFFS.md` by
    the designated role, with the full required-fields schema.
-5. **Never `rm` a working file** unless Atharva explicitly asks. `git rm --cached`
-   is the safe form.
+5. **Never delete anything without asking and confirming first.** Every time —
+   no standing authorisation carries over. `git rm --cached` is the safe form for
+   git cleanup; never follow it with `rm` on the same paths. Two absolute lines:
+   **never** delete anything in iCloud Drive (deletes propagate to every one of
+   Atharva's devices), and **never** delete anything outside
+   `~/Downloads/organisation/` without explicit permission for that exact path.
+   There is no Time Machine destination on this Mac and `rm` bypasses the Trash,
+   so a delete is permanent. Scratch files go in `$CLAUDE_JOB_DIR/tmp`, never in
+   a working directory, so no cleanup delete is ever needed. macOS is
+   case-insensitive: `Local/` and `local/` are the same directory — a single
+   `rm -rf Local` destroyed 1,040 files here on 2026-09-13.
 6. **Model routing applies to skills too.** Haiku mechanical, Sonnet standard,
    Opus architecture/security/final review.
 
@@ -79,6 +88,7 @@ agent's own `CLAUDE.md`.
 - `/guard` before any production-adjacent work.
 - `/cso` + `/review` before any push. Both.
 - Check the repo's README on every change, however small. Report `README: checked, ...` — no line, not done.
+- Touching the portfolio repo? Refresh the live TryHackMe figures first, and ask Atharva about any new badge. Report `THM figures: checked, ...`.
 - `/learn` at session end; promote durable lessons into `PLAYBOOK.md`.
 - Log every action, including every skill invocation, to `org/ACTIVITY.md`.
 - Report as `DONE` / `DONE_WITH_CONCERNS` / `BLOCKED` / `NEEDS_CONTEXT`.
