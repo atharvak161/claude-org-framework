@@ -39,7 +39,7 @@ claude
 # 5. Give it a goal
 # "Build me a landing page for a SaaS product"
 # "Set up a REST API with JWT authentication"
-# "Review and fix all bugs in src/"
+# "Review and fix all bugs in the auth module"
 # "Design a full design system for a fintech app"
 ```
 
@@ -159,7 +159,11 @@ cp -r /tmp/ben/bencium-innovative-ux-designer ~/.claude/skills/
 │   ├── lessons-learned/      PLAYBOOK.md — mistakes the org does not repeat
 │   └── standards/  onboarding/  decisions/  plans/
 ├── bin/
-│   └── bootstrap-org         Recreates the org/ and review/ logs on a fresh clone
+│   ├── bootstrap-org         Recreates the logs and arms the guard hooks
+│   └── repo-status           State of every repo: branch, drift, dirty, sync
+├── .githooks/                Guard hooks — armed by bootstrap-org
+│   ├── pre-commit            Blocks private paths, logs, keys, stray scaffolding
+│   └── commit-msg            Blocks AI self-attribution trailers
 ├── org/                      Shared state — agents write here, monitor reads here
 │   ├── templates/            Sources bootstrap-org copies from
 │   ├── ACTIVITY.md           Real-time agent action log
@@ -173,6 +177,38 @@ cp -r /tmp/ben/bencium-innovative-ux-designer ~/.claude/skills/
 ├── WORKSPACE.md              Master path reference + directory ownership map
 └── README.md                 This file
 ```
+
+---
+
+## Safety rails
+
+The framework assumes it will be run against real repositories with real
+private material in them, so the rules are enforced mechanically rather than
+written down and hoped for.
+
+`bin/bootstrap-org` sets `core.hooksPath` to `.githooks/`, which installs two
+hooks:
+
+**`pre-commit`** refuses a commit that stages anything under `local/`, any
+operational log, key material by filename or content, files reappearing under
+`src/`, `tests/`, `ci/` or `infra/` at the framework root, or content matching a
+private pattern listed in `local/guard-patterns.txt`.
+
+**`commit-msg`** refuses any commit message carrying an AI self-attribution
+trailer.
+
+The private-pattern list lives in `local/guard-patterns.txt`, outside the
+repository, because writing those strings into a public repo's hook script
+would publish exactly what the hook exists to protect.
+
+A hook firing is a stop, not an obstacle. `ORG_GUARD=off` exists for the case
+where a hook is genuinely wrong; reaching for it quietly is the failure mode the
+hooks were built to prevent.
+
+**`bin/repo-status`** shows every repo the org works on — branch, ahead/behind,
+uncommitted, missing README — reading the clone list live so a new clone appears
+without editing anything. Run it with `--fetch` before starting work: a clone
+that is behind and gets pushed reverts whatever landed upstream.
 
 ---
 

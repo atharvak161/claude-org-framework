@@ -22,7 +22,7 @@ something that should not be published.
 ### Tracked and pushed
 `agents/` · `bin/` · `knowledge/protocols/` ·
 `knowledge/lessons-learned/PLAYBOOK.md` · `WORKSPACE.md` · `CLAUDE.md` ·
-`README.md` · the `src/` scaffolding.
+`README.md` · `bin/` · `.githooks/`.
 
 ### `local/` — never pushed, ignored wholesale
 Everything machine-only lives under one root:

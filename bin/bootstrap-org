@@ -15,6 +15,29 @@ for t in org/templates/*.md; do
   mkdir -p "$(dirname "$dest")"
   if [ ! -f "$dest" ]; then cp "$t" "$dest"; echo "  created $dest"; created=$((created+1)); fi
 done
-mkdir -p org/bugs
-[ "$created" -eq 0 ] && echo "All operational logs already present. Nothing to do." \
-                     || echo "Bootstrapped $created log(s). You are ready to work."
+mkdir -p org/bugs docs local/repos
+
+# Arm the guard hooks. Without this a clone has no protection at all, and the
+# rules that keep private material out of a public repo go back to depending on
+# whoever is at the keyboard remembering them.
+if [ -d .githooks ]; then
+  git config core.hooksPath .githooks
+  chmod +x .githooks/* 2>/dev/null || true
+  echo "  guard hooks armed (core.hooksPath=.githooks)"
+fi
+
+# The blocklist of private strings lives outside the repo on purpose.
+if [ ! -f local/guard-patterns.txt ]; then
+  mkdir -p local
+  cat > local/guard-patterns.txt <<'PATTERNS'
+# Private strings that must never reach a public remote.
+# One extended-regex per line, matched case-insensitively against staged
+# additions by .githooks/pre-commit. This file is inside local/, which is
+# gitignored, so the names are not published by the mechanism protecting them.
+PATTERNS
+  echo "  created local/guard-patterns.txt — add your private strings to it"
+fi
+
+[ "$created" -eq 0 ] && echo "All operational logs already present." \
+                     || echo "Bootstrapped $created log(s)."
+echo "Run bin/repo-status to see the state of every repo."

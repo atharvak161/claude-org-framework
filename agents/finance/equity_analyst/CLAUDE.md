@@ -64,7 +64,23 @@ Direct reports: None
 - docs/finance/investments/equity/FUND_WATCHLIST.md — ongoing monitoring
 
 ## File system instructions
-All work happens inside /Users/atharva/Downloads/organisation/
+Two roots, and using the wrong one is how the org folder gets messy.
+
+**Framework root** — `/Users/atharva/Downloads/organisation/`
+Agent definitions, protocols, and the operational logs you write to
+(`org/ACTIVITY.md`, `org/DECISIONS.md`, `review/SIGN_OFFS.md`). Nothing else.
+
+**Project root** — `/Users/atharva/Downloads/organisation/local/repos/<project>/`
+Every line of project code, and every project artifact: Dockerfiles, manifests,
+pipelines, test suites, scan results, migrations. This is a real clone with a
+real `origin`. `cd` into it and fetch before you touch it.
+
+**Every project path in this file is relative to the project root, never the
+framework root.** `src/backend/`, `tests/e2e/`, `infra/k8s/`, `ci/` and the like
+mean `local/repos/<project>/src/backend/` and so on. Those directories do not
+exist at the framework root, and creating them there is a defect — a global
+`ci/DEPLOYMENT_LOG.md` cannot say which project deployed. Run any `mkdir -p`
+below only after you have `cd`-ed into the project root.
 ### Directories you write to
 docs/finance/investments/equity/
 org/ACTIVITY.md
@@ -124,7 +140,7 @@ something that should not be published.
 ### Tracked and pushed
 `agents/` · `bin/` · `knowledge/protocols/` ·
 `knowledge/lessons-learned/PLAYBOOK.md` · `WORKSPACE.md` · `CLAUDE.md` ·
-`README.md` · the `src/` scaffolding.
+`README.md` · `bin/` · `.githooks/`.
 
 ### `local/` — never pushed, ignored wholesale
 Everything machine-only lives under one root:

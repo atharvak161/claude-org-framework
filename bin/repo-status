@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+# repo-status — one view of every repo this org works on.
+#
+# Reads the clone list live from local/repos/ so a new clone shows up with no
+# edit here. Never writes, never fetches destructively, never pushes: safe to
+# run any time, and safe to run before deciding anything.
+#
+#   bin/repo-status            status from local refs (fast, offline)
+#   bin/repo-status --fetch    fetch first, so ahead/behind is true
+
+set -uo pipefail
+
+ORG_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPOS_DIR="$ORG_ROOT/local/repos"
+FETCH=0
+[ "${1:-}" = "--fetch" ] && FETCH=1
+
+if [ -t 1 ]; then
+  R=$'\e[31m'; G=$'\e[32m'; Y=$'\e[33m'; D=$'\e[2m'; B=$'\e[1m'; X=$'\e[0m'
+else
+  R=""; G=""; Y=""; D=""; B=""; X=""
+fi
+
+ISSUES=0
+
+report() {
+  local dir="$1" label="$2"
+  [ -d "$dir/.git" ] || return 0
+
+  local branch ahead behind dirty untracked line flags
+  branch=$(git -C "$dir" rev-parse --abbrev-ref HEAD 2>/dev/null || echo '?')
+
+  [ "$FETCH" = "1" ] && git -C "$dir" fetch --quiet --all --prune 2>/dev/null
+
+  local upstream
+  upstream=$(git -C "$dir" rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null || echo '')
+
+  if [ -n "$upstream" ]; then
+    ahead=$(git -C "$dir" rev-list --count "$upstream..HEAD" 2>/dev/null || echo 0)
+    behind=$(git -C "$dir" rev-list --count "HEAD..$upstream" 2>/dev/null || echo 0)
+  else
+    ahead=0; behind=0
+  fi
+
+  dirty=$(git -C "$dir" status --porcelain 2>/dev/null | grep -vc '^??' || true)
+  untracked=$(git -C "$dir" status --porcelain 2>/dev/null | grep -c '^??' || true)
+
+  flags=""
+  [ -z "$upstream" ]    && { flags+=" ${Y}no-upstream${X}"; ISSUES=$((ISSUES+1)); }
+  [ "$ahead"  -gt 0 ]   && { flags+=" ${Y}↑$ahead unpushed${X}"; ISSUES=$((ISSUES+1)); }
+  [ "$behind" -gt 0 ]   && { flags+=" ${R}↓$behind BEHIND LIVE${X}"; ISSUES=$((ISSUES+1)); }
+  [ "$dirty"  -gt 0 ]   && { flags+=" ${R}$dirty uncommitted${X}"; ISSUES=$((ISSUES+1)); }
+  [ "$untracked" -gt 0 ] && flags+=" ${D}$untracked untracked${X}"
+  [ -f "$dir/README.md" ] || { flags+=" ${Y}no README${X}"; ISSUES=$((ISSUES+1)); }
+
+  [ -z "$flags" ] && flags=" ${G}clean, in sync${X}"
+
+  printf "  %-26s %-18s%b\n" "$label" "$branch" "$flags"
+}
+
+echo
+echo "${B}Framework repo${X}"
+report "$ORG_ROOT" "claude-org-framework"
+
+echo
+echo "${B}Project clones${X}   ${D}local/repos/${X}"
+if [ -d "$REPOS_DIR" ]; then
+  for d in "$REPOS_DIR"/*/; do
+    [ -d "$d" ] || continue
+    if [ -d "$d/.git" ]; then
+      report "${d%/}" "$(basename "$d")"
+    else
+      printf "  %-26s %-18s%b\n" "$(basename "$d")" "-" " ${D}not a git repo${X}"
+    fi
+  done
+else
+  echo "  ${R}local/repos/ is missing${X}"
+  ISSUES=$((ISSUES+1))
+fi
+
+echo
+if [ "$FETCH" = "0" ]; then
+  echo "  ${D}Counts are against the last fetch. Run with --fetch for live truth.${X}"
+fi
+if [ "$ISSUES" -gt 0 ]; then
+  echo "  ${Y}$ISSUES thing(s) need attention before any push.${X}"
+else
+  echo "  ${G}Everything clean and in sync.${X}"
+fi
+echo

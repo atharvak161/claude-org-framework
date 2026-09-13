@@ -244,6 +244,114 @@ a department's output back to a director.
 
 ---
 
+## Workspace hygiene (runs with every development cycle)
+
+The workspace rots quietly. Stale clones revert live work when pushed, dead
+directories invite agents to write into the wrong place, and operational logs
+accumulate real client names inside a public repository. None of that announces
+itself, so hygiene is not an occasional tidy-up. It runs on every cycle.
+
+### Two roots, and never confuse them
+
+**Framework root** — `/Users/atharva/Downloads/organisation/`
+Agent definitions, protocols, the operational logs. Public, pushed to
+`claude-org-framework`. No project code has ever belonged here.
+
+**Project root** — `local/repos/<project>/`
+Every line of project code and every project artifact. A real clone with a real
+`origin`. `local/` is gitignored wholesale, so nothing here reaches the public
+repo.
+
+A path like `src/`, `tests/`, `ci/` or `infra/` in any agent file means the
+**project** root. Those directories do not exist at the framework root, and
+recreating them there is a defect the pre-commit hook now blocks.
+
+### Before a cycle — prove local matches live
+
+```bash
+bin/repo-status --fetch
+```
+
+Every repo must read `clean, in sync` before work starts. A clone that is
+`BEHIND LIVE` and gets pushed reverts whatever landed upstream in the meantime,
+which is the single most expensive mistake available in this workspace.
+
+- `BEHIND LIVE` → pull before touching anything.
+- `uncommitted` → resolve it; never start new work on top of a dirty tree.
+- `unpushed` → find out what it is before adding to it.
+
+### During a cycle
+
+Work inside the project clone. Agents build and smoke-test, then stop and hand
+back a diff. The Chief reads the real `git diff`, runs the gate, and ships. No
+agent commits, pushes, or touches a remote.
+
+### After a push — both repos, not just one
+
+A cycle is not finished when the project repo is pushed. Anything learned goes
+back into the framework repo in the same session, or it is lost:
+
+1. Verify the project push: `HEAD == origin/<branch>`, diff is exactly what was
+   intended and nothing else.
+2. Update the framework repo with what the cycle produced — a durable lesson in
+   `PLAYBOOK.md`, a protocol change, a corrected agent instruction, the
+   `README: checked` line.
+3. Push the framework repo too, and verify `HEAD == origin/main`.
+4. `bin/repo-status` reads clean.
+
+Step 2 is the one that gets skipped, and skipping it is why the same mistake
+gets made twice.
+
+### Cleanup triggers
+
+Run the checklist below whenever any of these is true. Do not wait for things
+to feel untidy — by then agents have been writing to the wrong paths for weeks.
+
+- A directory at the framework root that no longer has a purpose.
+- A path referenced in agent files that no longer exists.
+- A clone that is stale, duplicated, or no longer worked on.
+- Tracked files that should be ignored, or ignored files that should be tracked.
+- Loose files sitting in the repository root with no home.
+- Any cycle where `bin/repo-status` flags something that is not new work.
+
+### Cleanup checklist
+
+1. `bin/repo-status --fetch` — nothing proceeds while a repo is behind or dirty.
+2. Back up before removing: `tar czf local/backups/<what>-$(date +%Y%m%d-%H%M%S).tar.gz <paths>`
+3. Find what references the thing you are removing, across every file type:
+   `grep -rn "<path>" agents knowledge bin *.md *.html` — note that restricting
+   the search to `*.md` has already hidden stale references sitting in `.json`
+   settings files. Search everything.
+4. Remove tracked files with `git rm`. Never `rm` something Atharva has not
+   agreed to remove; `git rm --cached` is the safe form when in doubt.
+5. Repoint every reference found in step 3. A deleted directory whose
+   references survive is worse than leaving it — agents recreate it.
+6. Regenerate the marker-delimited blocks so all 89 agents stay consistent:
+   `python3 knowledge/protocols/workspace_paths_block.py`
+7. Verify nothing stale survives, then check the README of every repo touched.
+8. Commit, push, and confirm `HEAD == origin/main`.
+
+### The guard hooks
+
+`.githooks/pre-commit` and `.githooks/commit-msg` enforce mechanically what was
+previously prose. They block: staged paths under `local/`; staged operational
+logs; files reappearing under `src/`, `tests/`, `ci/` or `infra/` at the
+framework root; key material by filename or content; staged content matching a
+private pattern from `local/guard-patterns.txt`; and any AI self-attribution
+trailer in a commit message.
+
+`bin/bootstrap-org` arms them, so a fresh clone is protected without anyone
+remembering to do it.
+
+**A block is a stop, not an obstacle.** `ORG_GUARD=off` exists for the case
+where the hook is genuinely wrong, and using it without saying so first is the
+gate-dodging this protocol exists to prevent. If a hook fires, fix the staged
+set or surface it to Atharva. Never route around it.
+
+The blocklist lives in `local/guard-patterns.txt`, outside the repository,
+because writing client names into a public repo's hook script would publish
+exactly what the hook exists to protect.
+
 ## README currency gate (mandatory, every repo, every change)
 
 A repo's README is part of that repo's surface. It goes stale silently, and a

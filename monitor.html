@@ -3768,7 +3768,7 @@
       const parts = line.split('—').map(p => p.trim());
       // parts[0] = "2026-06-06 14:32:45 FRONTEND_DEVELOPER"
       // parts[1] = "WRITING"
-      // parts[2] = "src/projects/..."
+      // parts[2] = "local/repos/..."
       // parts[3] = "what doing right now"
       const role = extractRole(parts[0] || '');
       if (!role) continue;

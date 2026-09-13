@@ -72,6 +72,9 @@ agent's own `CLAUDE.md`.
    Opus architecture/security/final review.
 
 ## Standing habits
+- `bin/repo-status --fetch` before starting a cycle. Nothing begins on a repo that is behind live or dirty.
+- Project code goes in `local/repos/<project>/`, never at the framework root. `src/`, `tests/`, `ci/`, `infra/` at the root are blocked by the pre-commit hook.
+- Finish a cycle in both repos: push the project, then push what the cycle taught back into the framework repo.
 - `/investigate` before any fix. No fix without a root cause.
 - `/guard` before any production-adjacent work.
 - `/cso` + `/review` before any push. Both.

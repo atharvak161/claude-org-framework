@@ -71,7 +71,7 @@ Two halves, and the distinction matters:
 
 **Tracked and pushed** — `agents/`, `bin/`, `knowledge/protocols/`,
 `knowledge/lessons-learned/PLAYBOOK.md`, `WORKSPACE.md`, `CLAUDE.md`,
-`README.md`, and the `src/` scaffolding below. This repo is **public**.
+`README.md`, `bin/` and `.githooks/`. This repo is **public**.
 
 **`local/` — never pushed, ignored wholesale.** One place for everything
 machine-only:

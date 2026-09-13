@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# pre-commit — the gate that does not depend on anyone remembering.
+#
+# This repository is PUBLIC. Everything below has been an actual near-miss or a
+# real mistake in this workspace, so each rule exists because something went
+# wrong once. A block here is not an obstacle to route around: fix the staged
+# set, or if the block is genuinely wrong, say so out loud before overriding.
+#
+# Override (deliberate, visible, and rare):  ORG_GUARD=off git commit ...
+
+set -uo pipefail
+
+[ "${ORG_GUARD:-on}" = "off" ] && { echo "pre-commit: DISABLED via ORG_GUARD=off"; exit 0; }
+
+ROOT="$(git rev-parse --show-toplevel)"
+STAGED=$(git diff --cached --name-only --diff-filter=ACMR)
+[ -z "$STAGED" ] && exit 0
+
+FAIL=0
+say() { echo "  $*" >&2; }
+
+block() {
+  FAIL=1
+  echo "" >&2
+  echo "BLOCKED: $1" >&2
+}
+
+# 1 ── local/ is machine-only and ignored wholesale. Staging it means someone
+#      used -f, which is never right for this path.
+if echo "$STAGED" | grep -q '^local/'; then
+  block "staged files under local/ — that directory is never pushed"
+  echo "$STAGED" | grep '^local/' | head -10 | while read -r f; do say "$f"; done
+fi
+
+# 2 ── Operational logs carry real client names. They are gitignored; staging
+#      one means a -f slipped in, or .gitignore was edited.
+LOGS='^(org/(ACTIVITY|ACTIVITY_ADDENDUM|DECISIONS|COMPANY_LOG|STATUS|BLOCKERS|LIVE|RISKS|HANDOFF|FILE_ACTIVITY|AGENT_PERFORMANCE|AGENT_CHANGELOG)\.md|org/bugs/|review/SIGN_OFFS\.md)'
+if echo "$STAGED" | grep -qE "$LOGS"; then
+  block "staged an operational log — these hold real client names"
+  echo "$STAGED" | grep -E "$LOGS" | while read -r f; do say "$f"; done
+fi
+
+# 3 ── The scaffolding trees were deleted on purpose. Project work belongs in
+#      local/repos/<project>/, so these reappearing means an agent ran a
+#      mkdir -p from the framework root instead of the project root.
+if echo "$STAGED" | grep -qE '^(src|tests|ci|infra)/'; then
+  block "staged files under src/, tests/, ci/ or infra/ at the framework root"
+  say "Project artifacts belong in local/repos/<project>/, not here."
+  echo "$STAGED" | grep -E '^(src|tests|ci|infra)/' | head -10 | while read -r f; do say "$f"; done
+fi
+
+# 4 ── Private key material. Never, under any circumstances.
+if echo "$STAGED" | grep -qE '(\.pem|\.key|\.p12|\.pfx|id_rsa|id_ed25519|\.env$|\.env\.[a-z]+$)'; then
+  block "staged something that looks like a key or a real .env"
+  echo "$STAGED" | grep -E '(\.pem|\.key|\.p12|\.pfx|id_rsa|id_ed25519|\.env$|\.env\.[a-z]+$)' | while read -r f; do say "$f"; done
+fi
+
+# 5 ── Private strings in staged CONTENT. The patterns live in a gitignored
+#      file, because writing client names into a public repo's hook would leak
+#      exactly what the hook exists to protect.
+PATTERNS="$ROOT/local/guard-patterns.txt"
+if [ -f "$PATTERNS" ]; then
+  while IFS= read -r pat; do
+    [ -z "$pat" ] && continue
+    case "$pat" in \#*) continue ;; esac
+    if git diff --cached -U0 | grep '^+' | grep -qiE "$pat"; then
+      block "staged content matches a private pattern from local/guard-patterns.txt"
+      say "pattern: $pat"
+      say "Find it with: git diff --cached | grep -in '$pat'"
+    fi
+  done < "$PATTERNS"
+fi
+
+# 6 ── Private key material pasted into content, not just filenames.
+if git diff --cached -U0 | grep '^+' | grep -qE 'BEGIN (RSA |OPENSSH |EC |DSA |PGP )?PRIVATE KEY'; then
+  block "a PRIVATE KEY block appears in the staged content"
+fi
+
+if [ "$FAIL" = "1" ]; then
+  echo "" >&2
+  echo "  Nothing was committed. Fix the staged set and try again." >&2
+  echo "  Do not route around this gate. If it is genuinely wrong, say so first." >&2
+  echo "" >&2
+  exit 1
+fi
+
+exit 0
