@@ -65,6 +65,33 @@ House overrides that beat any skill default:
 - A permission gate stops you. Surface it. Never route around it.
 - No agent self-certifies — sign-off lives in review/SIGN_OFFS.md
 
+## Where things live — pushed vs local
+
+Two halves, and the distinction matters:
+
+**Tracked and pushed** — `agents/`, `bin/`, `knowledge/protocols/`,
+`knowledge/lessons-learned/PLAYBOOK.md`, `WORKSPACE.md`, `CLAUDE.md`,
+`README.md`, and the `src/` scaffolding below. This repo is **public**.
+
+**`local/` — never pushed, ignored wholesale.** One place for everything
+machine-only:
+
+```
+local/repos/          working clones of the GitHub repos
+                      each with its own _local/ scratch folder, excluded by
+                      that clone's .git/info/exclude
+local/practice-exam/  offline practice exam — not a repo, never to be pushed
+local/client-work/    private client material
+local/tools/          local-only scripts
+local/backups/        pre-edit file backups
+local/rescued/        work recovered from deleted clones (git bundles)
+```
+
+Operational logs (`org/ACTIVITY.md`, `DECISIONS.md`, `COMPANY_LOG.md`,
+`review/SIGN_OFFS.md` and the rest) are also untracked — they accumulate real
+client names and internal detail, and this repo is public. `bin/bootstrap-org`
+recreates them from `org/templates/` on a fresh clone.
+
 ## Directory ownership — where each agent writes
 
 ### Source code
@@ -80,7 +107,8 @@ src/db/migrations/        — DB Engineer (files: 001_description.sql)
 src/db/seeds/             — DB Engineer
 src/integrations/         — Integration Engineer
 src/shared/               — any developer, notify Dev Team Lead
-src/projects/             — cloned external repos for review and analysis
+local/repos/              — working clones of the GitHub repos (never pushed
+                            from here; see local/README.md)
 
 ### Tests
 tests/unit/backend/       — Backend Developer + Test Automation Engineer

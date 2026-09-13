@@ -1,5 +1,4 @@
 # ══ PERSONAL PROJECTS — never push ══
-src/projects/
 src/backend/
 src/frontend/
 src/mobile/
@@ -8,7 +7,6 @@ src/integrations/
 src/shared/
 
 # ══ CONFIDENTIAL CLIENT WORK — never push ══
-src/company-work-project/
 
 # ══ PERSONAL DOCS — project-specific ══
 docs/
@@ -72,10 +70,8 @@ npm-debug.log*
 **/.DS_Store
 
 # Local-only backups of site snapshots — never commit, never publish
-.local-backups/
 
 # Local-only work tool — contains employer client names and production DB queries. NEVER commit.
-src/tools-local/
 
 # Browser test artifacts (session scratch, not source)
 .playwright-mcp/
@@ -108,4 +104,8 @@ agents/*/recipe-chain.png
 agents/*/badges-after-resize.png
 
 # Rescued working state from deleted clones — local only, never published
-_rescued-*/
+
+# ── local/ — everything machine-only lives here and is never pushed ──────
+# working clones, client work, local tools, backups, rescued state, and the
+# offline practice exam. See local/README.md.
+local/
