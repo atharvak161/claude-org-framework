@@ -106,3 +106,6 @@ review/SIGN_OFFS.md
 **/*-screenshot.png
 agents/*/recipe-chain.png
 agents/*/badges-after-resize.png
+
+# Rescued working state from deleted clones — local only, never published
+_rescued-*/
