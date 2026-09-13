@@ -222,9 +222,9 @@ This is the real-time feed. Write it BEFORE you do the work, not after.
 Format: date +"%Y-%m-%d %H:%M:%S" gives you the exact timestamp.
 
 Examples:
-2026-06-06 14:32:45 FRONTEND_DEVELOPER — WRITING — src/projects/Excel-Project-Hub/src/App.tsx — Adding error boundary component to wrap the Router
+2026-06-06 14:32:45 FRONTEND_DEVELOPER — WRITING — local/repos/cybersec-toolkit/js/ui/recipe-tools.js — Adding error boundary component to wrap the Router
 2026-06-06 14:32:50 CODE_REVIEWER — READING — artifacts/api-server/src/routes/tasks.ts — Checking phaseId ownership validation logic
-2026-06-06 14:33:12 FRONTEND_DEVELOPER — MODIFIED — src/projects/Excel-Project-Hub/src/App.tsx — Error boundary added, wraps Router inside TooltipProvider
+2026-06-06 14:33:12 FRONTEND_DEVELOPER — MODIFIED — local/repos/cybersec-toolkit/js/ui/recipe-tools.js — Error boundary added, wraps Router inside TooltipProvider
 
 Also write when you START and COMPLETE your task:
 2026-06-06 14:30:00 FRONTEND_DEVELOPER — STARTED — task — Implementing error boundary and fixing SelectItem crash in project-detail.tsx

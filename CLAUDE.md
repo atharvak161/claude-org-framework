@@ -37,6 +37,25 @@ Available skills:
 
 Full catalogue, phase mapping and house overrides: `knowledge/protocols/GSTACK_PROTOCOL.md`
 
+## Where things live
+
+This repo is **public**. `local/` is ignored wholesale and holds everything
+machine-only — working clones of the GitHub repos (`local/repos/<name>/`, each
+with its own `_local/` scratch), the offline practice exam, client work, local
+tools, backups and rescued state. Operational logs in `org/` and
+`review/SIGN_OFFS.md` are untracked for the same reason: they carry real client
+names.
+
+Before touching any project clone, fetch first — a stale clone that gets pushed
+reverts live work:
+
+```bash
+cd local/repos/<name> && git fetch origin && git status
+```
+
+Full map: `local/README.md`, `WORKSPACE.md`, and the paths block in every
+agent's own `CLAUDE.md`.
+
 ## House overrides that beat any skill default
 1. **Never commit `Co-Authored-By: Claude`** or any AI self-attribution. `/ship`
    emits one — strip it. Atharva's rule outranks the skill.
