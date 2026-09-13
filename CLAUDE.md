@@ -57,26 +57,53 @@ Full map: `local/README.md`, `WORKSPACE.md`, and the paths block in every
 agent's own `CLAUDE.md`.
 
 ## House overrides that beat any skill default
-1. **Never commit `Co-Authored-By: Claude`** or any AI self-attribution. `/ship`
-   emits one — strip it. Atharva's rule outranks the skill.
-2. **Agents build, the Chief ships.** `/ship`, `/land-and-deploy`, `/canary` and
+
+1. **NOTHING IS EVER DELETED. Deleting means moving it out, not destroying it.**
+   Atharva's rule, and the highest-priority instruction in this workspace:
+   *"delete means not actually delete — transfer it, move it to a folder in
+   downloads outside the organisation where I can look and delete what is not
+   needed."*
+
+   Use `bin/safe-delete <path> "reason"`. It moves the target to
+   `~/Downloads/_QUARANTINE - safe to delete/` with a manifest saying what it
+   was, where it came from, why, and the command to restore it. Atharva is the
+   only one who empties that folder.
+
+   **Never run `rm`, `rm -rf`, `rmdir`, `find -delete`, or any other destroying
+   command on anything in this workspace.** Not on scratch files, not on test
+   fixtures, not on something you created yourself thirty seconds ago. There is
+   no size or importance threshold — `safe-delete` is the only route.
+
+   Before removing anything, still: ask and get a clear yes, `ls -la --` the
+   absolute path, read what is inside, count the files, and check no
+   case-variant collides. `safe-delete` enforces those checks and refuses
+   outside the workspace or anywhere in iCloud, but the checks are yours too.
+
+   **Testing never touches real data.** Every test fixture, scratch file and
+   probe goes in `$CLAUDE_JOB_DIR/tmp`, never in the workspace — and never
+   anywhere a name could collide with something real. Do not test a destructive
+   command against a live directory to see what happens, and do not create a
+   fixture next to the thing it is named after. The incident was a test fixture
+   named `Local` sitting beside `local`.
+
+   **Why this is rule one:** on 2026-09-13 `rm -rf Local` destroyed 1,040 files
+   — 7 project clones, the offline practice exam, private client deliverables,
+   every local backup, and git bundles of rescued unpushed work. macOS is
+   case-insensitive, so `Local` and `local` were the same directory. No Time
+   Machine destination exists on this Mac and `rm` bypasses the Trash. Only the
+   GitHub-backed clones came back. The command looked harmless, which is exactly
+   why the rule is mechanical rather than a matter of judgement.
+
+2. **Never commit `Co-Authored-By: Claude`** or any AI self-attribution. `/ship`
+   emits one — strip it. Atharva's rule outranks the skill. `.githooks/commit-msg`
+   blocks it mechanically.
+3. **Agents build, the Chief ships.** `/ship`, `/land-and-deploy`, `/canary` and
    every `git push` are Chief of Staff only. Everyone else stops at the diff.
-3. **Never route around a permission gate.** If a skill's step is blocked, STOP
+4. **Never route around a permission gate.** If a skill's step is blocked, STOP
    and surface it. Not via plumbing, an alternate path, a sub-agent, or any side
    channel.
-4. **No agent self-certifies.** Sign-off is recorded in `review/SIGN_OFFS.md` by
+5. **No agent self-certifies.** Sign-off is recorded in `review/SIGN_OFFS.md` by
    the designated role, with the full required-fields schema.
-5. **Never delete anything without asking and confirming first.** Every time —
-   no standing authorisation carries over. `git rm --cached` is the safe form for
-   git cleanup; never follow it with `rm` on the same paths. Two absolute lines:
-   **never** delete anything in iCloud Drive (deletes propagate to every one of
-   Atharva's devices), and **never** delete anything outside
-   `~/Downloads/organisation/` without explicit permission for that exact path.
-   There is no Time Machine destination on this Mac and `rm` bypasses the Trash,
-   so a delete is permanent. Scratch files go in `$CLAUDE_JOB_DIR/tmp`, never in
-   a working directory, so no cleanup delete is ever needed. macOS is
-   case-insensitive: `Local/` and `local/` are the same directory — a single
-   `rm -rf Local` destroyed 1,040 files here on 2026-09-13.
 6. **Model routing applies to skills too.** Haiku mechanical, Sonnet standard,
    Opus architecture/security/final review.
 

@@ -289,6 +289,123 @@ THM badges: 1 new badge found (Advent of Cyber) — asked Atharva, awaiting deci
 
 Silence reads as not-checked, and the work is incomplete.
 
+## Nothing is ever deleted — it is moved to quarantine
+
+Atharva's rule, and the highest-priority instruction in this workspace: *"delete
+means not actually delete — transfer it, move it to a folder in downloads outside
+the organisation where I can look and delete what is not needed."*
+
+```bash
+bin/safe-delete <path> "why it is being removed"
+```
+
+That moves the target to `~/Downloads/_QUARANTINE - safe to delete/`, in a
+timestamped folder with a `MANIFEST.txt` recording what it was, its original
+path, the file count and size, the reason, and the one-line command to restore
+it. Atharva is the only person who empties that folder.
+
+`safe-delete` refuses to act when:
+
+- the path is outside `~/Downloads/organisation/`
+- the path is anywhere in iCloud Drive
+- the name collides case-insensitively with a sibling, or the filesystem holds a
+  different case than the one asked for — the exact condition that destroyed
+  1,040 files
+- the path contains a glob character
+- the target is the workspace root or `.git`
+
+**Never run `rm`, `rm -rf`, `rmdir` or `find -delete` on anything in this
+workspace.** Not scratch files, not test fixtures, not something created thirty
+seconds ago. There is no size or importance threshold below which destroying is
+acceptable, because the failure on 2026-09-13 began as a two-byte test fixture.
+
+### Testing never touches real data
+
+Every test fixture, scratch file and probe goes in `$CLAUDE_JOB_DIR/tmp`, never
+inside the workspace, and never with a name that could collide with something
+real. Do not point a destructive command at a live directory to observe the
+result, and do not create a fixture beside the thing it is named after.
+
+The incident was exactly this: a fixture named `Local`, created next to `local`,
+then cleaned up. Two of those three choices were avoidable and the third was the
+kill shot.
+
+When verifying `safe-delete` or any guard, build the fixture outside the
+workspace and point the guard at that. A guard that can only be tested by
+risking real data is a guard that will eventually cost you real data.
+
+Everything in the pre-delete procedure below still applies — ask first, resolve
+the absolute path, read the contents, count the files, check for case collisions.
+`safe-delete` enforces those checks, and doing them yourself first is how you
+notice when something is wrong before a script has to catch it.
+
+## Pre-delete procedure (mandatory, no exceptions, no shortcuts)
+
+On 2026-09-13 a single `rm -rf Local` destroyed 1,040 files in this workspace:
+7 project clones, the offline practice exam, client work, every local backup,
+and the git bundles holding rescued unpushed work. macOS is case-insensitive, so
+`Local` and `local` are the same directory. There was no Time Machine
+destination and `rm` bypasses the Trash, so only the GitHub-backed clones came
+back. Everything else is gone permanently.
+
+The command looked harmless. That is the whole problem. So deletion is no longer
+something done from judgement in the moment — it follows a procedure.
+
+### Every step, in order, every time
+
+**1. Ask Atharva and get a clear yes.** Name the exact paths and say what they
+contain. No standing authorisation carries over from an earlier task or session.
+If the task only *implies* cleanup, ask rather than infer.
+
+**2. Resolve the path and look at what is actually there.**
+
+```bash
+ls -la -- "/absolute/path/to/target"
+```
+
+Absolute path, and `--` before it so a leading dash cannot be read as a flag.
+If what comes back is not exactly what you expected, stop.
+
+**3. Read the contents before removing them.** For a file, `cat` or `head` it.
+For a directory, list what is inside and count it:
+
+```bash
+find "/absolute/path" -type f | wc -l
+```
+
+A directory you believed was a throwaway fixture holding 1,040 files is the
+signal to stop. Never delete something you have not looked inside.
+
+**4. Check for a case-insensitive collision.** Before removing any path, ask
+whether its name differs only by case from something real:
+
+```bash
+ls -d -- /parent/* | grep -i "^/parent/name$"
+```
+
+More than one result, or a result that is not your target, means the filesystem
+is about to resolve your delete onto something else.
+
+**5. Confirm the target is the only match.** Never use a wildcard, a glob, or a
+variable that has not been echoed and read first. `rm -rf $DIR` where `DIR` is
+empty deletes the working directory.
+
+**6. Confirm the location is allowed.** Never outside `~/Downloads/organisation/`
+without explicit permission for that exact path. **Never** anything in iCloud
+Drive — those deletes propagate to every device Atharva owns.
+
+**7. Prefer not deleting at all.** `git rm --cached` for git cleanup. Scratch
+files in `$CLAUDE_JOB_DIR/tmp`, never in a working tree, so no cleanup delete is
+ever needed. Name fixtures distinctly (`guard-fixture-7x`), never a case variant
+of anything real. A delete you never have to run cannot go wrong.
+
+### Think like someone who will have to explain it
+
+Before pressing return on any destructive command, read it back and ask what it
+would do if one assumption were wrong — if the path resolved elsewhere, if the
+variable were empty, if the filesystem folded case. Today's mistake passed every
+test except that one.
+
 ## Workspace hygiene (runs with every development cycle)
 
 The workspace rots quietly. Stale clones revert live work when pushed, dead
