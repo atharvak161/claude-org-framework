@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+# safe-delete — the ONLY sanctioned way to remove anything from this workspace.
+#
+# It never deletes. It moves the target to a quarantine folder in ~/Downloads,
+# outside the organisation, where Atharva can look through it and delete what he
+# genuinely does not want.
+#
+# Atharva's rule, 2026-09-13, after `rm -rf Local` destroyed 1,040 files:
+#   "delete means not actually delete - transfer it, move it to a folder in
+#    downloads outside the organisation where i can look and delete what is not
+#    needed"
+#
+#   bin/safe-delete <path> ["reason"]
+#
+# Refuses to act on anything outside the organisation workspace, anything in
+# iCloud, and anything whose name collides case-insensitively with a sibling.
+
+set -uo pipefail
+
+ORG_ROOT="/Users/atharva/Downloads/organisation"
+QUARANTINE="/Users/atharva/Downloads/_QUARANTINE - safe to delete"
+
+die() { echo "REFUSED: $*" >&2; exit 1; }
+
+[ $# -ge 1 ] || die "no path given. Usage: bin/safe-delete <path> [\"reason\"]"
+
+TARGET="$1"
+REASON="${2:-not stated}"
+
+# ── 1. Resolve to an absolute real path. No globs, no relative guessing. ──────
+case "$TARGET" in
+  *'*'*|*'?'*|*'['*) die "the path contains a glob character. Name one exact path." ;;
+esac
+PARENT_DIR=$(cd "$(dirname -- "$TARGET")" 2>/dev/null && pwd) || die "parent directory of '$TARGET' does not exist"
+BASE=$(basename -- "$TARGET")
+ABS="$PARENT_DIR/$BASE"
+
+[ -e "$ABS" ] || die "'$ABS' does not exist. Nothing to move."
+
+# ── 2. Location guards. ──────────────────────────────────────────────────────
+case "$ABS" in
+  "$ORG_ROOT"/*) : ;;
+  *) die "'$ABS' is outside $ORG_ROOT. Atharva must be asked for that specific path." ;;
+esac
+case "$ABS" in
+  *"Mobile Documents"*|*CloudDocs*) die "that path is in iCloud Drive. Never." ;;
+esac
+[ "$ABS" = "$ORG_ROOT" ] && die "that is the workspace root."
+case "$ABS" in
+  "$ORG_ROOT"/.git|"$ORG_ROOT"/.git/*) die "that is the git directory." ;;
+esac
+
+# ── 3. Case-collision check — the exact bug that caused the incident. ─────────
+MATCHES=$(ls -1A -- "$PARENT_DIR" 2>/dev/null | grep -ix -- "$BASE" | wc -l | tr -d ' ')
+if [ "$MATCHES" -gt 1 ]; then
+  die "'$BASE' matches $MATCHES entries in $PARENT_DIR case-insensitively. Resolve by hand."
+fi
+ACTUAL=$(ls -1A -- "$PARENT_DIR" 2>/dev/null | grep -ix -- "$BASE" | head -1)
+if [ -n "$ACTUAL" ] && [ "$ACTUAL" != "$BASE" ]; then
+  die "you asked for '$BASE' but the filesystem holds '$ACTUAL'. macOS folds case — this is exactly how 1,040 files were destroyed. Check what you really mean."
+fi
+
+# ── 4. Show what is actually there, before moving it. ────────────────────────
+if [ -d "$ABS" ]; then
+  COUNT=$(find "$ABS" -type f 2>/dev/null | wc -l | tr -d ' ')
+  SIZE=$(du -sh "$ABS" 2>/dev/null | cut -f1)
+  KIND="directory"
+  echo "  $ABS"
+  echo "    directory: $COUNT file(s), $SIZE"
+  find "$ABS" -maxdepth 1 -mindepth 1 2>/dev/null | head -10 | sed 's|^|      |'
+  [ "$COUNT" -gt 10 ] && echo "      ... and more"
+else
+  COUNT=1
+  SIZE=$(du -h "$ABS" 2>/dev/null | cut -f1)
+  KIND="file"
+  echo "  $ABS"
+  echo "    file: $SIZE"
+fi
+
+# ── 5. Move into quarantine with a manifest. Never delete. ───────────────────
+STAMP=$(date "+%Y-%m-%d_%H%M%S")
+SLUG=$(echo "${ABS#$ORG_ROOT/}" | tr '/' '~')
+DEST="$QUARANTINE/${STAMP}__${SLUG}"
+mkdir -p "$DEST" || die "could not create $DEST"
+
+mv -- "$ABS" "$DEST/" || die "move failed — nothing was changed"
+
+cat > "$DEST/MANIFEST.txt" <<MANIFEST
+QUARANTINED — moved, not deleted.
+
+What:          $BASE  ($KIND, $COUNT file(s), $SIZE)
+Original path: $ABS
+Moved:         $(date "+%Y-%m-%d %H:%M:%S %Z")
+Reason:        $REASON
+
+Nothing needs this to work — it has already been removed from the workspace.
+Delete this folder yourself once you are sure you do not want it.
+
+To put it back exactly where it was:
+
+  mv "$DEST/$BASE" "$ABS"
+MANIFEST
+
+echo "    -> moved to: $DEST"
+echo "    -> NOT deleted. Review and remove it yourself when you are ready."
+
+TS=$(date "+%Y-%m-%d %H:%M:%S")
+echo "[$TS] SAFE_DELETE — QUARANTINED — $ABS -> $DEST — $REASON" >> "$ORG_ROOT/org/ACTIVITY.md" 2>/dev/null || true

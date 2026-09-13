@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+# daily-sync — keep the framework repo on GitHub fresh, every day.
+#
+# Atharva's instruction: GitHub is the backup for the organisation's
+# functionality, so the framework repo must be live and fresh daily.
+#
+# Design decisions worth knowing before you change this:
+#
+#   * It pushes through a PR, because main is branch-protected on every repo
+#     (no force-push, no deletion, even for admins). Required approvals are 0,
+#     so the PR is opened and merged in one pass with nothing waiting.
+#   * It does NOT bypass the pre-commit guard. If the guard blocks, this script
+#     stops and leaves the work staged for a human. A daily job that learns to
+#     dodge the gate is worse than no daily job.
+#   * It only ever stages framework paths, explicitly listed below. It never
+#     runs `git add -A`, which has previously swept in files nobody meant to
+#     publish.
+#   * It cannot back up the operational logs (org/ACTIVITY.md, DECISIONS.md,
+#     COMPANY_LOG.md, review/SIGN_OFFS.md, org/bugs/). Those carry real client
+#     names and this repo is PUBLIC, so they stay gitignored and remain the one
+#     thing with no off-machine copy. That gap is deliberate, not an oversight.
+#
+#   bin/daily-sync            commit and push today's framework changes
+#   bin/daily-sync --check    report only, change nothing
+
+set -uo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+CHECK_ONLY=0
+[ "${1:-}" = "--check" ] && CHECK_ONLY=1
+TS=$(date "+%Y-%m-%d %H:%M:%S")
+LOG="org/ACTIVITY.md"
+
+say() { echo "$*"; }
+
+# Only these paths are ever published by this script.
+PATHS=(agents bin .githooks knowledge/protocols knowledge/lessons-learned
+       CLAUDE.md README.md WORKSPACE.md monitor.html favicon.svg .gitignore)
+
+git fetch --quiet origin 2>/dev/null
+
+BEHIND=$(git rev-list --count HEAD..origin/main 2>/dev/null || echo 0)
+if [ "$BEHIND" -gt 0 ]; then
+  say "BEHIND LIVE by $BEHIND commit(s) — pulling before anything else."
+  if ! git pull --ff-only --quiet origin main 2>/dev/null; then
+    say "STOP: cannot fast-forward. Local and remote have diverged; a human needs to look."
+    echo "[$TS] DAILY_SYNC — BLOCKED — diverged from origin/main, manual reconcile needed" >> "$LOG"
+    exit 1
+  fi
+fi
+
+# What actually changed among the published paths?
+CHANGED=$(git status --porcelain -- "${PATHS[@]}" 2>/dev/null | grep -v '^??' || true)
+UNTRACKED=$(git ls-files --others --exclude-standard -- "${PATHS[@]}" 2>/dev/null || true)
+
+if [ -z "$CHANGED" ] && [ -z "$UNTRACKED" ]; then
+  say "Framework is already fresh on GitHub. Nothing to push."
+  echo "[$TS] DAILY_SYNC — NO CHANGE — framework already fresh at $(git rev-parse --short HEAD)" >> "$LOG"
+  exit 0
+fi
+
+say "Framework changes to publish:"
+git status --short -- "${PATHS[@]}" | sed 's/^/  /'
+
+if [ "$CHECK_ONLY" = "1" ]; then
+  say "(--check: nothing committed)"
+  exit 0
+fi
+
+BRANCH="sync/daily-$(date +%Y%m%d-%H%M%S)"
+git checkout -q -b "$BRANCH"
+git add -- "${PATHS[@]}"
+
+# The pre-commit hook runs here. If it blocks, we stop - we do not override it.
+if ! git -c commit.gpgsign=false commit -q -m "Daily framework sync — $(date +%Y-%m-%d)
+
+Automated by bin/daily-sync so GitHub stays a current backup of the
+organisation's framework. Only framework paths are published; the operational
+logs stay local because they carry client names and this repo is public."; then
+  say "STOP: the pre-commit guard blocked this commit. Work is left staged on $BRANCH."
+  say "Read the guard output above, fix the staged set, and commit by hand."
+  echo "[$TS] DAILY_SYNC — BLOCKED — pre-commit guard refused the staged set on $BRANCH" >> "$LOG"
+  exit 1
+fi
+
+if ! git push -q -u origin "$BRANCH" 2>/dev/null; then
+  say "STOP: push of $BRANCH failed."
+  echo "[$TS] DAILY_SYNC — BLOCKED — push failed for $BRANCH" >> "$LOG"
+  exit 1
+fi
+
+PR_URL=$(gh pr create --base main --head "$BRANCH" \
+  --title "Daily framework sync — $(date +%Y-%m-%d)" \
+  --body "Automated daily sync so GitHub stays a current backup of the framework.
+
+Publishes framework paths only. Operational logs (\`org/ACTIVITY.md\`, \`DECISIONS.md\`, \`COMPANY_LOG.md\`, \`review/SIGN_OFFS.md\`, \`org/bugs/\`) stay gitignored because they carry real client names and this repo is public.
+
+The pre-commit guard passed on this content." 2>/dev/null | tail -1)
+
+if [ -z "$PR_URL" ]; then
+  say "PR creation failed. Branch $BRANCH is pushed; open the PR by hand."
+  echo "[$TS] DAILY_SYNC — PARTIAL — $BRANCH pushed, PR not created" >> "$LOG"
+  exit 1
+fi
+
+gh pr merge "$PR_URL" --squash --delete-branch >/dev/null 2>&1
+git checkout -q main && git pull -q --ff-only origin main 2>/dev/null
+
+HEAD_SHA=$(git rev-parse --short HEAD)
+REMOTE_SHA=$(git rev-parse --short origin/main)
+if [ "$HEAD_SHA" = "$REMOTE_SHA" ]; then
+  say "Framework is fresh on GitHub at $HEAD_SHA. $PR_URL"
+  echo "[$TS] DAILY_SYNC — PUSHED $HEAD_SHA — $PR_URL" >> "$LOG"
+else
+  say "Merged, but local ($HEAD_SHA) and remote ($REMOTE_SHA) still differ — check by hand."
+  echo "[$TS] DAILY_SYNC — VERIFY FAILED — local $HEAD_SHA vs remote $REMOTE_SHA" >> "$LOG"
+  exit 1
+fi
