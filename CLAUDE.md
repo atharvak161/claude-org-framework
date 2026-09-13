@@ -75,6 +75,7 @@ agent's own `CLAUDE.md`.
 - `/investigate` before any fix. No fix without a root cause.
 - `/guard` before any production-adjacent work.
 - `/cso` + `/review` before any push. Both.
+- Check the repo's README on every change, however small. Report `README: checked, ...` — no line, not done.
 - `/learn` at session end; promote durable lessons into `PLAYBOOK.md`.
 - Log every action, including every skill invocation, to `org/ACTIVITY.md`.
 - Report as `DONE` / `DONE_WITH_CONCERNS` / `BLOCKED` / `NEEDS_CONTEXT`.

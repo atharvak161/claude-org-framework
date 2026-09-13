@@ -29,11 +29,14 @@ cd claude-org-framework
 # 2. Set your workspace path
 # Open WORKSPACE.md — replace the example path with your absolute path to this folder
 
-# 3. Open Claude Code inside the chief_of_staff directory
+# 3. Create the operational logs (they are gitignored, so a fresh clone has none)
+bash bin/bootstrap-org
+
+# 4. Open Claude Code inside the chief_of_staff directory
 cd agents/chief_of_staff
 claude
 
-# 4. Give it a goal
+# 5. Give it a goal
 # "Build me a landing page for a SaaS product"
 # "Set up a REST API with JWT authentication"
 # "Review and fix all bugs in src/"
@@ -53,7 +56,7 @@ bash org/watch_poll.sh
 
 ---
 
-## Agent roster — 40+ agents across 12 departments
+## Agent roster — 89 agents across 21 departments
 
 ### Command
 | Agent | Role |
@@ -96,7 +99,9 @@ bash org/watch_poll.sh
 |---|---|
 | `agents/security/director_security` | Security posture, mandatory sign-off |
 | `agents/security/penetration_tester` | Vulnerability discovery |
-| `agents/security/security_engineer` | Hardening, secure code review |
+| `agents/security/security_architect` | Threat modelling, secure design review |
+| `agents/security/sast_dast_engineer` | Static and dynamic analysis tooling |
+| `agents/security/compliance_auditor` | Controls, evidence, audit readiness |
 
 ### DevOps
 | Agent | Role |
@@ -109,7 +114,7 @@ bash org/watch_poll.sh
 | `agents/devops/monitoring_engineer` | Observability, alerting, dashboards |
 
 ### More departments
-`agents/finance/` (8 agents) · `agents/design/` · `agents/hr/` · `agents/legal/` · `agents/marketing/` · `agents/sales/` · `agents/strategy/` · `agents/data/` · `agents/career/` · `agents/operations/` · `agents/pm/` · `agents/pr/` · `agents/research/` · `agents/support/`
+`agents/finance/` · `agents/design/` · `agents/hr/` · `agents/legal/` · `agents/marketing/` · `agents/sales/` · `agents/strategy/` · `agents/data/` · `agents/career/` · `agents/operations/` · `agents/pm/` · `agents/pr/` · `agents/research/` · `agents/support/` · `agents/guide_explainer/`
 
 ---
 
@@ -146,24 +151,24 @@ cp -r /tmp/ben/bencium-innovative-ux-designer ~/.claude/skills/
 ```
 ├── agents/                   All agent CLAUDE.md files — the org itself
 │   ├── chief_of_staff/       Start here
-│   ├── engineering/
-│   ├── product/
-│   ├── qa/
-│   ├── security/
-│   ├── devops/
-│   ├── finance/
-│   ├── design/
-│   └── ... (12 departments)
+│   ├── engineering/  product/  qa/  security/  devops/
+│   ├── finance/  design/  hr/  legal/  marketing/  sales/
+│   └── ... (21 departments, 89 agents)
+├── knowledge/                Protocols, standards and durable lessons
+│   ├── protocols/            WORKFLOW_PROTOCOL.md, GSTACK_PROTOCOL.md — read before any task
+│   ├── lessons-learned/      PLAYBOOK.md — mistakes the org does not repeat
+│   └── standards/  onboarding/  decisions/  plans/
+├── bin/
+│   └── bootstrap-org         Recreates the org/ and review/ logs on a fresh clone
 ├── org/                      Shared state — agents write here, monitor reads here
+│   ├── templates/            Sources bootstrap-org copies from
 │   ├── ACTIVITY.md           Real-time agent action log
-│   ├── LIVE.md               Per-file live feed (written before every file touch)
 │   ├── DECISIONS.md          Every decision recorded before implementation
-│   ├── STATUS.md             Current sprint state
-│   ├── BLOCKERS.md           Active blockers + escalation path
+│   ├── STATUS.md  BLOCKERS.md  LIVE.md  COMPANY_LOG.md
+│   ├── AGENT_REGISTRY.md     Per-role model tier defaults
 │   └── watch_poll.sh         File activity watcher (run to power the monitor)
 ├── review/                   Delivery gates
-│   ├── SIGN_OFFS.md          Security + QA + DevOps + Docs sign-offs required
-│   └── DELIVERY_SUMMARY.md   Plain-English delivery report for the Owner
+│   └── SIGN_OFFS.md          Security + QA sign-offs required before release
 ├── monitor.html              Live dashboard — open in browser, no server needed
 ├── WORKSPACE.md              Master path reference + directory ownership map
 └── README.md                 This file
@@ -216,7 +221,7 @@ Agents coordinate via shared files in `org/`. All decisions go to `org/DECISIONS
 
 - **Every agent is a CLAUDE.md** — readable, editable, version-controlled, no black boxes
 - **All coordination is written** — nothing assumed, everything logged in `org/`
-- **Agents delegate, never implement** — the Chief of Staff never writes a single line of code
+- **Agents build, the Chief ships** — agents edit and smoke-test, then hand back a diff; only the Chief of Staff reviews the real diff, runs the gate, commits and pushes. An agent cannot dodge a push gate it never touches.
 - **Quality gates are mandatory** — Security + QA + DevOps sign-off before anything ships
 - **The monitor shows everything** — open `monitor.html`, see exactly what every agent is doing in real time
 

@@ -244,6 +244,60 @@ a department's output back to a director.
 
 ---
 
+## README currency gate (mandatory, every repo, every change)
+
+A repo's README is part of that repo's surface. It goes stale silently, and a
+stale README is worse than no README: it sends people to configure things that
+no longer exist. JobScope shipped a README advertising a job source deleted
+three PRs earlier, with an API key to go request for it.
+
+**The rule.** Any change to a repo, however small, includes a check of that
+repo's README before the work is called done. Not a rewrite. A check, and an
+update only where the README no longer matches reality.
+
+**This applies to the smallest changes too.** "Too small to affect the README"
+is how drift happens. A one-line change that removes an env var, renames a
+flag, or drops a dependency affects the README more than a large refactor that
+changes nothing user-facing.
+
+### What to check, in order
+
+1. **Does the README claim anything the code no longer does?** Removed sources,
+   adapters, endpoints, commands, flags, features. This is the failure mode that
+   costs someone real time.
+2. **Does the code do anything the README does not mention?** New env vars, new
+   commands, new setup steps. Cross-check `.env.example` against the env table
+   line by line — they drift apart fastest.
+3. **Do the setup instructions still work from a clean clone?** Clone paths,
+   install commands, required versions, first-run steps.
+4. **Are the links alive?** Internal paths that moved, external docs that died.
+5. **Does the architecture section still describe the real architecture?**
+
+### Recording it
+
+State the result in the completion report, always, as one line:
+
+```
+README: checked, no update needed — nothing user-facing changed
+README: checked, updated — dropped Jooble (removed in #33), added JSEARCH_API_KEY
+```
+
+Silence on the README is not "it was fine". It reads as "not checked", and the
+work is incomplete. `DONE` is not available until that line exists.
+
+### Who
+
+Whoever made the change checks it. It is not a separate ticket, not a job for
+the Technical Writer later, and not something to batch up for a cleanup pass —
+batching is what lets it rot. The Chief of Staff confirms the line is present
+before the ship gate; a missing line bounces the work back.
+
+### When the README change is bigger than the code change
+
+That is normal and not a reason to skip it or split it out. Ship them together
+so the repo is never in a state where the docs describe a version that does not
+exist.
+
 ## Phase 6 — Sign-offs (required before any delivery)
 
 **gstack for this phase:** `/ship`, `/land-and-deploy` and `/canary` run here and
