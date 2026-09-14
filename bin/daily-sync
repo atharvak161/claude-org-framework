@@ -42,9 +42,17 @@ LOG="org/ACTIVITY.md"
 
 say() { echo "$*"; }
 
-# Only these paths are ever published by this script.
-PATHS=(agents bin .githooks knowledge/protocols knowledge/lessons-learned
-       CLAUDE.md README.md WORKSPACE.md monitor.html favicon.svg .gitignore)
+# Only these paths are ever published by this script. Never `git add -A`, which
+# has previously swept in files nobody meant to publish.
+PATHS=(agents bin .githooks CLAUDE.md README.md WORKSPACE.md monitor.html
+       favicon.svg .gitignore)
+
+# knowledge/ is gitignored wholesale (it holds private cybersecurity notes), but
+# two subtrees inside it are deliberately tracked. gitignore does not apply to
+# files already tracked, so existing ones stage fine - but a NEW file in here
+# would be silently skipped without -f. That silence is the dangerous part: the
+# sync would report success while leaving a new protocol unpublished.
+FORCE_PATHS=(knowledge/protocols knowledge/lessons-learned)
 
 git fetch --quiet origin 2>/dev/null
 
@@ -59,8 +67,12 @@ if [ "$BEHIND" -gt 0 ]; then
 fi
 
 # What actually changed among the published paths?
-CHANGED=$(git status --porcelain -- "${PATHS[@]}" 2>/dev/null | grep -v '^??' || true)
+ALL_PATHS=("${PATHS[@]}" "${FORCE_PATHS[@]}")
+CHANGED=$(git status --porcelain -- "${ALL_PATHS[@]}" 2>/dev/null | grep -v '^??' || true)
 UNTRACKED=$(git ls-files --others --exclude-standard -- "${PATHS[@]}" 2>/dev/null || true)
+# --others alone honours .gitignore, so ask separately for the force-tracked trees
+UNTRACKED_FORCED=$(git ls-files --others -- "${FORCE_PATHS[@]}" 2>/dev/null || true)
+UNTRACKED="$UNTRACKED$UNTRACKED_FORCED"
 
 if [ -z "$CHANGED" ] && [ -z "$UNTRACKED" ]; then
   say "Framework is already fresh on GitHub. Nothing to push."
@@ -69,7 +81,11 @@ if [ -z "$CHANGED" ] && [ -z "$UNTRACKED" ]; then
 fi
 
 say "Framework changes to publish:"
-git status --short -- "${PATHS[@]}" | sed 's/^/  /'
+git status --short -- "${ALL_PATHS[@]}" | sed 's/^/  /'
+# git status honours .gitignore, so a new file in a force-tracked tree is real
+# but invisible above. List it explicitly - publishing something the operator
+# never saw listed is how surprises ship.
+[ -n "$UNTRACKED_FORCED" ] && echo "$UNTRACKED_FORCED" | sed 's/^/  ?? /' 
 
 if [ "$CHECK_ONLY" = "1" ]; then
   say "(--check: nothing committed)"
@@ -78,7 +94,8 @@ fi
 
 BRANCH="sync/daily-$(date +%Y%m%d-%H%M%S)"
 git checkout -q -b "$BRANCH"
-git add -- "${PATHS[@]}"
+git add -- "${PATHS[@]}" 2>/dev/null
+git add -f -- "${FORCE_PATHS[@]}" 2>/dev/null
 
 # The pre-commit hook runs here. If it blocks, we stop - we do not override it.
 if ! git -c commit.gpgsign=false commit -q -m "Daily framework sync — $(date +%Y-%m-%d)
