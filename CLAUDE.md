@@ -111,6 +111,7 @@ agent's own `CLAUDE.md`.
 - `bin/repo-status --fetch` before starting a cycle. Nothing begins on a repo that is behind live or dirty.
 - Project code goes in `local/repos/<project>/`, never at the framework root. `src/`, `tests/`, `ci/`, `infra/` at the root are blocked by the pre-commit hook.
 - Finish a cycle in both repos: push the project, then push what the cycle taught back into the framework repo.
+- Touched anything in the framework? Run `bin/daily-sync` before you stop. Every change, not a schedule — GitHub is the backup, and a backup that lags the work is not a backup.
 - `/investigate` before any fix. No fix without a root cause.
 - `/guard` before any production-adjacent work.
 - `/cso` + `/review` before any push. Both.

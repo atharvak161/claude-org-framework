@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
-# daily-sync — keep the framework repo on GitHub fresh, every day.
+# daily-sync — push the framework to GitHub after every change.
 #
-# Atharva's instruction: GitHub is the backup for the organisation's
-# functionality, so the framework repo must be live and fresh daily.
+# Atharva's instruction, 2026-09-14: "this one must run everytime we do something
+# in this org not a specific schedule but a everytime there is a change in
+# organisation we do this."
+#
+# So this is CHANGE-TRIGGERED, not scheduled. Run it at the end of any piece of
+# work that touched the framework - a protocol edit, an agent instruction, a new
+# script, a lesson added to the PLAYBOOK. GitHub is the backup for the
+# organisation's functionality, and a backup that lags behind the work is not a
+# backup. The name is kept for muscle memory; nothing about it is daily.
+#
+# It is safe to run when nothing changed: it says so and exits 0.
 #
 # Design decisions worth knowing before you change this:
 #
