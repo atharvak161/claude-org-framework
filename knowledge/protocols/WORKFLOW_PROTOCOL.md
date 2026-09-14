@@ -464,6 +464,14 @@ back into the framework repo in the same session, or it is lost:
 Step 2 is the one that gets skipped, and skipping it is why the same mistake
 gets made twice.
 
+**Then run `bin/daily-sync`.** Atharva's rule: it runs every time anything in
+the organisation changes, not on a schedule. It publishes only the explicit
+framework path list, goes through a PR because `main` is protected, and stops
+rather than overriding the pre-commit guard if it fires. Safe to run when
+nothing changed — it says so and exits. What it cannot carry is the
+operational logs, which hold client names and stay local; that gap is
+deliberate.
+
 ### Cleanup triggers
 
 Run the checklist below whenever any of these is true. Do not wait for things
