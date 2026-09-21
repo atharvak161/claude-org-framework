@@ -160,7 +160,10 @@ cp -r /tmp/ben/bencium-innovative-ux-designer ~/.claude/skills/
 │   └── standards/  onboarding/  decisions/  plans/
 ├── bin/
 │   ├── bootstrap-org         Recreates the logs and arms the guard hooks
+│   ├── safe-delete           The only sanctioned removal — moves to quarantine
+│   ├── guard/                PreToolUse gate — stops destruction before it runs
 │   └── repo-status           State of every repo: branch, drift, dirty, sync
+├── .claude/settings.json     Registers bin/guard — committed so a clone is armed
 ├── .githooks/                Guard hooks — armed by bootstrap-org
 │   ├── pre-commit            Blocks private paths, logs, keys, stray scaffolding
 │   └── commit-msg            Blocks AI self-attribution trailers
@@ -185,6 +188,32 @@ cp -r /tmp/ben/bencium-innovative-ux-designer ~/.claude/skills/
 The framework assumes it will be run against real repositories with real
 private material in them, so the rules are enforced mechanically rather than
 written down and hoped for.
+
+There are two layers, and they catch different things.
+
+### Before a command runs — `bin/guard`
+
+A `PreToolUse` hook that blocks destructive commands at the moment an agent
+tries one, not at commit time. It exists because on 2026-09-13 `rm -rf Local`
+destroyed 1,040 files on a case-insensitive filesystem, and because a rule
+written in `CLAUDE.md` holds only while every agent reads it and complies.
+
+It tokenises a command the way a shell does rather than matching text, so
+`sudo rm -rf x`, `'rm' -rf x`, `{ rm -rf x; }`, `ls | xargs rm`,
+`bash script.sh` and `python3 -c "shutil.rmtree('x')"` are all seen for what
+they are. Deleting inside the workspace is blocked and routed to
+`bin/safe-delete`; iCloud is blocked outright; `/tmp` is free; a glob or an
+unresolved variable is blocked rather than guessed.
+
+```bash
+node bin/guard/doctor.js      # is it installed and actually blocking?
+node bin/guard/tests/run.js   # 101 cases
+```
+
+Its limits are written down in `bin/guard/README.md`, because a guard whose
+limits are unknown gets trusted further than it has earned.
+
+### Before a commit lands — `.githooks`
 
 `bin/bootstrap-org` sets `core.hooksPath` to `.githooks/`, which installs two
 hooks:
