@@ -64,6 +64,11 @@ agent's own `CLAUDE.md`.
    downloads outside the organisation where I can look and delete what is not
    needed."*
 
+   This is now enforced mechanically, not just written here. `bin/guard` runs
+   as a `PreToolUse` hook and blocks a destructive command before it executes,
+   whatever the agent intended. Check it with `node bin/guard/doctor.js`; its
+   design and its limits are in `bin/guard/README.md`.
+
    Use `bin/safe-delete <path> "reason"`. It moves the target to
    `~/Downloads/_QUARANTINE - safe to delete/` with a manifest saying what it
    was, where it came from, why, and the command to restore it. Atharva is the

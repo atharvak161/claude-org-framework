@@ -34,8 +34,14 @@ id_ed25519
 *.secret
 
 # ══ LOCAL CLAUDE MEMORY ══
-.claude/
+# Directory contents, not the directory itself: git cannot re-include a file
+# whose parent is excluded, and the guard's settings.json below must be.
+.claude/*
 agents/**/.claude/
+# ...except the guard's hook registration. Without this file on a fresh clone
+# the PreToolUse guard never loads, and a guard that is not installed is not a
+# guard. It holds no memory and no secrets — just the path to bin/guard/.
+!.claude/settings.json
 
 # ══ TEMP / SCRATCH ══
 org/test_write.tmp
